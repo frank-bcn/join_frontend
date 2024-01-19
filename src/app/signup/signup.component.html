@@ -1,0 +1,55 @@
+<div class="loginPage">
+  <div class="headerLogin">
+    <div class="animationContainer">
+      <a href="">
+        <img class="desktopLogo" src="/assets/img/join_login_logo.png"
+      /></a>
+    </div>
+  </div>
+  <div class="loginContainer">
+    <div class="goBackContainer">
+      <div (click)="goBack()" class="backTo">&larr;</div>
+    </div>
+    <div class="loginInformation">
+      <h1>Sign up</h1>
+      <form (ngSubmit)="Signup()">
+        <div class="inputForm">
+          <input
+            required
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            required
+            placeholder="First name  Last name"
+          />
+          <input
+            required
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            placeholder="Email"
+          />
+          <input
+            required
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Password"
+          />
+        </div>
+        <div class="btnContainer">
+          <button class="btnBlue">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="registration_successful" class="successMessage">
+  Registration successful! Redirecting to login...
+</div>
+<div *ngIf="registration_unsuccessful" class="successMessage">
+  Registration unsuccessful! Review your inputs again...
+</div>

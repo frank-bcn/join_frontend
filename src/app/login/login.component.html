@@ -1,0 +1,57 @@
+<div class="loginPage">
+  <div class="headerLogin">
+    <div class="animationContainer">
+      <a href="">
+        <img class="desktopLogo" src="/assets/img/join_login_logo.png" />
+      </a>
+    </div>
+    <div class="infoContainer">
+      <span>Not a Join user?</span>
+      <a (click)="signUp()" class="btnBlue">Sign up</a>
+    </div>
+  </div>
+  <div class="loginContainer">
+    <div class="loginInformation">
+      <h1>Log in</h1>
+      <form (ngSubmit)="login(username, password)">
+        <div class="inputForm">
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="username"
+            required
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Password"
+          />
+        </div>
+        <div class="loginOptions">
+          <div class="rememberAndForgotContainer">
+            <div class="rememberMe">
+              <input class="inputCheckbox" type="checkbox" />
+              <span class="rememberCheckbox">Remember me</span>
+            </div>
+            <a class="forgotPasswordLink">Forgot my password</a>
+          </div>
+        </div>
+        <div class="btnContainer">
+          <button type="submit" class="btnBlue">Log in</button>
+          <button type="button" class="btnWhite">Guest Log in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="login_successful" class="successMessage">
+  Login successful! Redirecting to main page...
+</div>
+
+<div *ngIf="login_unsuccessful" class="successMessage">
+  login unsuccessful! Review your inputs again...
+</div>
