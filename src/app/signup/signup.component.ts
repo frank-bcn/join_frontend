@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ViewSignupAndLoginService } from '../services/view-signup-and-login.service';
 
 @Component({
   selector: 'app-signup',
@@ -8,9 +9,6 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  /**
-   * User input variables
-   */
   username: string = '';
   email: string = '';
   password: string = '';
@@ -19,16 +17,20 @@ export class SignupComponent {
   registration_successful: boolean = false;
   registration_unsuccessful: boolean = false;
 
-  constructor(private router: Router, private as: AuthService) {}
+  constructor(
+    private router: Router,
+    private as: AuthService,
+    public vsal: ViewSignupAndLoginService
+  ) {}
 
   /**
-   * Async function to handle user registration
-   * Retrieves user data using createUserData
-   * Calls the separate function registerUser to handle registration process
-   * Stores token in local storage and displays success message
-   * Redirects to the login page after 3 seconds
-   * Handles errors during the process
-   */
+  * Async function to handle user registration
+  * Retrieves user data using createUserData
+  * Calls the separate function registerUser to handle registration process
+  * Stores token in local storage and displays success message
+  * Redirects to the login page after 3 seconds
+  * Handles errors during the process
+  */
   async Signup() {
     try {
       const userData = this.createUserData();
@@ -45,11 +47,11 @@ export class SignupComponent {
   }
 
   /**
-   * Function to handle the registration process
-   * Calls the service to register user and retrieve token
-   * Returns the response
-   */
-  private async registerUser(userData: any): Promise<any> {
+  * Function to handle the registration process
+  * Calls the service to register user and retrieve token
+  * Returns the response
+  */
+  async registerUser(userData: any): Promise<any> {
     return await this.as.SignupWithNameAndEmailAndPassword(
       userData.username,
       userData.first_name,
@@ -60,10 +62,10 @@ export class SignupComponent {
   }
 
   /**
-   * Function to create user data object from input values
-   * Calls createNames to split the username into first and last name
-   */
-  private createUserData() {
+  * Function to create user data object from input values
+  * Calls createNames to split the username into first and last name
+  */
+  createUserData() {
     const username = this.createNames();
     const first_name = this.first_name;
     const last_name = this.last_name;
@@ -74,9 +76,9 @@ export class SignupComponent {
   }
 
   /**
-   * Function to split username into first and last name
-   */
-  private createNames() {
+  * Function to split username into first and last name
+  */
+  createNames() {
     const names = this.username.split(' ');
     this.first_name = names[0] || '';
     this.last_name = names.slice(1).join(' ') || '';
@@ -85,9 +87,10 @@ export class SignupComponent {
   }
 
   /**
-   * Function to navigate back to the login page
-   */
+  * Function to navigate back to the login page
+  */
   goBack() {
+    this.vsal.showLoginOrSingnup = true;
     this.router.navigateByUrl('/login');
   }
 }

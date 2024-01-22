@@ -1,1 +1,78 @@
-<router-outlet></router-outlet>
+<app-login *ngIf="!vsal.viewLoginPage && vsal.showLoginOrSingnup"></app-login>
+<app-signup
+  *ngIf="!vsal.viewLoginPage && !vsal.showLoginOrSingnup"
+></app-signup>
+
+<div class="mainPage" *ngIf="vsal.viewLoginPage">
+  <div class="sideMenu">
+    <img class="d-none" src="/assets/img/joinWhite.svg" />
+
+    <div class="navigationLinksContainer">
+      <a
+        (click)="loadSummary()"
+        class="navigationLink"
+        [class.active]="activeLink === 'summary'"
+      >
+        <img class="" src="/assets/img/summary.svg" />
+        <div class="navigationLinksName">Summary</div>
+      </a>
+
+      <a
+        (click)="loadBoard()"
+        class="navigationLink"
+        [class.active]="activeLink === 'board'"
+      >
+        <img class="" src="/assets/img/board.svg" />
+        <div class="navigationLinksName">Board</div>
+      </a>
+
+      <a
+        (click)="loadAddTask()"
+        class="navigationLink"
+        [class.active]="activeLink === 'addTask'"
+      >
+        <img class="" src="/assets/img/add_task.svg" />
+        <div class="navigationLinksName">Add Task</div>
+      </a>
+
+      <a
+        (click)="loadContacts()"
+        class="navigationLink"
+        [class.active]="activeLink === 'contacts'"
+      >
+        <img class="" src="/assets/img/contacts.svg" />
+        <div class="navigationLinksName">Contacts</div>
+      </a>
+
+      <a
+        (click)="loadLegalNotice()"
+        class="navigationLink legal-notice d-none"
+        [class.active]="activeLink === 'legalNotice'"
+      >
+        <img class="" src="/assets/img/legal-notice.png" />
+        <div class="navigationLinksName">Legal notice</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="header">
+      <div class="kanbanImage">
+        <img class="mediaQueryLogo" src="/assets/img/join_login_logo.png" />
+      </div>
+      <p class="kanbanText">Kanban Project Management Tool</p>
+      <div class="userPrivacyContainer">
+        <img class="dataProtectionImg" src="/assets/img/protection.svg" />
+        <div class="userInitials">
+          <div class="userInitials">
+            {{ us.userData[1]?.username }}
+          </div> 
+        </div>
+      </div>
+    </div>
+
+    <div class="loadLinkCompomemts">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
