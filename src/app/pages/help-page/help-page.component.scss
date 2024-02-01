@@ -1,0 +1,33 @@
+.helpContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12%;
+    margin-right: 12%;
+
+    .backContainer {
+        display: flex;
+        justify-content: end;
+        width: 100%;
+
+        .backTo {
+            display: flex;
+            justify-content: start;
+            color: black;
+            cursor: pointer;
+            font-size: 54px;
+            margin-left: 3%;
+        }
+    }
+
+    h1 {
+        font-size: clamp(16px, 3vw, 24px);
+    }
+
+    h2 {
+        font-size: clamp(14px, 2vw, 22px);
+    }
+
+    p {
+        font-size: clamp(10px, 1.2vw, 16px);
+    }
+}

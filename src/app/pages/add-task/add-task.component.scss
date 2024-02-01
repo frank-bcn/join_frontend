@@ -1,0 +1,188 @@
+.AddTaskContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16%;
+
+    label {
+        margin: 30px 0 10px 0;
+        font-size: 18px;
+        font-weight: 700;
+        width: 70%;
+    }
+
+    input {
+        outline: 0;
+        border: 1px solid #d1d1d1;
+        border-radius: 10px;
+        padding: 13px 21px;
+        background-color: white;
+    }
+
+    .taskContainer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        .taskInput {
+            outline: 0;
+            border: 1px solid #d1d1d1;
+            border-radius: 10px 0px 0px 10px;
+            padding: 13px 21px;
+            background-color: white;
+            flex: 1;
+        }
+
+        .assignedDropdown {
+            display: flex;
+            border: 1px solid #d1d1d1;
+            border-radius: 0px 10px 10px 0px;
+            padding: 13px 7px;
+            background-color: white;
+            cursor: pointer;
+        }
+    }
+
+    .dropdownContainer {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        height: auto;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .taskDropdownContainer {
+        display: flex;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        justify-content: space-between;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    .colorNewCategory {
+        height: 15px;
+        width: 15px;
+        margin-right: 21px;
+        border-radius: 100%;
+        cursor: pointer;
+        border: 1px solid transparent;
+        background-color: grey;
+    }
+
+    .textDropdown {
+        display: flex;
+        text-decoration: none;
+        color: black;
+        padding: 12px 21px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .userCheckbox {
+        margin-right: 21px;
+    }
+
+    .userCheckbox {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 10px;
+        height: 10px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        outline: none;
+        padding: 6px 6px;
+    }
+    
+    .userCheckbox:checked {
+        background-color: #000;
+        border-color: #000;
+    }
+
+    .taskContainer {
+        display: flex;
+        width: 100%;
+    }
+
+    .taskDetailsContainer {
+        display: flex;
+        flex-direction: column;
+        padding-right: 10%;
+        width: 40%;
+        border-right: 3px solid lightgray;
+
+        textarea {
+            width: 100%;
+            outline: 0;
+            border: 1px solid #d1d1d1;
+            border-radius: 10px;
+            max-width: 100%;
+            min-width: 100%;
+            min-height: 100px;
+            max-height: 100px;
+            padding: 13px 21px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    }
+/***************************************/
+    .taskSettingsContainer {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10%;
+        padding-right: 10%;
+
+        .prioContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 345px;
+        }
+
+        .prioBtn {
+            display: flex;
+            border: 1px solid rgb(226, 226, 226);
+            border-radius: 10px;
+            padding: 13px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            cursor: pointer;
+
+            &:hover {
+                box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.4);
+            }
+
+            img {
+                display: flex;
+                padding-left: 10px;
+            }
+        }
+
+        .btnTaskContainer {
+            display: flex;
+            justify-content: end;
+            margin-top: 50%;
+        }
+
+        .prioUrgent {
+            background-color: #ff3d00;
+            color: white;
+        }
+
+        .prioMedium {
+            background-color: #ffa800;
+            color: white;
+        }
+
+        .prioLow {
+            background-color: #8ce54d;
+            color: white;
+        }
+    }
+}

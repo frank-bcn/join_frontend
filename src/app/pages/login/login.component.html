@@ -1,0 +1,71 @@
+<div class="page">
+  <div class="authHeader">
+    <div class="animationContainer">
+      <a href="">
+        <img class="authLogo" src="/assets/img/join_login_logo.png" />
+      </a>
+    </div>
+    <div class="infoContainer">
+      <span class="infoText">Not a Join user?</span>
+      <a (click)="signUp()" class="btnBlue">Sign up</a>
+    </div>
+  </div>
+  <div class="authContainer">
+    <div class="authInformation">
+      <h1>Log in</h1>
+      <form (ngSubmit)="login(username, password)">
+        <div class="inputForm">
+          <input
+          type="email"
+          name="email"
+          [(ngModel)]="username"
+          required
+          placeholder="First name"
+          autocomplete="username"
+          (focus)="checkInputs()"
+        />
+        <span class="formValidate" [class.show]="showUsernameError">
+          {{ showUsernameError ? 'Please enter your First name.' : '' }}
+        </span>
+        
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Password"
+          autocomplete="current-password"
+          (focus)="checkInputs()"
+        />
+        <span class="formValidate" [class.show]="showPasswordError">
+          {{ showPasswordError ? 'Please enter your Password.' : '' }}
+        </span>
+        
+        </div>
+        <div class="loginOptions">
+          <div class="rememberAndForgotContainer">
+            <div class="rememberMe">
+              <input class="inputCheckbox" type="checkbox" />
+              <span class="rememberCheckbox">Remember me</span>
+            </div>
+            <a (click)="forgotPassword()" class="forgotPasswordLink"
+              >Forgot my password</a
+            >
+          </div>
+        </div>
+        <div class="btnContainer">
+          <button type="submit" class="btnBlue">Log in</button>
+          <button (click)="guestLogin()" type="button" class="btnWhite">Guest Log in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="login_successful" class="successMessage">
+  {{ loginSuccessMessage }}
+</div>
+
+<div *ngIf="login_unsuccessful" class="unsuccessMessage">
+  {{ loginErrorMessage }}
+</div>

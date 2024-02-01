@@ -1,0 +1,154 @@
+.summaryContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: calc(100% - 233px);
+    margin-left: 16%;
+    margin-right: 16%;
+
+    .headlineText {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        height: 18%;
+
+        h1 {
+            font-size: clamp(30px, 6vw, 42px);
+            border-right: 2px solid rgb(67, 178, 247);
+            width: 250px;
+        }
+
+        .text {
+            display: flex;
+            flex-wrap: nowrap;
+            font-size: clamp(12px, 3vw, 24px);
+            font-weight: 400;
+        }
+
+        .summaryContent {
+            display: flex;
+        
+            justify-content: flex-start;
+            margin-left: 100px;
+        }
+    }
+}
+
+.taskGreetingContainer {
+    display: flex;
+    width: 100%;
+
+    .taskStatusContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+
+        .statusFrontRow {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .tasksSmallContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 10px;
+            background-color: white;
+            height: 150px;
+            width: 150px;
+            border-radius: 30px;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #2a3647;
+                color: white;
+                transform: scale(1.1);
+                transition: 0.1s ease-in-out;
+            }
+
+            .textTask {
+                display: flex;
+                font-size: clamp(12px, 2vw, 24px);
+                font-weight: 400;
+            }
+        }
+
+        .taskPriorityDateContainer {
+            display: flex;
+            justify-content: center;
+            border-radius: 30px;
+            background-color: white;
+            margin: 10px;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #2a3647;
+                color: white;
+                transform: scale(1.1);
+                transition: 0.1s ease-in-out;
+            }
+
+            .tasksLargeContainer {
+                display: flex;
+                justify-content: center;
+                justify-content: space-around;
+                width: 490px;
+                margin: 10px;
+            }
+
+            .priorityContainer {
+                display: flex;
+                align-items: center;
+                border-right: 3px solid grey;
+                width: 45%;
+            }
+
+            .deadlineContainer {
+                display: flex;
+                flex-direction: column;
+                text-align: start;
+                font-size: 18px;
+                font-weight: 100;
+                gap: 7px;
+            }
+        }
+
+        .statusOptions {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            .tasksMediumContainer {
+                display: flex;
+                margin: 10px;
+                background-color: white;
+                height: 150px;
+                border-radius: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                width: 240px;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #2a3647;
+                    color: white;
+                    transform: scale(1.1);
+                    transition: 0.1s ease-in-out;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .d-none {
+        display: none;
+    }
+}

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
-import { ViewSignupAndLoginService } from './services/view-signup-and-login.service';
 import { UserService } from './services/user.service';
+import { HoverService } from './services/hover.service';
+import { GreetingService } from './services/greeting.service';
 
 @Component({
   selector: 'app-root',
@@ -11,30 +13,50 @@ import { UserService } from './services/user.service';
 })
 export class AppComponent {
   title = 'join';
-  activeLink: string = '';
+  greeting: string = '';
 
   constructor(
-    public vsal: ViewSignupAndLoginService,
     private router: Router,
     public as: AuthService,
-    public us: UserService
+    public us: UserService,
+    public hs: HoverService,
+    public gt: GreetingService
   ) {}
 
   /**
-   * Lifecycle hook that is called after Angular has initialized all data-bound properties
-   * and checked the component's views and child views.
-   * Checks if the 'loadSummary' property in the 'AuthService' is set to true,
-   * and if so, triggers the loading of the summary.
-   */
+ * Lifecycle hook that is called after Angular has initialized all data-bound properties
+ * and checked the component's views and child views.
+ * Subscribes to the 'NavigationEnd' event of the 'Router' to detect route changes,
+ * and triggers the 'setActiveLink' method to update the active link based on the current route.
+ */
   ngOnInit() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        if (localStorage.getItem('token')) {
+          this.setActiveLink();
+        }
+      });
     this.setActiveLink();
   }
+  
 
   /**
-   * Method to set the active link to 'summary'.
+   * Method to set the active link based on the current route.
    */
   setActiveLink() {
-    this.activeLink = 'summary';
+    const currentRoute = this.router.url;
+    if (currentRoute === '/summary') {
+      this.hs.activeLink = 'summary';
+    } else if (currentRoute === '/board') {
+      this.hs.activeLink = 'board';
+    } else if (currentRoute === '/addTask') {
+      this.hs.activeLink = 'addTask';
+    } else if (currentRoute === '/contacts') {
+      this.hs.activeLink = 'contacts';
+    } else {
+      this.hs.activeLink = '';
+    }
   }
 
   /**
@@ -42,7 +64,7 @@ export class AppComponent {
    */
   loadSummary() {
     this.router.navigateByUrl('/summary');
-    this.activeLink = 'summary';
+    this.hs.activeLink = 'summary';
   }
 
   /**
@@ -50,7 +72,7 @@ export class AppComponent {
    */
   loadBoard() {
     this.router.navigateByUrl('/board');
-    this.activeLink = 'board';
+    this.hs.activeLink = 'board';
   }
 
   /**
@@ -58,7 +80,7 @@ export class AppComponent {
    */
   loadAddTask() {
     this.router.navigateByUrl('/addTask');
-    this.activeLink = 'addTask';
+    this.hs.activeLink = 'addTask';
   }
 
   /**
@@ -66,13 +88,29 @@ export class AppComponent {
    */
   loadContacts() {
     this.router.navigateByUrl('/contacts');
-    this.activeLink = 'contacts';
+    this.hs.activeLink = 'contacts';
   }
 
   /**
    * Method to update the active link to 'legalNotice'.
    */
   loadLegalNotice() {
-    this.activeLink = 'legalNotice';
+    this.hs.activeLink = 'legalNotice';
+    this.router.navigateByUrl('/legal-notice');
+  }
+
+  /**
+   * Method to navigate to the '/help' route 
+   */
+  loadHelpPage() {
+    this.router.navigateByUrl('/help');
+  }
+
+  /**
+   * Method to check if the current route corresponds to a login-related page.
+  * @returns True if the current route is '/login', '/signup', or '/forgot'; otherwise, false.
+   */
+  isLoginPage() {
+    return this.router.url === '/login' || this.router.url === '/signup'|| this.router.url === '/forgot';
   }
 }

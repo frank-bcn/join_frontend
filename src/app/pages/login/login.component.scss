@@ -1,0 +1,42 @@
+.loginOptions {
+    margin-bottom: 54px;
+
+    .rememberAndForgotContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        font-size: clamp(12px, 2vw, 22px);
+
+        .rememberMe {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            margin-right: 10%;
+
+            .inputCheckbox {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 20px;
+                line-height: 0;
+                margin: 0;
+            }
+
+            .rememberCheckbox {
+                display: flex;
+                margin-left: 8px;
+                cursor: default;
+            }
+        }
+
+        .forgotPasswordLink {
+            display: flex;
+            white-space: nowrap;
+            margin: 0;
+            font-size: clamp(12px, 2vw, 22px);
+            color: rgb(67, 178, 247);
+            cursor: pointer;
+        }
+    }
+}

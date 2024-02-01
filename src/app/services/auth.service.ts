@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment.development';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class AuthService {
 
   showLogin = false;
   
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient, public us: UserService) {}
 
   /**
   * Service method for user signup with username, first name, last name, email, and password.
@@ -52,7 +53,6 @@ export class AuthService {
       username: username,
       password: password,
     };
-
     return lastValueFrom(this.http.post(url, body));
   }
 }

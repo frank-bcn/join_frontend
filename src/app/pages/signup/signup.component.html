@@ -1,0 +1,67 @@
+<div class="page">
+  <div class="authHeader">
+    <div class="animationContainer">
+      <a href="">
+        <img class="authLogo" src="/assets/img/join_login_logo.png"
+      /></a>
+    </div>
+  </div>
+  <div class="authContainer">
+    <div class="backContainer">
+      <div (click)="goBack()" class="backTo">&larr;</div>
+    </div>
+    <div class="authInformation">
+      <h1>Sign up</h1>
+      <form (ngSubmit)="Signup()">
+        <div class="inputForm">
+          <input
+            required
+            type="text"
+            name="username"
+            [(ngModel)]="username"
+            required
+            placeholder="First name  Last name"
+            autocomplete="username"
+          />
+          <!--<span class="formValidate" [class.show]="showUsernameError">
+            {{ showUsernameError ? 'Please enter your First name and Last name.' : '' }}
+          </span>-->
+          <input
+            required
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            placeholder="Email"
+            autocomplete="email"
+          />
+          <!--<span class="formValidate" [class.show]="showEmailError">
+            {{ showEmailError ? 'Please enter your Email.' : '' }}
+          </span>-->
+          <input
+            required
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Password"
+            autocomplete="current-password"
+          />
+          <!--<span class="formValidate" [class.show]="showPasswordError">
+            {{ showPasswordError ? 'Please enter your Password.' : '' }}
+          </span>-->
+        </div>
+        <div class="btnContainer">
+          <button class="btnBlue">Sign up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="registration_successful" class="successMessage">
+  {{ registrationSuccessMessage }}
+</div>
+<div *ngIf="registration_unsuccessful" class="unsuccessMessage">
+  {{ registrationErrorMessage }}
+</div>

@@ -1,3 +1,6 @@
+/******************************/
+/******* global classes *******/
+/******************************/
 body {
     margin: 0;
     padding: 0;
@@ -7,77 +10,185 @@ body {
     scroll-behavior: smooth;
 }
 
-.btnBlue {
+.page {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    height: 51px;
-    padding: 0 16px 0 16px;
-    border: none;
-    min-width: 70px;
-    border-radius: 8px;
-    background: #2a3647;
-    gap: 10px;
-    color: #ffffff;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 125ms ease-in-out;
-    font-size: clamp(16px, 3vw, 22px);
-
-    &:hover {
-        background-color: rgb(67, 178, 247);
-    }
-}
-
-.btnWhite {
-    display: flex;
-    color: #2a3647;
-    border: 1px solid black;
-    font-size: clamp(16px, 3vw, 22px);
-    height: 51px;
-    background: white;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 125ms;
-    padding: 15px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-
-    &:hover {
-        color: rgb(67, 178, 247);
-        border: 1px solid rgb(67, 178, 247);
-    }
-}
-
-input {
-    display: flex;
-    height: 51px;
-    border-radius: 8px;
-    border: 1px solid lightgray;
-    padding: 0px 16px 0px 16px;
-    margin-left: 10%;
-    margin-right: 10%;
-    cursor: pointer;
-    margin-bottom: 3%;
-}
-
-form {
-    width: 100%;
-}
-
-.goBackContainer {
-    display: flex;
+    flex-direction: column;
+    height: 100vh;
     width: 100%;
 
-    .backTo {
+    .authHeader {
         display: flex;
-        justify-content: start;
-        color: #0dc8f4;
+        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        height: 20%;
+        margin-left: 4%;
+        margin-right: 4%;
+
+        .animationContainer {
+            display: flex;
+            opacity: 0;
+            animation: logoEnterAnimation 2s forwards;
+        }
+
+        @keyframes logoEnterAnimation {
+            from {
+                opacity: 0;
+                transform: translate(650%, 350%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+        }
+    }
+
+    .infoContainer {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        gap: 35px;
+        font-size: 18px;
+
+        .infoText {
+            display: flex;
+            font-size: clamp(16px, 3vw, 22px);
+            cursor: default;
+        }
+    }
+
+    .authContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        height: 600px;
+        border-radius: 2.5%;
+        margin-left: 20%;
+        margin-right: 20%;
+
+        .backContainer {
+            display: flex;
+            width: 100%;
+
+            .backTo {
+                display: flex;
+                justify-content: start;
+                color: #0dc8f4;
+                cursor: pointer;
+                font-size: 54px;
+                margin-left: 3%;
+            }
+        }
+
+        .authInformation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            margin-bottom: 20px;
+
+            h1 {
+                display: flex;
+                margin-top: 54px;
+                margin-bottom: 54px;
+                font-size: clamp(36px, 6vw, 44px);
+                border-bottom: 2px solid rgb(67, 178, 247);
+                padding-bottom: 5px;
+                cursor: default;
+            }
+
+            .inputForm {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 54px;
+            }
+
+            .btnContainer {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            form {
+                width: 100%;
+
+                input {
+                    display: flex;
+                    height: 51px;
+                    border-radius: 8px;
+                    border: 1px solid lightgray;
+                    padding: 0px 16px 0px 16px;
+                    margin-left: 10%;
+                    margin-right: 10%;
+                    cursor: pointer;
+                    margin-bottom: 24px;
+                }
+            }
+        }
+    }
+
+    .btnBlue {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        height: 51px;
+        padding: 0 16px 0 16px;
+        border: none;
+        min-width: 70px;
+        border-radius: 8px;
+        background: #2a3647;
+        gap: 10px;
+        color: #ffffff;
+        font-weight: 700;
         cursor: pointer;
-        font-size: 54px;
-        margin-left: 3%;
+        transition: all 125ms ease-in-out;
+        font-size: clamp(16px, 3vw, 22px);
+
+        &:hover {
+            background-color: rgb(67, 178, 247);
+        }
+    }
+
+    .btnWhite {
+        display: flex;
+        color: #2a3647;
+        border: 1px solid black;
+        font-size: clamp(16px, 3vw, 22px);
+        height: 51px;
+        background: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 125ms;
+        padding: 15px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            color: rgb(67, 178, 247);
+            border: 1px solid rgb(67, 178, 247);
+        }
+    }
+}
+
+.greetingContainer {
+    display: flex;
+
+    .greeting {
+        display: flex;
+        flex-direction: column;
+        font-size: clamp(12px, 3vw, 24px);
+        margin-left: 50px;
+
+        .blue-text {
+            display: flex;
+            font-size: clamp(12px, 6vw, 42px);
+            color: #2aaae2;
+            margin: 0;
+        }
     }
 }
 
@@ -91,4 +202,46 @@ form {
     padding: 15px;
     border-radius: 5px;
     text-align: center;
-  }
+}
+
+.unsuccessMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ff5252;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.loginPage,
+.signupPage,
+.forgotPasswordPage {
+    display: flex;
+}
+
+.formValidate {
+    display: none;
+}
+
+.formValidate.show {
+    display: block;
+    color: red;
+    cursor: default;
+    margin-left: 12%;
+    font-size: 12px;
+}
+
+/*.dropdown {
+    position: relative; 
+}*/
+
+/*.dropdown::before {
+    content: "\25BC";
+    position: absolute;
+    top: 25%;
+    right: 10px;
+    color: #555;
+}*/

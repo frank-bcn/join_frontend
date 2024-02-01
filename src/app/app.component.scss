@@ -64,8 +64,6 @@
     .page {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        height: 100vh;
 
         .header {
             display: flex;
@@ -95,8 +93,16 @@
             align-items: center;
             padding: 0px;
             gap: 26px;
-            width: 106px;
+            width: 104px;
             height: 49px;
+
+            .dataProtectionImg {
+                cursor: pointer;
+            }
+
+            .legalNoticeMobile {
+                display: none;
+            }
         }
 
         .userInitials {
@@ -113,13 +119,33 @@
             background-color: rgb(42, 170, 226);
             cursor: pointer;
         }
-
-        .loadLinkCompomemts {
-            display: flex;
-            height: 100vh;
-        }
     }
 }
+
+.tooltip-trigger {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    color: #000;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+    bottom: -30px;
+}
+
+.tooltip-trigger:hover .tooltip-text {
+    display: block;
+}
+
 
 @media (max-width: 1000px) {
     .mainPage {
@@ -187,6 +213,16 @@
             .loadLinkCompomemts {
                 order: 2;
                 width: 100%;
+            }
+
+            .legalNoticeMobile {
+                display: flex !important;
+                height: 32px;
+                cursor: pointer;
+            }
+
+            .userPrivacyContainer {
+                margin-right: 18%;
             }
         }
     }

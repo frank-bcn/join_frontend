@@ -1,0 +1,158 @@
+<div class="AddTaskContainer">
+  <h1 class="headline">Add Task</h1>
+  <div class="taskContainer">
+    <div class="taskDetailsContainer">
+      <!--Title-->
+      <label>Title</label>
+      <input type="text" placeholder="enter a Title" />
+      <span class="formValidate"></span>
+
+      <!--Description-->
+      <label>Description</label>
+      <textarea placeholder="enter a description"></textarea>
+      <span class="formValidate"> </span>
+
+      <!--Category-->
+      <label>Category</label>
+      <div class="taskContainer">
+        <input
+          class="taskInput"
+          name=""
+          placeholder="choose Category"
+          type="text"
+        />
+        <img
+          (click)="toggleCategoryDropdown()"
+          class="assignedDropdown"
+          src="/assets/img/arrowDown.png"
+        />
+      </div>
+      <!-- DROPDOWN -->
+      <div class="dropdown" *ngIf="isCategoryDropdownOpen">
+        <div class="dropdownContainer">
+          <!--hier mussen die div gerendert werden-->
+          <div class="taskDropdownContainer">
+            <span class="textDropdown">hakuna Matata</span>
+            <span class="colorNewCategory"></span>
+          </div>
+          <div class="taskDropdownContainer">
+            <span class="textDropdown">werWieWas </span>
+            <span class="colorNewCategory"></span>
+          </div>
+        </div>
+      </div>
+
+      <!--Assigned to -->
+      <label>Assigned to</label>
+      <div class="taskContainer">
+        <input
+          class="taskInput"
+          name=""
+          placeholder="choose Contact"
+          type="text"
+        />
+        <img
+          (click)="toggleAssignedToDropdown()"
+          class="assignedDropdown"
+          src="/assets/img/arrowDown.png"
+        />
+      </div>
+      <!-- DROPDOWN -->
+      <div class="dropdown" *ngIf="isAssignedDropdownOpen">
+        <div class="dropdownContainer">
+          <div class="taskDropdownContainer" *ngFor="let user of us.users">
+            <span class="textDropdown">{{ user.username }}</span>
+            <input class="userCheckbox" type="checkbox" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+    <div class="taskSettingsContainer">
+      <!--Date-->
+      <label>Date</label>
+      <input name="dateField" type="date" />
+      <span class="formValidate"></span>
+
+      <!--Prio-->
+      <label>Prio</label>
+      <div class="prioContainer">
+        <div
+          class="prioBtn"
+          (click)="prioUrgent()"
+          [ngClass]="{ prioUrgent: isUrgent }"
+        >
+          Urgent
+          <img
+            [src]="
+              ts.clickUrgent
+                ? '/assets/img/prioUrgent.svg'
+                : '/assets/img/prioUrgent-white.svg'
+            "
+          />
+        </div>
+
+        <div
+          class="prioBtn"
+          (click)="prioMedium()"
+          [ngClass]="{ prioMedium: isMedium }"
+        >
+          Medium
+          <img
+            [src]="
+              ts.clickMedium
+                ? '/assets/img/prioMedium.svg'
+                : '/assets/img/prioMedium-white.svg'
+            "
+          />
+        </div>
+
+        <div class="prioBtn" (click)="prioLow()" [ngClass]="{ prioLow: isLow }">
+          Low
+          <img
+            [src]="
+              ts.clickLow
+                ? '/assets/img/prioLow.svg '
+                : '/assets/img/prioLow-white.svg'
+            "
+          />
+        </div>
+      </div>
+      <span class="formValidate" id="validatePrio"> </span>
+
+      <!--Subtasks-->
+      <label>Subtasks</label>
+      <div class="taskContainer">
+        <input
+          class="taskInput"
+          name=""
+          placeholder="new Subtask"
+          type="text"
+        />
+        <img
+          (click)="togglesubtasksToDropdown()"
+          class="assignedDropdown"
+          src="/assets/img/checkmark.svg"
+        />
+      </div>
+      <!-- DROPDOWN -->
+      <div class="dropdown" *ngIf="issubtasksDropdownOpen">
+        <div class="dropdownContainer">
+          <div class="userInitials">
+            <!-- Hier die Initialen des users anzeigen -->
+          </div>
+          <span><!-- username anzeigen --></span>
+          <input type="checkbox" />
+        </div>
+      </div>
+
+      <!--Ceate task btn -->
+      <div class="btnTaskContainer">
+        <button class="btnBlue">Create Task</button>
+      </div>
+    </div>
+  </div>
+</div>
