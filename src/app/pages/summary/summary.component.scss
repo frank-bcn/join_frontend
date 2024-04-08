@@ -1,54 +1,40 @@
+:host {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
 .summaryContainer {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: calc(100% - 233px);
-    margin-left: 16%;
-    margin-right: 16%;
+    width: calc(100% - 9%);
+    margin: 0 0 0 9%;
 
-    .headlineText {
+    .summaryContent {
         display: flex;
-        align-items: center;
-        gap: 30px;
-        height: 18%;
 
-        h1 {
-            font-size: clamp(30px, 6vw, 42px);
-            border-right: 2px solid rgb(67, 178, 247);
-            width: 250px;
-        }
-
-        .text {
-            display: flex;
-            flex-wrap: nowrap;
-            font-size: clamp(12px, 3vw, 24px);
-            font-weight: 400;
-        }
-
-        .summaryContent {
-            display: flex;
-        
-            justify-content: flex-start;
-            margin-left: 100px;
-        }
+        justify-content: flex-start;
+        margin-left: 100px;
     }
 }
 
 .taskGreetingContainer {
     display: flex;
-    width: 100%;
+    flex: 1;
 
     .taskStatusContainer {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        height: 500px;
+        width: 60%;
+        height: 60%;
 
         .statusFrontRow {
             display: flex;
             width: 100%;
-            justify-content: center;
+            height: 30%;
+            justify-content: space-between;
         }
 
         .tasksSmallContainer {
@@ -57,10 +43,9 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            margin: 10px;
             background-color: white;
-            height: 150px;
-            width: 150px;
+            height: 100%;
+            width: 30%;
             border-radius: 30px;
 
             &:hover {
@@ -83,7 +68,7 @@
             justify-content: center;
             border-radius: 30px;
             background-color: white;
-            margin: 10px;
+            width: 100%;
 
             &:hover {
                 cursor: pointer;
@@ -96,9 +81,9 @@
             .tasksLargeContainer {
                 display: flex;
                 justify-content: center;
+                align-items: center;
                 justify-content: space-around;
-                width: 490px;
-                margin: 10px;
+                width: 100%;
             }
 
             .priorityContainer {
@@ -106,6 +91,7 @@
                 align-items: center;
                 border-right: 3px solid grey;
                 width: 45%;
+                margin: 5px 0 5px 0;
             }
 
             .deadlineContainer {
@@ -121,19 +107,19 @@
         .statusOptions {
             display: flex;
             width: 100%;
-            justify-content: center;
+            height: 30%;
+            justify-content: space-between;
 
             .tasksMediumContainer {
                 display: flex;
-                margin: 10px;
                 background-color: white;
-                height: 150px;
+                height: 100%;
                 border-radius: 30px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                width: 240px;
+                width: 45%;
 
                 &:hover {
                     cursor: pointer;
@@ -142,13 +128,51 @@
                     transform: scale(1.1);
                     transition: 0.1s ease-in-out;
                 }
+
+                .imgContainer {
+                    display: flex;
+
+                    img {
+                        height: 60px;
+                    }
+                }
             }
         }
     }
 }
 
-@media (max-width: 1000px) {
-    .d-none {
-        display: none;
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 1050px) {
+
+    .summaryContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc(100% - 18%);
+        margin: 0 9% 9% 9%;
+
+        .taskGreetingContainer {
+            display: flex;
+            width: 60%;
+            height: 60%;
+        }
+
+        .taskStatusContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 10% 0;
+            height: calc(100% - 10%);
+            width: 100%;
+        }
+
+        .d-none {
+            display: none;
+        }
     }
 }

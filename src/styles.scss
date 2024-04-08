@@ -10,6 +10,28 @@ body {
     scroll-behavior: smooth;
 }
 
+html {
+    scroll-behavior: smooth;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(42, 170, 226);
+    border-radius: 6px;
+}
+
+::-moz-scrollbar {
+    width: 12px;
+}
+
+::-moz-scrollbar-thumb {
+    background-color: rgb(42, 170, 226);
+}
+
 .page {
     display: flex;
     flex-direction: column;
@@ -174,6 +196,32 @@ body {
     }
 }
 
+header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    height: 18%;
+
+    h1 {
+        font-size: clamp(30px, 6vw, 42px);
+        border-right: 2px solid rgb(67, 178, 247);
+        width: 250px;
+    }
+
+    h2 {
+        font-size: clamp(30px, 6vw, 42px);
+        width: 250px;
+    }
+
+    .slogan{
+        display: flex;
+        flex-wrap: nowrap;
+        color: #2a3647;
+        font-size: clamp(12px, 3vw, 24px);
+        font-weight: 400;
+    }
+}
+
 .greetingContainer {
     display: flex;
 
@@ -234,14 +282,7 @@ body {
     font-size: 12px;
 }
 
-/*.dropdown {
-    position: relative; 
-}*/
 
-/*.dropdown::before {
-    content: "\25BC";
-    position: absolute;
-    top: 25%;
-    right: 10px;
-    color: #555;
-}*/
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/

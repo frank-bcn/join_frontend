@@ -16,6 +16,8 @@ export class AddTaskComponent {
   isMedium: boolean = false;
   isLow: boolean = false;
 
+  selectedUsers: any[] = [];
+
   constructor(public ts: TaskService, public us: UserService) {}
 
   /**
@@ -94,4 +96,17 @@ export class AddTaskComponent {
     this.ts.clickMedium = true;
     this.ts.clickLow = false;
   }
+
+  checkUser(user: any) {
+    const userIndex = this.selectedUsers.indexOf(user);
+  
+    if (userIndex !== -1) {
+      this.selectedUsers.splice(userIndex, 1);
+      console.log('Benutzer entfernt:', user);
+    } else {
+      this.selectedUsers.push(user);
+      console.log('Benutzer hinzugefügt:', user);
+    }
+  }
+  
 }

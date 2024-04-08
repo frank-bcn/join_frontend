@@ -24,12 +24,10 @@ export class SummaryComponent implements OnInit {
  */
   ngOnInit() {
     this.gt.generateGreeting();
-  
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       this.us.authToken = storedToken;
     }
-    console.log(localStorage.getItem('token'));
     console.log(this.us.userData);
   }
 

@@ -1,8 +1,8 @@
 <div class="summaryContainer">
-  <div class="headlineText">
+  <header>
     <h1>Summary</h1>
-    <span class="text">Everything in a nutshell!</span>
-  </div>
+    <span class="slogan">Everything in a nutshell!</span>
+  </header>
   <div class="taskGreetingContainer">
     <!--front row-->
     <div class="taskStatusContainer">
@@ -63,7 +63,7 @@
           (mouseenter)="onHoverTodo()"
           (mouseleave)="onLeaveTodo()"
         >
-          <div class="">
+          <div class="imgContainer">
             <img [src]="hs.hoverTodo ? '/assets/img/hoverTodo.png': '/assets/img/todo.png'"/>
           </div>
           <div>
@@ -79,10 +79,10 @@
           (mouseenter)="onHover()"
           (mouseleave)="onLeave()"
         >
-          <div class="">
+          <div class="imgContainer">
             <img [src]="hs.hoverDone ? '/assets/img/hoverDone.png': '/assets/img/joinDone.png'"/>
           </div>
-          <div style="margin-left: 10px">
+          <div>
             <h2>#anzahl</h2>
             <div class="textTask">Done</div>
           </div>
@@ -94,7 +94,7 @@
       <div class="greeting">
         <h2>{{ gt.greeting }}</h2>
         <span class="h1 blue-text">
-          <h2>{{ us.userData[1]?.username }}</h2>
+          <h2>{{ us.userData?.username }}</h2>
         </span>
       </div>
     </div>

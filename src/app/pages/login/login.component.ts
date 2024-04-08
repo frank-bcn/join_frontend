@@ -49,6 +49,7 @@ export class LoginComponent {
           username,
           password
         );
+        this.us.selectedUser = null;
         this.loginResponse(resp);
       } catch (error: any) {
         this.loginError(error);
@@ -102,13 +103,16 @@ export class LoginComponent {
    */
   updateUserData(response: any) {
     this.us.authToken = response.token;
-    this.us.userData = [
-      { authToken: response.token },
-      { username: response.username },
-      { firstName: response.first_name },
-      { lastName: response.last_name },
-      { email: response.email },
-    ];
+    this.us.userData = {
+       authToken: response.token,
+       username: response.username,
+       firstName: response.first_name,
+       lastName: response.last_name,
+       email: response.email,
+       usercolor: response.user_color,
+       id: response.id,
+       pk: response.pk
+    };
 
     localStorage.setItem('token', this.us.authToken);
     localStorage.setItem('userData', JSON.stringify(this.us.userData));
@@ -122,6 +126,7 @@ export class LoginComponent {
    */
   navigateAfterLogin() {
     setTimeout(() => {
+      this.us.isUserColorOpen = true;  /* diese muss ich noch ändern das das nur aufgerufen wird wenn usercolor nicht vergeben ist*/ 
       this.router.navigateByUrl('/summary');
     }, 3000);
   }
@@ -174,26 +179,15 @@ export class LoginComponent {
    */
   async guestLogin() {
     try {
-      const response: any = await this.as.loginWithEmailAndPassword(
-        (this.username = 'Guest'),
-        (this.password = 'GuestAccountJoin')
-      );
-
-      this.us.authToken = response.token;
-      this.us.userData = [
-        { authToken: response.token },
-        { username: response.username },
-        { firstName: response.first_name },
-        { lastName: response.last_name },
-        { email: response.email },
-      ];
-
-      this.login_successful = true;
-      this.loginSuccessMessage = response.success_message;
-      this.navigateAfterLogin();
-    } catch (error) {}
+      this.username = 'Guest';
+      this.password = 'GuestAccountJoin';
+      
+      await this.login(this.username, this.password);
+    } catch (error) {
+      console.error("Fehler beim Gast-Login:", error);
+    }
   }
-
+  
   /**
  * Method to hide login-related messages.
  * Resets flags for successful login, unsuccessful login, username error, and password error.

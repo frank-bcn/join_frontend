@@ -1,5 +1,7 @@
 <div class="AddTaskContainer">
-  <h1 class="headline">Add Task</h1>
+  <header>
+    <h2>Add Task</h2>
+  </header>
   <div class="taskContainer">
     <div class="taskDetailsContainer">
       <!--Title-->
@@ -14,7 +16,7 @@
 
       <!--Category-->
       <label>Category</label>
-      <div class="taskContainer">
+      <div class="container">
         <input
           class="taskInput"
           name=""
@@ -44,7 +46,7 @@
 
       <!--Assigned to -->
       <label>Assigned to</label>
-      <div class="taskContainer">
+      <div class="container">
         <input
           class="taskInput"
           name=""
@@ -61,15 +63,22 @@
       <div class="dropdown" *ngIf="isAssignedDropdownOpen">
         <div class="dropdownContainer">
           <div class="taskDropdownContainer" *ngFor="let user of us.users">
-            <span class="textDropdown">{{ user.username }}</span>
-            <input class="userCheckbox" type="checkbox" />
+            <span class="textDropdown"
+              >{{ user.first_name }} {{ user.last_name }}</span
+            >
+            <input
+              class="userCheckbox"
+              type="checkbox"
+              (change)="checkUser(user)"
+            />
           </div>
         </div>
       </div>
+
+      <div class="usercheckContainer"*ngIf="selectedUsers.length != 0">
+        <span *ngFor="let user of selectedUsers" class="contactView"></span>
+      </div>
     </div>
-
-
-    
 
     <div class="taskSettingsContainer">
       <!--Date-->
@@ -125,7 +134,7 @@
 
       <!--Subtasks-->
       <label>Subtasks</label>
-      <div class="taskContainer">
+      <div class="container">
         <input
           class="taskInput"
           name=""

@@ -1,0 +1,33 @@
+<div *ngIf="us.editContact" class="slideContainer" [@slideInOut]>
+    <div class="container">
+      <div class="slogen">
+        <div class="sloganContainer">
+          <img src="/assets/img/join-white-logo.png" class="logo" />
+          <h2>Edit contact</h2>
+        </div>
+      </div>
+      <div class="formContainer">
+        <span class="deleteContainer">
+          <img
+            src="/assets/img/close.svg"
+            class="close"
+            (click)="closeSliderEditContainer()"
+          />
+        </span>
+        <div class="wrapper">
+          <div class="userImgContainer">
+            <div class="frame">
+              <img src="/assets/img/createUserIcon.png" />
+            </div>
+          </div>
+          <form action="">
+            <input type="text" placeholder="First and last name" />
+            <input type="email" placeholder="E-mail" />
+            <input type="tel" placeholder="Phone" />
+            <button class="btnBlue btnCreate">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

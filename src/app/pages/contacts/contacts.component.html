@@ -1,1 +1,53 @@
-<p>contacts works!</p>
+<div class="contactContainer">
+  <div class="userList">
+    <button class="switchBtnList" (click)="switchList()">
+      {{ switchBtnText }}
+    </button>
+    <div
+      class="employeesContainer"
+      *ngIf="switchBtnText === 'go to the externals'"
+    >
+      <ng-container
+        *ngFor="let group of us.sortUserByInitial(us.users) | keyvalue"
+      >
+        <div class="sortHeader">{{ group.key }}</div>
+        <span
+          *ngFor="let user of group.value"
+          class="employeesWrapper" [class.selected]="user === us.selectedUser"
+          (click)="openEmployees(user)"
+        >
+          <span class="userFrame" [style.background-color]="user.user_color">
+            {{ user.username }}
+          </span>
+          <span class="nameWrapper">
+            {{ user.username }} {{ user.last_name }}
+          </span>
+        </span>
+      </ng-container>
+    </div>
+    <div class="externalsContainer" *ngIf="switchBtnText === 'go to the employees'">
+      <ng-container *ngFor="let user of us.userListEexternals">
+        <div>{{ user.username }}</div>
+        
+      </ng-container>
+    </div>
+  </div>
+  <div class="content">
+    <header>
+      <h1 class="headlineText">Contacts</h1>
+      <span class="slogan">Better with a team</span>
+    </header>
+    <div class="wrapper">
+      <app-selected-user></app-selected-user>
+    </div>
+    <div class="containerBtn">
+      <button (click)="openNewContact()" class="btnBlue">
+        New Contact
+        <img src="/assets/img/addContact.png" />
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-new-contact></app-new-contact>
+<app-edit-contact></app-edit-contact>

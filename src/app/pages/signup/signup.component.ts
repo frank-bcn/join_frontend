@@ -23,6 +23,8 @@ export class SignupComponent {
   password: string = '';
   first_name: string = '';
   last_name: string = '';
+  user_color: string = '';
+  phone_number: string = '';
   registrationErrorMessage: string = '';
   registrationSuccessMessage: string = '';
 
@@ -72,7 +74,7 @@ export class SignupComponent {
     const email = this.email;
     const password = this.password;
 
-    return { username, first_name, last_name, email, password };
+    return { username, first_name, last_name, email, password, user_color: this.user_color, phone_number: this.phone_number };
   }
 
   /**

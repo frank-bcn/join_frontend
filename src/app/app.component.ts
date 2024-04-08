@@ -38,9 +38,17 @@ export class AppComponent {
         }
       });
     this.setActiveLink();
+    this.restoreUserData();
+
+  }
+
+  restoreUserData() {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      this.us.userData = JSON.parse(storedUserData);
+    }
   }
   
-
   /**
    * Method to set the active link based on the current route.
    */
@@ -112,5 +120,22 @@ export class AppComponent {
    */
   isLoginPage() {
     return this.router.url === '/login' || this.router.url === '/signup'|| this.router.url === '/forgot';
+  }
+
+  toggleDropdown() {
+    this.us.isDropdownOpen = !this.us.isDropdownOpen;
+  }
+
+  openUserColor() {
+    this.us.isUserColorOpen = true;
+  }
+
+  closeUserColor() {
+    this.us.isUserColorOpen = false;
+    this.us.isDropdownOpen = false;
+  }
+
+  selectColor(color: string) {
+    this.us.selectedColor = color;
   }
 }

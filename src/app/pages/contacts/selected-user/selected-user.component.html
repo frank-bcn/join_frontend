@@ -1,0 +1,30 @@
+<div *ngIf="us.selectedUser" class="employeesDataWrapper" [@slideInOut]>
+    <div class="userDataWrapper">
+      <span class="userDataCloseContainer">
+        <img (click)="closeUserData()" src="/assets/img/close.svg" />
+      </span>
+      <div class="userDataName">
+        <span
+          class="userFrame userDataFrame"
+          [style.background-color]="us.selectedUser.user_color"
+        >
+          {{ us.selectedUser.username }}
+        </span>
+        <span class="nameWrapper nameDataWrapper"
+          >{{ us.selectedUser.username }}
+          {{ us.selectedUser.last_name }}</span
+        >
+      </div>
+      <span class="addUserTask">+ Add Task</span>
+      <span (click)="openEditContact()" class="editContact"
+        ><img src="/assets/img/editContact.png" class="" /> Edit
+        contact</span
+      >
+      <div class="emailWrapper">
+        <span class="email">E-mail:</span>
+        <a [href]="'mailto:' + us.selectedUser.email" target="_blank">
+          {{ us.selectedUser.email }}
+        </a>
+      </div>
+    </div>
+  </div>
