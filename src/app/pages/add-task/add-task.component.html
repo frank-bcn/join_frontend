@@ -54,7 +54,7 @@
           type="text"
         />
         <img
-          (click)="toggleAssignedToDropdown()"
+          (click)="toggleAssignedDropdown()"
           class="assignedDropdown"
           src="/assets/img/arrowDown.png"
         />
@@ -62,21 +62,30 @@
       <!-- DROPDOWN -->
       <div class="dropdown" *ngIf="isAssignedDropdownOpen">
         <div class="dropdownContainer">
-          <div class="taskDropdownContainer" *ngFor="let user of us.users">
-            <span class="textDropdown"
-              >{{ user.first_name }} {{ user.last_name }}</span
-            >
-            <input
-              class="userCheckbox"
-              type="checkbox"
-              (change)="checkUser(user)"
-            />
-          </div>
+            <div class="taskDropdownContainer" *ngFor="let user of us.users">
+                <span class="userFrame taskFrame" [style.background-color]="user.user_color">
+                    {{ us.employeesInitials(user.username, user.last_name) }}
+                </span>
+                <span class="nameWrapper">{{ user.username }} {{ user.last_name }}</span>
+    
+                <input
+                    [ngModel]="user.checked"
+                    (ngModelChange)="ts.checkUser(user)"
+                    class="userCheckbox"
+                    type="checkbox"
+                />
+            </div>
         </div>
-      </div>
+    </div>
+    
 
-      <div class="usercheckContainer"*ngIf="selectedUsers.length != 0">
-        <span *ngFor="let user of selectedUsers" class="contactView"></span>
+      <div class="usercheckContainer" *ngIf="us.selectedUsers.length != 0">
+        <span
+          *ngFor="let user of us.selectedUsers"
+          class="userFrame taskFrame"
+          [style.background-color]="user.user_color"
+          >{{ us.employeesInitials(user.username, user.last_name) }}
+        </span>
       </div>
     </div>
 

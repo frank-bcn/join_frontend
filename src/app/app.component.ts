@@ -21,7 +21,12 @@ export class AppComponent {
     public us: UserService,
     public hs: HoverService,
     public gt: GreetingService
-  ) {}
+  ) {
+    console.log(
+      '%c  Fränk rules!',
+      'font-size:20px; font-weight:800; color:red; text-shadow: 5px 5px 10px green'
+    );
+  }
 
   /**
  * Lifecycle hook that is called after Angular has initialized all data-bound properties

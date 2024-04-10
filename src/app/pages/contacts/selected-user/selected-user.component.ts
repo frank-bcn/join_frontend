@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
+import { TaskService } from '../../../services/task.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -19,7 +20,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class SelectedUserComponent {
-  constructor(public us: UserService) {}
+  constructor(public us: UserService, public ts: TaskService) {}
 
   closeUserData() {
     this.us.selectedUser = null;

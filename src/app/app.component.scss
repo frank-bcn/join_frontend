@@ -146,7 +146,7 @@
 
         .loadLinkCompomemts {
             width: 100%;
-            height: 100%;
+            height: calc(100% - 90px);
         }
     }
 }
@@ -342,7 +342,7 @@
             }
 
             .userPrivacyContainer {
-                margin-right: 18%;
+                margin-right: 8%;
             }
         }
     }

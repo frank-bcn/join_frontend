@@ -16,8 +16,6 @@ export class AddTaskComponent {
   isMedium: boolean = false;
   isLow: boolean = false;
 
-  selectedUsers: any[] = [];
-
   constructor(public ts: TaskService, public us: UserService) {}
 
   /**
@@ -40,8 +38,9 @@ export class AddTaskComponent {
    * Toggles the visibility of the assigned-to dropdown.
    * Sets the 'isAssignedDropdownOpen' property to true, indicating that the dropdown should be displayed.
    */
-  toggleAssignedToDropdown() {
+  toggleAssignedDropdown() {
     this.isAssignedDropdownOpen = true;
+    this.ts.updateCheckedStatus();
   }
 
   /**
@@ -96,17 +95,4 @@ export class AddTaskComponent {
     this.ts.clickMedium = true;
     this.ts.clickLow = false;
   }
-
-  checkUser(user: any) {
-    const userIndex = this.selectedUsers.indexOf(user);
-  
-    if (userIndex !== -1) {
-      this.selectedUsers.splice(userIndex, 1);
-      console.log('Benutzer entfernt:', user);
-    } else {
-      this.selectedUsers.push(user);
-      console.log('Benutzer hinzugefügt:', user);
-    }
-  }
-  
 }

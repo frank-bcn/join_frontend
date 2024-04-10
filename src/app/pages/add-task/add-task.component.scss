@@ -85,12 +85,18 @@
     .taskDropdownContainer {
         display: flex;
         width: 100%;
-        height: auto;
+        height: 50px;
+        margin: 0 0 12px 0;
         align-items: center;
         justify-content: space-between;
 
         &:hover {
             background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .taskFrame {
+            height: 5px;
+            width: 5px;
         }
     }
 
@@ -138,14 +144,20 @@
     .usercheckContainer {
         display: flex;
         height: 30px;
-        margin-top: 8px;
+        margin: 8px 0 12px 0;
+
+        .taskFrame {
+            height: 5px;
+            width: 5px;
+            margin: 0 0 6px 0;
+        }
     }
 
     .contactView {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: darkred;
+
         color: white;
         font-size: 12px;
         height: 30px;

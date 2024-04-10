@@ -19,14 +19,13 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class ContactsComponent {
-  switchBtnText: string = 'go to the employees';
+  
 
   constructor(public us: UserService) {}
 
   ngOnInit() {
     this.us.loadUsersFromServer();
     this.us.loadUserListEexternals();
-    console.log(this.us.userListEexternals);
   }
 
   openNewContact() {
@@ -34,8 +33,9 @@ export class ContactsComponent {
   }
 
   switchList() {
-    this.switchBtnText =
-      this.switchBtnText === 'go to the employees'
+    this.us.selectedUser = null;
+    this.us.switchBtnText =
+      this.us.switchBtnText === 'go to the employees'
         ? 'go to the externals'
         : 'go to the employees';
   }

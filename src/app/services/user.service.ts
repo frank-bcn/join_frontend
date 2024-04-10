@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { HoverService } from './hover.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +13,8 @@ export class UserService {
   userData: any = {};
   users: any[] = [];
   userListEexternals: any[] = [];
+
+  selectedUsers: any[] = [];
 
   userColors: string[] = [
     '#FFD700',
@@ -30,6 +35,8 @@ export class UserService {
     '#E6E6FA',
   ];
 
+  switchBtnText: string = 'go to the employees';
+
   selectedUser: any = null;
   selectedColor: string = '';
   isUserColorOpen: boolean = false;
@@ -39,12 +46,12 @@ export class UserService {
   editContact: boolean = false;
   employees: boolean = false;
 
-  username: string ='';
-  email: string ='';
-  phone: string ='';
+  username: string = '';
+  email: string = '';
+  phone: string = '';
+  id: string = '';
 
-
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public router: Router, public hs: HoverService,) {}
 
   /**
    * Service method to fetch user data from the server.
@@ -52,7 +59,7 @@ export class UserService {
    */
   async loadUsersFromServer() {
     const url = environment.baseUrl + '/api/users/';
-  
+
     try {
       const response = await this.http.get<any[]>(url).toPromise();
       if (response) {
@@ -63,7 +70,7 @@ export class UserService {
       throw error;
     }
   }
-  
+
   /**
    * Sorts users by username in alphabetical order.
    * @param users The array of users to be sorted.
@@ -81,77 +88,142 @@ export class UserService {
     });
   }
 
-  saveUserToUserList() {
-    const url = environment.baseUrl + '/api/savEexternalsUser/';
+  async saveUserToUserList() {
+    const url = environment.baseUrl + '/api/saveEexternalsUser/';
+    const randomColor = this.randomColor();
     const body = {
       username: this.username,
       email: this.email,
       phone: this.phone,
+      color: randomColor,
     };
-  
     console.log('Request Body:', body);
-  
-    this.http.post(url, body).toPromise()
-      .then(response => {
-        console.log('Response:', response);
-        this.userListEexternals.push(response);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+
+    try {
+      const response = await this.http.post(url, body).toPromise();
+      console.log('Response:', response);
+      this.userListEexternals.push(response);
+      this.loadUserListEexternals();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    this.newContact = false;
+    console.log('Request Body:', body);
+    this.externalsInitials(this.username);
   }
-  
-  loadUserListEexternals() {
+
+  async editUserContact() {
+    const url = environment.baseUrl + '/api/updateContact/';
+    const body = {
+      username: this.selectedUser.username,
+      email: this.selectedUser.email,
+      phone: this.selectedUser.phone,
+      id: this.selectedUser.id,
+    };
+    console.log('Body:', body);
+    try {
+      await this.http.post(url, body).toPromise();
+      this.editContact = false;
+      this.loadUserListEexternals();
+      
+    } catch (error) {
+      
+    }
+  }
+
+  randomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.userColors.length);
+    return this.userColors[randomIndex];
+  }
+
+  async loadUserListEexternals() {
     const url = environment.baseUrl + '/api/loadUserListEexternals/';
-    this.http.get<any[]>(url).toPromise()
-      .then(response => {
-        console.log('User List Eexternals:', response);
-        this.userListEexternals = response as any[];
-      })
-      .catch(error => {
-        console.error('Error loading user list:', error);
-      });
+    try {
+      const response = await this.http.get<any[]>(url).toPromise();
+      console.log('User List Eexternals:', response);
+      this.userListEexternals = response as any[];
+    } catch (error) {
+      console.error('Error loading user list:', error);
+    }
   }
-  
+
+  externalsInitials(username: string) {
+    const names = username.split(' ');
+    let initials = '';
+    names.forEach((name) => {
+      if (name.length > 0) {
+        initials += name.charAt(0).toUpperCase();
+      }
+    });
+    return initials;
+  }
+
+  employeesInitials(username: string, lastName: string): string {
+    return username.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+  }
 
 
-  saveUserColor() { 
+  saveUserColor() {
     const url = environment.baseUrl + '/api/update_user_color/';
     const body = {
       pk: this.userData.pk,
-      user_color: this.selectedColor
+      user_color: this.selectedColor,
     };
     const user_color = this.http.put(url, body).toPromise();
-    
-    user_color.then(response => {
-      console.log("Response:", response);
-      this.isUserColorOpen = false;
-      this.userData.user_color = this.selectedColor;
-      console.log(this.userData);
-    }).catch(error => {
-      console.error("Error:", error);
-    });
-  
+
+    user_color
+      .then((response) => {
+        console.log('Response:', response);
+        this.isUserColorOpen = false;
+        this.userData.user_color = this.selectedColor;
+        console.log(this.userData);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
     return user_color;
   }
-  
-  sortUserByInitial(users: any[]): { [key: string]: any[] } {
+
+  sortUser(users: any[]): { [key: string]: any[] } {
     const groupedUsers: { [key: string]: any[] } = {};
-  
-    users.forEach(user => {
-      const initial = user.username.charAt(0).toUpperCase();
-      if (!groupedUsers[initial]) {
-        groupedUsers[initial] = [];
+
+    users.forEach((user) => {
+      if (user.username) {
+        const initial = user.username.charAt(0).toUpperCase();
+        if (!groupedUsers[initial]) {
+          groupedUsers[initial] = [];
+        }
+        groupedUsers[initial].push(user);
       }
-      groupedUsers[initial].push(user);
     });
-  
+
     return groupedUsers;
   }
+
+  deleteContact(): void {
+    if (confirm('Are you sure you want to delete this contact?')) {
+      const url = environment.baseUrl + '/api/delete/';
+      this.http
+        .delete<any>(url, { body: { id: this.selectedUser.id } })
+        .toPromise()
+        .then((response) => {
+          console.log(response);
+          this.selectedUser = null;
+          this.loadUserListEexternals();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
+
   
-  
-  logout() {
+
+  logout(): Observable<any> {
+    console.log('click');
     const url = environment.baseUrl + '/logout/';
     return this.http.post(url, {});
+    
   }
 }

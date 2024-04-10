@@ -1,34 +1,56 @@
 <div class="contactContainer">
   <div class="userList">
     <button class="switchBtnList" (click)="switchList()">
-      {{ switchBtnText }}
+      {{ us.switchBtnText }}
     </button>
+    <!-- employees list -->
     <div
       class="employeesContainer"
-      *ngIf="switchBtnText === 'go to the externals'"
+      *ngIf="us.switchBtnText === 'go to the externals'"
     >
       <ng-container
-        *ngFor="let group of us.sortUserByInitial(us.users) | keyvalue"
+        *ngFor="let group of us.sortUser(us.users) | keyvalue"
       >
         <div class="sortHeader">{{ group.key }}</div>
         <span
           *ngFor="let user of group.value"
-          class="employeesWrapper" [class.selected]="user === us.selectedUser"
+          class="employeesWrapper"
+          [class.selected]="user === us.selectedUser"
           (click)="openEmployees(user)"
         >
-          <span class="userFrame" [style.background-color]="user.user_color">
-            {{ user.username }}
-          </span>
+        <span class="userFrame" [style.background-color]="user.user_color">
+          {{ us.employeesInitials(user.username, user.last_name) }} 
+        </span>
           <span class="nameWrapper">
             {{ user.username }} {{ user.last_name }}
           </span>
         </span>
       </ng-container>
     </div>
-    <div class="externalsContainer" *ngIf="switchBtnText === 'go to the employees'">
-      <ng-container *ngFor="let user of us.userListEexternals">
-        <div>{{ user.username }}</div>
-        
+    <!-- Eexternals list -->
+    <div
+      class="externalsContainer"
+      *ngIf="us.switchBtnText === 'go to the employees'"
+    >
+      <ng-container
+        *ngFor="
+          let group of us.sortUser(us.userListEexternals) | keyvalue
+        "
+      >
+        <div class="sortHeader">{{ group.key }}</div>
+        <span
+          *ngFor="let user of group.value"
+          class="externalsWrapper"
+          [class.selected]="user === us.selectedUser"
+          (click)="openEmployees(user)"
+        >
+          <span class="userFrame" [style.background-color]="user.color">{{
+            us.externalsInitials(user.username)
+          }}</span>
+          <span class="nameWrapper"
+            >{{ user.username }} {{ user.last_name }}</span
+          >
+        </span>
       </ng-container>
     </div>
   </div>

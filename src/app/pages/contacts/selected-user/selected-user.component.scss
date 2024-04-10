@@ -9,7 +9,7 @@
     border-radius: 30px;
     width: calc(100% - 10%);
     height: calc(100% - 10%);
-    background-color: #ffffff;
+    // background-color: #ffffff;
 
     .userDataWrapper {
         display: flex;
@@ -37,6 +37,7 @@
             width: 100%;
 
             .userDataFrame {
+                font-size: clamp(16px, 2vw, 39px);
                 height: 70px;
                 width: 70px;
                 border: 6px solid lightgray;
@@ -57,6 +58,38 @@
         cursor: pointer;
     }
 
+    .editContact {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        height: 10%;
+        margin: 0 0 12% 0;
+        cursor: pointer;
+
+        .edit {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            img {
+                height: 25px;
+                margin: 0 6px 0 0;
+            }
+        }
+
+        .delete {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            img {
+                height: 25px;
+                margin: 0 6px 0 0;
+            }
+        }
+    }
+
     .emailWrapper {
         display: flex;
         width: 100%;
@@ -70,6 +103,24 @@
         a {
             text-decoration: none;
             cursor: pointer;
+        }
+    }
+
+    .deleteContainer {
+        display: flex;
+        position: absolute;
+        top: 250px;
+        left: 100px;
+        height: 130px;
+        width: 300px;
+        z-index: 1;
+        border-radius: 30px;
+        border: 1px solid #2a3647;
+        background-color: #ffffff;
+
+        h1 {
+            font-size: clamp(12px, 2vw, 24px);
+            color: red;
         }
     }
 }
