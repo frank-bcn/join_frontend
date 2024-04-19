@@ -1,15 +1,20 @@
 <div *ngIf="us.selectedUser" class="employeesDataWrapper" [@slideInOut]>
   <div class="userDataWrapper">
     <!-- <span class="userDataCloseContainer">
-      <img (click)="closeUserData()" src="/assets/img/close.svg" />
+      img draggable = "false" (click)="closeUserData()" src="/assets/img/close.svg" />
     </span> -->
     <div class="userDataName">
       <span
         *ngIf="us.switchBtnText === 'go to the externals'"
         class="userFrame userDataFrame"
         [style.background-color]="us.selectedUser.user_color"
-        >{{ us.employeesInitials(us.selectedUser.username, us.selectedUser.last_name ) }} </span
-      >
+        >{{
+          us.employeesInitials(
+            us.selectedUser.username,
+            us.selectedUser.last_name
+          )
+        }}
+      </span>
       <span
         *ngIf="us.switchBtnText === 'go to the employees'"
         class="userFrame userDataFrame"
@@ -20,7 +25,10 @@
         >{{ us.selectedUser.username }} {{ us.selectedUser.last_name }}</span
       >
     </div>
-    <span *ngIf="us.switchBtnText === 'go to the externals'" class="addUserTask" (click)="ts.AddUserTask()"
+    <span
+      *ngIf="us.switchBtnText === 'go to the externals'"
+      class="addUserTask"
+      (click)="ts.AddUserTask()"
       >+ Add Task</span
     >
     <span
@@ -28,10 +36,12 @@
       class="editContact"
     >
       <span (click)="openEditContact()" class="edit">
-        <img src="/assets/img/editContact.png" /> Edit contact
+        img draggable = "false" src="/assets/img draggable =
+        "false"/editContact.png" /> Edit contact
       </span>
       <span class="delete" (click)="us.deleteContact()">
-        <img src="/assets/img/delete.png" />delete</span
+        img draggable = "false" src="/assets/img draggable = "false"/delete.png"
+        />delete</span
       >
     </span>
 

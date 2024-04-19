@@ -18,6 +18,8 @@ export class SignupComponent {
     this.hideMessages();
   }
 
+ formSubmitted:boolean = false;
+
   username: string = '';
   email: string = '';
   password: string = '';
@@ -38,15 +40,22 @@ export class SignupComponent {
  * It creates user data, registers the user, and handles success or failure accordingly.
  */
   async Signup() {
+    this.formSubmitted = true;
+    if (!this.username.trim() || !this.email.trim() || !this.password.trim()) {
+      // Fehlerhafte Eingabe, Anmeldeversuch abbrechen
+      return;
+    }
+  
     try {
       const userData = this.createUserData();
       const resp: any = await this.registerUser(userData);
-
+  
       this.successfulRegistration(resp);
     } catch (error: any) {
       this.failedRegistration(error);
     }
   }
+  
 
   /**
  * Asynchronous method to register a user using provided user data.

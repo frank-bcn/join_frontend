@@ -8,6 +8,7 @@ body {
     font-family: "Inter", sans-serif;
     overflow: hidden;
     scroll-behavior: smooth;
+    user-select: none;
 }
 
 html {
@@ -123,6 +124,7 @@ html {
 
             .inputForm {
                 display: flex;
+                position: relative;
                 flex-direction: column;
                 margin-bottom: 54px;
             }
@@ -142,10 +144,8 @@ html {
                     border-radius: 8px;
                     border: 1px solid lightgray;
                     padding: 0px 16px 0px 16px;
-                    margin-left: 10%;
-                    margin-right: 10%;
+                    margin: 0 10% 22px 10%;
                     cursor: pointer;
-                    margin-bottom: 24px;
                 }
             }
         }
@@ -301,6 +301,54 @@ header {
     cursor: default;
     margin-left: 12%;
     font-size: 12px;
+}
+
+.errorMessage {
+    display: flex;
+    width: 86%;
+    margin: 5px 0 0 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}
+
+.errorMessageSign {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}
+
+.errorMessageEmail {
+    position: absolute;
+    top: 59%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}
+
+.errorMessagePass {
+    position: absolute;
+    top: 93%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}
+
+.errorMessagelogin {
+    position: absolute;
+    top: 37%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
 }
 
 

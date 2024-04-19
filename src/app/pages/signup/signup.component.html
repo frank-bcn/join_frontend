@@ -2,8 +2,8 @@
   <div class="authHeader">
     <div class="animationContainer">
       <a href="">
-        <img class="authLogo" src="/assets/img/join_login_logo.png"
-      /></a>
+        <img draggable = "false" class="authLogo" src="/assets/img/join_login_logo.png" /></a
+      >
     </div>
   </div>
   <div class="authContainer">
@@ -15,41 +15,72 @@
       <form (ngSubmit)="Signup()">
         <div class="inputForm">
           <input
-            required
             type="text"
-            name="username"
             [(ngModel)]="username"
-            required
-            placeholder="First name  Last name"
+            name="username"
+            placeholder="First name Last name"
             autocomplete="username"
+            #usernameInput="ngModel"
+            pattern="^[a-zA-Z]+$"
+            required
           />
-          <!--<span class="formValidate" [class.show]="showUsernameError">
-            {{ showUsernameError ? 'Please enter your First name and Last name.' : '' }}
-          </span>-->
+          <div
+            *ngIf="(formSubmitted && !username.trim()) || (usernameInput.touched && usernameInput.errors?.['required'])"
+            class="errorMessageSign"
+          >
+            Name is required
+          </div>
+          <div
+            *ngIf="usernameInput.errors?.['pattern']"
+            class="errorMessageSign"
+          >
+            Please enter only letters
+          </div>
+
           <input
-            required
-            type="email"
-            name="email"
+            type="text"
             [(ngModel)]="email"
-            required
+            name="email"
             placeholder="Email"
             autocomplete="email"
+            #emailInput="ngModel"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            required
           />
-          <!--<span class="formValidate" [class.show]="showEmailError">
-            {{ showEmailError ? 'Please enter your Email.' : '' }}
-          </span>-->
+
+          <div
+            *ngIf="(formSubmitted && emailInput.errors?.['required']) || (emailInput.touched && emailInput.errors?.['required'])"
+            class="errorMessageEmail"
+          >
+            Email is required
+          </div>
+          <div *ngIf="emailInput.errors?.['pattern']" class="errorMessageEmail">
+            Please enter a valid email address
+          </div>
+
           <input
-            required
             type="password"
-            name="password"
             [(ngModel)]="password"
-            required
+            name="password"
             placeholder="Password"
             autocomplete="current-password"
+            #passwordInput="ngModel"
+            required
+            pattern="^(?!.*<)(?!.*>).*"
           />
-          <!--<span class="formValidate" [class.show]="showPasswordError">
-            {{ showPasswordError ? 'Please enter your Password.' : '' }}
-          </span>-->
+
+          <div
+            *ngIf="(formSubmitted && passwordInput.errors?.['required']) || (passwordInput.touched && passwordInput.errors?.['required'])"
+            class="errorMessagePass"
+          >
+            Password is required
+          </div>
+          <div
+            *ngIf="passwordInput.errors?.['pattern']"
+            class="errorMessagePass"
+          >
+            Password cannot contain HTML tags
+          </div>
         </div>
         <div class="btnContainer">
           <button class="btnBlue">Sign up</button>

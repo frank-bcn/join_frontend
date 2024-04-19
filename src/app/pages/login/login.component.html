@@ -16,31 +16,52 @@
       <form (ngSubmit)="login(username, password)">
         <div class="inputForm">
           <input
-          type="email"
-          name="email"
-          [(ngModel)]="username"
-          required
-          placeholder="First name"
-          autocomplete="username"
-          (focus)="checkInputs()"
-        />
-        <span class="formValidate" [class.show]="showUsernameError">
-          {{ showUsernameError ? 'Please enter your First name.' : '' }}
-        </span>
-        
-        <input
-          type="password"
-          name="password"
-          [(ngModel)]="password"
-          required
-          placeholder="Password"
-          autocomplete="current-password"
-          (focus)="checkInputs()"
-        />
-        <span class="formValidate" [class.show]="showPasswordError">
-          {{ showPasswordError ? 'Please enter your Password.' : '' }}
-        </span>
-        
+            type="text"
+            [(ngModel)]="username"
+            name="username"
+            placeholder="First name Last name"
+            autocomplete="username"
+            #usernameInput="ngModel"
+            pattern="^[a-zA-Z]+$"
+            required
+          />
+
+          <div
+            *ngIf="(formSubmitted && !username.trim()) || (usernameInput.touched && usernameInput.errors?.['required'])"
+            class="errorMessagelogin"
+          >
+            Name is required
+          </div>
+          <div
+            *ngIf="usernameInput.errors?.['pattern']"
+            class="errorMessageSign"
+          >
+            Please enter only letters
+          </div>
+
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            #passwordInput="ngModel"
+            required
+            pattern="^(?!.*<)(?!.*>).*"
+          />
+
+          <div
+            *ngIf="(formSubmitted && !password.trim()) || (passwordInput.touched && passwordInput.errors?.['required'])"
+            class="errorMessagePass"
+          >
+            Password is required
+          </div>
+          <div
+            *ngIf="passwordInput.errors?.['pattern']"
+            class="errorMessagePass"
+          >
+            Password cannot contain HTML tags
+          </div>
         </div>
         <div class="loginOptions">
           <div class="rememberAndForgotContainer">
@@ -55,17 +76,19 @@
         </div>
         <div class="btnContainer">
           <button type="submit" class="btnBlue">Log in</button>
-          <button (click)="guestLogin()" type="button" class="btnWhite">Guest Log in</button>
+          <button (click)="guestLogin()" type="button" class="btnWhite">
+            Guest Log in
+          </button>
         </div>
       </form>
     </div>
   </div>
-</div>
 
-<div *ngIf="login_successful" class="successMessage">
-  {{ loginSuccessMessage }}
-</div>
+  <div *ngIf="login_successful" class="successMessage">
+    {{ loginSuccessMessage }}
+  </div>
 
-<div *ngIf="login_unsuccessful" class="unsuccessMessage">
-  {{ loginErrorMessage }}
+  <div *ngIf="login_unsuccessful" class="unsuccessMessage">
+    {{ loginErrorMessage }}
+  </div>
 </div>

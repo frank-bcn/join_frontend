@@ -1,34 +1,89 @@
 <div *ngIf="us.newContact" class="slideContainer" [@slideInOut]>
-    <div class="container">
-      <div class="slogen">
-        <div class="sloganContainer">
-          <img src="/assets/img/join-white-logo.png" class="logo" />
-          <h1>Add contact</h1>
-          <span class="sloganText">Tasks are better with a team!</span>
-        </div>
+  <div class="container">
+    <div class="slogen">
+      <div class="sloganContainer">
+        <img draggable = "false" src="/assets/img/join-white-logo.png" class="logo" />
+        <h1>Add contact</h1>
+        <span class="sloganText">Tasks are better with a team!</span>
       </div>
-      <div class="formContainer">
-        <span class="deleteContainer">
-          <img
-            src="/assets/img/close.svg"
-            class="close"
-            (click)="closeNewContainer()"
-          />
-        </span>
-        <div class="wrapper">
-          <div class="userImgContainer">
-            <div class="frame">
-              <img src="/assets/img/createUserIcon.png" />
-            </div>
+    </div>
+    <div class="formContainer">
+      <span class="deleteContainer">
+        <img draggable = "false" src="/assets/img/close.svg" class="close"
+        (click)="closeNewContainer()" />
+      </span>
+      <div class="wrapper">
+        <div class="userImgContainer">
+          <div class="frame">
+            <img draggable = "false" src="/assets/img/createUserIcon.png" />
           </div>
-          <form (submit)="onSubmit()">
-            <input type="text" placeholder="First and last name" [(ngModel)]="us.username" name="username">
-            <input type="email" placeholder="E-mail" [(ngModel)]="us.email" name="email">
-            <input type="tel" placeholder="Phone" [(ngModel)]="us.phone" name="phone">
-            <button type="submit" class="btnBlue btnCreate">Create contact<img src="/assets/img/btncheck.png" /></button>
-          </form>
-          
         </div>
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+          <input
+            type="text"
+            placeholder="First and last name"
+            [(ngModel)]="us.username"
+            name="username"
+            required
+            pattern="^[a-zA-Z]+\s[a-zA-Z]+$"
+            #username="ngModel"
+          />
+          <div
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+            class="errorMessage"
+          >
+            <span *ngIf="username.errors?.['required']">Name is required</span>
+            <span *ngIf="username.errors?.['pattern']"
+              >Please enter first and last name with a space in between</span
+            >
+          </div>
+
+          <input
+            type="email"
+            placeholder="E-mail"
+            [(ngModel)]="us.email"
+            name="email"
+            required
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            #email="ngModel"
+          />
+          <div
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="error-message"
+          >
+            <span *ngIf="email.errors?.['required']">Email is required</span>
+            <span *ngIf="email.errors?.['pattern']">Invalid email format</span>
+          </div>
+
+          <input
+            type="tel"
+            placeholder="Phone"
+            [(ngModel)]="us.phone"
+            name="phone"
+            required
+            pattern="[0-9]*"
+            #phone="ngModel"
+          />
+          <div
+            *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+            class="error-message"
+          >
+            <span *ngIf="phone.errors?.['required']">Phone is required</span>
+            <span *ngIf="phone.errors?.['pattern']"
+              >Please enter only numbers</span
+            >
+          </div>
+
+          <button
+          type="submit"
+          class="btnBlue btnCreate"
+          [disabled]="contactForm.invalid"
+        >
+          Create contact
+          <img draggable="false" src="/assets/img/btncheck.png" />
+        </button>
+        </form>
       </div>
     </div>
   </div>
+</div>

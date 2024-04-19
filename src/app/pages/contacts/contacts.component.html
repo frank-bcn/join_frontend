@@ -8,9 +8,7 @@
       class="employeesContainer"
       *ngIf="us.switchBtnText === 'go to the externals'"
     >
-      <ng-container
-        *ngFor="let group of us.sortUser(us.users) | keyvalue"
-      >
+      <ng-container *ngFor="let group of us.sortUser(us.users) | keyvalue">
         <div class="sortHeader">{{ group.key }}</div>
         <span
           *ngFor="let user of group.value"
@@ -18,9 +16,9 @@
           [class.selected]="user === us.selectedUser"
           (click)="openEmployees(user)"
         >
-        <span class="userFrame" [style.background-color]="user.user_color">
-          {{ us.employeesInitials(user.username, user.last_name) }} 
-        </span>
+          <span class="userFrame" [style.background-color]="user.user_color">
+            {{ us.employeesInitials(user.username, user.last_name) }}
+          </span>
           <span class="nameWrapper">
             {{ user.username }} {{ user.last_name }}
           </span>
@@ -33,9 +31,7 @@
       *ngIf="us.switchBtnText === 'go to the employees'"
     >
       <ng-container
-        *ngFor="
-          let group of us.sortUser(us.userListEexternals) | keyvalue
-        "
+        *ngFor="let group of us.sortUser(us.userListEexternals) | keyvalue"
       >
         <div class="sortHeader">{{ group.key }}</div>
         <span
@@ -64,8 +60,7 @@
     </div>
     <div class="containerBtn">
       <button (click)="openNewContact()" class="btnBlue">
-        New Contact
-        <img src="/assets/img/addContact.png" />
+        New Contact <img draggable = "false" src="/assets/img/addContact.png" />
       </button>
     </div>
   </div>

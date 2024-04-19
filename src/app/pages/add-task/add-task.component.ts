@@ -8,13 +8,25 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent {
-  isCategoryDropdownOpen: boolean = false;
-  isAssignedDropdownOpen: boolean = false;
-  issubtasksDropdownOpen: boolean = false;
+
+  inputValue: string = '';
+  color: string = '';
+
+  selectedCategory = {
+    name: '',
+    color: '',
+  };
+  categoryDropdown: boolean = false;
+  newCategoryDropdown: boolean = false;
+  selectedColorIndex: number = -1;
+
+  assignedDropdown: boolean = false;
+  subtasksDropdown: boolean = false;
 
   isUrgent: boolean = false;
   isMedium: boolean = false;
   isLow: boolean = false;
+  
 
   constructor(public ts: TaskService, public us: UserService) {}
 
@@ -30,27 +42,57 @@ export class AddTaskComponent {
    * Toggles the visibility of the category dropdown.
    * Sets the 'isCategoryDropdownOpen' property to true, indicating that the dropdown should be displayed.
    */
-  toggleCategoryDropdown() {
-    this.isCategoryDropdownOpen = true;
+  openCategory() {
+    this.categoryDropdown = !this.categoryDropdown;
+  }
+
+  createNewCategory() {
+    this.categoryDropdown = false;
+    this.newCategoryDropdown = true;
+  }
+
+  selectedColor(color: string, index: number) {
+    this.selectedColorIndex = index;
+    this.color = color;
+    console.log(color);
+  }
+
+  saveCategory() {
+    this.selectedCategory.name = this.inputValue;
+    this.selectedCategory.color = this.color;
+    console.log(this.selectedCategory);
+    this.newCategoryDropdown = false;
+
+    // this.inputValue = this.selectedCategory.name;
+    // this.color = this.selectedCategory.color;
+
   }
 
   /**
    * Toggles the visibility of the assigned-to dropdown.
    * Sets the 'isAssignedDropdownOpen' property to true, indicating that the dropdown should be displayed.
    */
-  toggleAssignedDropdown() {
-    this.isAssignedDropdownOpen = true;
+  openAssignedTo() {
+    this.assignedDropdown = !this.assignedDropdown;
     this.ts.updateCheckedStatus();
   }
 
-  /**
-   * Toggles the visibility of the subtasks dropdown.
-   * Sets the 'issubtasksDropdownOpen' property to true, indicating that the dropdown should be displayed.
-   */
-  togglesubtasksToDropdown() {
-    this.issubtasksDropdownOpen = true;
-  }
 
+  openSubtasks() {
+    if (!this.subtasksDropdown && this.ts.newSubtask.trim() !== '') {
+      this.subtasksDropdown = true;
+      if (this.ts.subtasks.length === 0) {
+        this.ts.subtasks.push(this.ts.newSubtask);
+      } else {
+        this.ts.subtasks.push(this.ts.newSubtask);
+      }
+      this.ts.newSubtask = '';
+  
+    } else {
+      this.subtasksDropdown = !this.subtasksDropdown;
+    }
+  }
+  
   /**
    * Sets task priority to 'Urgent' and updates related properties.
    * - Sets 'isUrgent' to true, indicating the task has an urgent priority.
@@ -94,5 +136,11 @@ export class AddTaskComponent {
     this.ts.clickUrgent = true;
     this.ts.clickMedium = true;
     this.ts.clickLow = false;
+  }
+
+  checkDate(): string {
+    let today = new Date();
+    let formattedDate = today.toISOString().split('T')[0];
+    return formattedDate;
   }
 }

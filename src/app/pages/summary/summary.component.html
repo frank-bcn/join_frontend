@@ -40,7 +40,7 @@
           [class.active]="hs.activeLink === 'board'"
         >
           <div class="priorityContainer">
-            <img src="/assets/img/urgent-button.png" />
+            <img draggable = "false" src="/assets/img/urgent-button.png" />
             <div>
               <div>
                 <h2>#anzahl</h2>
@@ -64,7 +64,8 @@
           (mouseleave)="onLeaveTodo()"
         >
           <div class="imgContainer">
-            <img [src]="hs.hoverTodo ? '/assets/img/hoverTodo.png': '/assets/img/todo.png'"/>
+            <img draggable = "false" [src]=" hs.hoverTodo ?
+            '/assets/img/hoverTodo.png' : '/assets/img/todo.png' " />
           </div>
           <div>
             <h2>#anzahl</h2>
@@ -80,7 +81,8 @@
           (mouseleave)="onLeave()"
         >
           <div class="imgContainer">
-            <img [src]="hs.hoverDone ? '/assets/img/hoverDone.png': '/assets/img/joinDone.png'"/>
+            <img draggable = "false" [src]=" hs.hoverDone ?
+            '/assets/img/hoverDone.png' : '/assets/img/joinDone.png' " />
           </div>
           <div>
             <h2>#anzahl</h2>

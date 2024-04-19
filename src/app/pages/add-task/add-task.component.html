@@ -22,25 +22,71 @@
           name=""
           placeholder="choose Category"
           type="text"
+          [(ngModel)]="inputValue"
+          [ngStyle]="{
+            'border-radius':
+              categoryDropdown || newCategoryDropdown ? '10px 0 0 0' : '',
+            'border-right': selectedCategory.name ? '0' : '1px solid #d1d1d1'
+          }"
         />
+        <div *ngIf="selectedCategory.name" class="categoryColerInput">
+          <span
+            class="colorNewCategory"
+            [style.background-color]="color"
+          ></span>
+        </div>
         <img
-          (click)="toggleCategoryDropdown()"
+          (click)="openCategory()"
           class="assignedDropdown"
           src="/assets/img/arrowDown.png"
+          draggable="false"
+          [ngStyle]="{
+            'border-radius':
+              categoryDropdown || newCategoryDropdown ? '0 10px 0 0' : ''
+          }"
         />
       </div>
       <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="isCategoryDropdownOpen">
-        <div class="dropdownContainer">
-          <!--hier mussen die div gerendert werden-->
-          <div class="taskDropdownContainer">
-            <span class="textDropdown">hakuna Matata</span>
-            <span class="colorNewCategory"></span>
+      <div class="dropdown" *ngIf="categoryDropdown">
+        <div class="dropdownContainer categoryDropdownContainer">
+          <div (click)="createNewCategory()" class="taskDropdownContainer">
+            <div class="categoryContainer">
+              <span class="textDropdown">new Category</span>
+              <span class="colorNewCategory"></span>
+            </div>
           </div>
-          <div class="taskDropdownContainer">
-            <span class="textDropdown">werWieWas </span>
-            <span class="colorNewCategory"></span>
+          <div *ngIf="selectedCategory.name" class="taskDropdownContainer">
+            <div
+              *ngFor="let category of [selectedCategory]"
+              class="categoryContainer"
+            >
+              <span>{{ category.name }}</span>
+              <span
+                class="colorNewCategory"
+                [style.background-color]="category.color"
+              ></span>
+            </div>
           </div>
+        </div>
+      </div>
+      <div class="dropdown" *ngIf="newCategoryDropdown">
+        <div class="dropdownContainer newColor">
+          <div class="colorContainer">
+            <div
+              *ngFor="let color of ts.categoryColors; let i = index"
+              class="color"
+              (click)="selectedColor(color, i)"
+              [style.background-color]="color"
+              [ngClass]="{ selectedColor: i === selectedColorIndex }"
+            ></div>
+          </div>
+          <img
+            draggable="false"
+            (click)="saveCategory()"
+            src="/assets/img/check.svg"
+            alt=""
+            class="saveCategory"
+          />
         </div>
       </div>
 
@@ -52,32 +98,39 @@
           name=""
           placeholder="choose Contact"
           type="text"
+          [ngStyle]="{ 'border-radius': assignedDropdown ? '10px 0 0 0' : '' }"
         />
         <img
-          (click)="toggleAssignedDropdown()"
+          draggable="false"
+          (click)="openAssignedTo()"
           class="assignedDropdown"
           src="/assets/img/arrowDown.png"
+          [ngStyle]="{ 'border-radius': assignedDropdown ? '0 10px 0 0' : '' }"
         />
       </div>
       <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="isAssignedDropdownOpen">
+      <div class="dropdown" *ngIf="assignedDropdown">
         <div class="dropdownContainer">
-            <div class="taskDropdownContainer" *ngFor="let user of us.users">
-                <span class="userFrame taskFrame" [style.background-color]="user.user_color">
-                    {{ us.employeesInitials(user.username, user.last_name) }}
-                </span>
-                <span class="nameWrapper">{{ user.username }} {{ user.last_name }}</span>
-    
-                <input
-                    [ngModel]="user.checked"
-                    (ngModelChange)="ts.checkUser(user)"
-                    class="userCheckbox"
-                    type="checkbox"
-                />
-            </div>
+          <div class="taskDropdownContainer" *ngFor="let user of us.users">
+            <span
+              class="userFrame taskFrame"
+              [style.background-color]="user.user_color"
+            >
+              {{ us.employeesInitials(user.username, user.last_name) }}
+            </span>
+            <span class="nameWrapper"
+              >{{ user.username }} {{ user.last_name }}</span
+            >
+
+            <input
+              [ngModel]="user.checked"
+              (ngModelChange)="ts.checkUser(user)"
+              class="userCheckbox"
+              type="checkbox"
+            />
+          </div>
         </div>
-    </div>
-    
+      </div>
 
       <div class="usercheckContainer" *ngIf="us.selectedUsers.length != 0">
         <span
@@ -92,7 +145,7 @@
     <div class="taskSettingsContainer">
       <!--Date-->
       <label>Date</label>
-      <input name="dateField" type="date" />
+      <input name="dateField" type="date" [min]="checkDate()" />
       <span class="formValidate"></span>
 
       <!--Prio-->
@@ -105,6 +158,7 @@
         >
           Urgent
           <img
+            draggable="false"
             [src]="
               ts.clickUrgent
                 ? '/assets/img/prioUrgent.svg'
@@ -120,6 +174,7 @@
         >
           Medium
           <img
+            draggable="false"
             [src]="
               ts.clickMedium
                 ? '/assets/img/prioMedium.svg'
@@ -131,6 +186,7 @@
         <div class="prioBtn" (click)="prioLow()" [ngClass]="{ prioLow: isLow }">
           Low
           <img
+            draggable="false"
             [src]="
               ts.clickLow
                 ? '/assets/img/prioLow.svg '
@@ -147,23 +203,36 @@
         <input
           class="taskInput"
           name=""
-          placeholder="new Subtask"
+          placeholder="New Subtask"
           type="text"
+          [(ngModel)]="ts.newSubtask"
+          [ngStyle]="{
+            'border-radius':
+              subtasksDropdown && ts.subtasks.length > 0 ? '10px 0 0 0' : ''
+          }"
         />
         <img
-          (click)="togglesubtasksToDropdown()"
+          draggable="false"
+          (click)="openSubtasks()"
           class="assignedDropdown"
-          src="/assets/img/checkmark.svg"
+          src="/assets/img/check.svg"
+          [ngStyle]="{
+            'border-radius':
+              subtasksDropdown && ts.subtasks.length > 0 ? '0 10px 0 0' : ''
+          }"
         />
       </div>
+
       <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="issubtasksDropdownOpen">
-        <div class="dropdownContainer">
-          <div class="userInitials">
-            <!-- Hier die Initialen des users anzeigen -->
+      <div class="dropdown" *ngIf="subtasksDropdown && ts.subtasks.length > 0">
+        <div class="dropdownSubtaskContainer">
+          <div
+            class="subtasks"
+            *ngFor="let subtask of ts.subtasks; let last = last"
+            [ngClass]="{ lastSubtask: last }"
+          >
+            {{ subtask }}
           </div>
-          <span><!-- username anzeigen --></span>
-          <input type="checkbox" />
         </div>
       </div>
 

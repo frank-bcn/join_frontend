@@ -1,6 +1,6 @@
 <div [ngClass]="{ mainPage: !isLoginPage(), loginPage: isLoginPage() }">
   <div class="sideMenu" *ngIf="!isLoginPage()">
-    <img class="d-none" src="/assets/img/join-white-logo.png" />
+    <img draggable="false" class="d-none" src="/assets/img/join-white-logo.png" />
 
     <div class="navigationLinksContainer">
       <a
@@ -8,7 +8,7 @@
         class="navigationLink"
         [class.active]="hs.activeLink === 'summary'"
       >
-        <img class="" src="/assets/img/summary.svg" />
+        <img draggable="false" class="" src="/assets/img/summary.svg" />
         <div class="navigationLinksName">Summary</div>
       </a>
 
@@ -17,7 +17,7 @@
         class="navigationLink"
         [class.active]="hs.activeLink === 'board'"
       >
-        <img class="" src="/assets/img/board.svg" />
+        <img draggable = "false" class="" src="/assets/img/board.svg" />
         <div class="navigationLinksName">Board</div>
       </a>
 
@@ -26,7 +26,7 @@
         class="navigationLink"
         [class.active]="hs.activeLink === 'addTask'"
       >
-        <img class="" src="/assets/img/add_task.svg" />
+        <img draggable = "false" class="" src="/assets/img/add_task.svg" />
         <div class="navigationLinksName">Add Task</div>
       </a>
 
@@ -35,7 +35,7 @@
         class="navigationLink"
         [class.active]="hs.activeLink === 'contacts'"
       >
-        <img class="" src="/assets/img/contacts.svg" />
+        <img draggable = "false" class="" src="/assets/img/contacts.svg" />
         <div class="navigationLinksName">Contacts</div>
       </a>
 
@@ -44,7 +44,7 @@
         class="navigationLink legal-notice d-none"
         [class.active]="hs.activeLink === 'legalNotice'"
       >
-        <img class="" src="/assets/img/legal-notice.png" />
+        <img draggable = "false" class="" src="/assets/img/legal-notice.png" />
         <div class="navigationLinksName">Legal notice</div>
       </a>
     </div>
@@ -53,26 +53,26 @@
   <div class="page">
     <div class="header" *ngIf="!isLoginPage()">
       <div class="kanbanImage">
-        <img class="mediaQueryLogo" src="/assets/img/join_login_logo.png" />
+        <img draggable = "false" class="mediaQueryLogo" src="/assets/img/join_login_logo.png" />
       </div>
       <p class="kanbanText">Kanban Project Management Tool</p>
       <div class="userPrivacyContainer">
         <div (click)="loadLegalNotice()" class="tooltip-trigger">
-          <img class="legalNoticeMobile" src="/assets/img/legal-notice.png" />
+          <img draggable = "false" class="legalNoticeMobile" src="/assets/img/legal-notice.png" />
           <div class="tooltip-text">Legal Notice</div>
         </div>
 
         <div class="tooltip-trigger">
-          <img
-            class="dataProtectionImg"
-            src="/assets/img/protection.svg"
-            (click)="loadHelpPage()"
-          />
+          <img draggable = "false" class="dataProtectionImg" src="/assets/img/protection.svg" (click)="loadHelpPage()" />
           <div class="tooltip-text">Help</div>
         </div>
 
         <div class="userInitials">
-          <div class="userInitials" (click)="toggleDropdown()" [style.background-color]="us.userData?.usercolor">
+          <div
+            class="userInitials"
+            (click)="toggleDropdown()"
+            [style.background-color]="us.userData?.usercolor"
+          >
             {{ us.userData?.username }}
           </div>
         </div>
@@ -85,7 +85,10 @@
           </ul>
         </div>
 
-        <div *ngIf="us.isUserColorOpen && !us.userData.usercolor" class="userColorsContainer">
+        <div
+          *ngIf="us.isUserColorOpen && !us.userData.usercolor"
+          class="userColorsContainer"
+        >
           <div class="userColors">
             <div class="userColorImage">
               <div
@@ -104,8 +107,13 @@
                 (click)="selectColor(color)"
               ></div>
               <div class="saveBtnContainer">
-                <button class="btnBlue" type="button" (click)="us.saveUserColor()">save</button>
-
+                <button
+                  class="btnBlue"
+                  type="button"
+                  (click)="us.saveUserColor()"
+                >
+                  save
+                </button>
               </div>
             </div>
           </div>

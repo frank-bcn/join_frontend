@@ -11,6 +11,20 @@ export class TaskService {
   clickMedium = true;
   clickLow = true;
 
+  subtasks: string[] = [];
+  newSubtask: string = '';
+
+  categoryColors: string[] = [
+    '#FFD700',
+    '#98FB98',
+    '#FFB6C1',
+    '#87CEEB',
+    '#FFA07A',
+    '#FF69B4',
+    '#B0C4DE',
+    '#D8BFD8',
+  ];
+
   constructor(
     public us: UserService,
     public router: Router,
