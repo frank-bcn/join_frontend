@@ -26,10 +26,10 @@
           [ngStyle]="{
             'border-radius':
               categoryDropdown || newCategoryDropdown ? '10px 0 0 0' : '',
-            'border-right': selectedCategory.name ? '0' : '1px solid #d1d1d1'
+            'border-right': ts.selectedCategory.name ? '0' : '1px solid #d1d1d1'
           }"
         />
-        <div *ngIf="selectedCategory.name" class="categoryColerInput">
+        <div *ngIf="ts.selectedCategory.name" class="categoryColerInput">
           <span
             class="colorNewCategory"
             [style.background-color]="color"
@@ -55,9 +55,9 @@
               <span class="colorNewCategory"></span>
             </div>
           </div>
-          <div *ngIf="selectedCategory.name" class="taskDropdownContainer">
+          <div *ngIf="ts.selectedCategory.name" class="taskDropdownContainer">
             <div
-              *ngFor="let category of [selectedCategory]"
+              *ngFor="let category of [ts.selectedCategory]"
               class="categoryContainer"
             >
               <span>{{ category.name }}</span>
@@ -154,7 +154,7 @@
         <div
           class="prioBtn"
           (click)="prioUrgent()"
-          [ngClass]="{ prioUrgent: isUrgent }"
+          [ngClass]="{ prioUrgent: ts.isUrgent }"
         >
           Urgent
           <img
@@ -170,7 +170,7 @@
         <div
           class="prioBtn"
           (click)="prioMedium()"
-          [ngClass]="{ prioMedium: isMedium }"
+          [ngClass]="{ prioMedium: ts.isMedium }"
         >
           Medium
           <img
@@ -183,7 +183,7 @@
           />
         </div>
 
-        <div class="prioBtn" (click)="prioLow()" [ngClass]="{ prioLow: isLow }">
+        <div class="prioBtn" (click)="prioLow()" [ngClass]="{ prioLow: ts.isLow }">
           Low
           <img
             draggable="false"
@@ -238,7 +238,7 @@
 
       <!--Ceate task btn -->
       <div class="btnTaskContainer">
-        <button class="btnBlue">Create Task</button>
+        <button (click)="ts.createAddTask()" class="btnBlue">Create Task</button>
       </div>
     </div>
   </div>

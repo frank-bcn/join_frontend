@@ -8,25 +8,15 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent {
-
   inputValue: string = '';
   color: string = '';
 
-  selectedCategory = {
-    name: '',
-    color: '',
-  };
   categoryDropdown: boolean = false;
   newCategoryDropdown: boolean = false;
   selectedColorIndex: number = -1;
 
   assignedDropdown: boolean = false;
   subtasksDropdown: boolean = false;
-
-  isUrgent: boolean = false;
-  isMedium: boolean = false;
-  isLow: boolean = false;
-  
 
   constructor(public ts: TaskService, public us: UserService) {}
 
@@ -58,14 +48,13 @@ export class AddTaskComponent {
   }
 
   saveCategory() {
-    this.selectedCategory.name = this.inputValue;
-    this.selectedCategory.color = this.color;
-    console.log(this.selectedCategory);
+    this.ts.selectedCategory.name = this.inputValue;
+    this.ts.selectedCategory.color = this.color;
+    console.log(this.ts.selectedCategory);
     this.newCategoryDropdown = false;
 
     // this.inputValue = this.selectedCategory.name;
     // this.color = this.selectedCategory.color;
-
   }
 
   /**
@@ -77,7 +66,6 @@ export class AddTaskComponent {
     this.ts.updateCheckedStatus();
   }
 
-
   openSubtasks() {
     if (!this.subtasksDropdown && this.ts.newSubtask.trim() !== '') {
       this.subtasksDropdown = true;
@@ -87,12 +75,11 @@ export class AddTaskComponent {
         this.ts.subtasks.push(this.ts.newSubtask);
       }
       this.ts.newSubtask = '';
-  
     } else {
       this.subtasksDropdown = !this.subtasksDropdown;
     }
   }
-  
+
   /**
    * Sets task priority to 'Urgent' and updates related properties.
    * - Sets 'isUrgent' to true, indicating the task has an urgent priority.
@@ -100,14 +87,13 @@ export class AddTaskComponent {
    * - Updates task service properties ('clickUrgent', 'clickMedium', 'clickLow') accordingly.
    */
   prioUrgent() {
-    this.isUrgent = true;
-    this.isMedium = false;
-    this.isLow = false;
+    this.ts.isUrgent = true;
+    this.ts.isMedium = false;
+    this.ts.isLow = false;
     this.ts.clickUrgent = false;
     this.ts.clickMedium = true;
     this.ts.clickLow = true;
   }
-
   /**
    * Sets task priority to 'Medium' and updates related properties.
    * - Sets 'isMedium' to true, indicating the task has a medium priority.
@@ -115,9 +101,9 @@ export class AddTaskComponent {
    * - Updates task service properties ('clickUrgent', 'clickMedium', 'clickLow') accordingly.
    */
   prioMedium() {
-    this.isMedium = true;
-    this.isUrgent = false;
-    this.isLow = false;
+    this.ts.isMedium = true;
+    this.ts.isUrgent = false;
+    this.ts.isLow = false;
     this.ts.clickUrgent = true;
     this.ts.clickMedium = false;
     this.ts.clickLow = true;
@@ -130,9 +116,9 @@ export class AddTaskComponent {
    * - Updates task service properties ('clickUrgent', 'clickMedium', 'clickLow') accordingly.
    */
   prioLow() {
-    this.isLow = true;
-    this.isUrgent = false;
-    this.isMedium = false;
+    this.ts.isLow = true;
+    this.ts.isUrgent = false;
+    this.ts.isMedium = false;
     this.ts.clickUrgent = true;
     this.ts.clickMedium = true;
     this.ts.clickLow = false;
