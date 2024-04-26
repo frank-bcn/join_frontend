@@ -1,1 +1,85 @@
-<p>board works!</p>
+<div class="boardContainer">
+  <header>
+    <h2>Board</h2>
+    <div class="wrapper">
+      <span class="searchWrapper">
+        <input type="search" placeholder="Find Task" />
+        <img src="/assets/img/search.svg" class="" />
+      </span>
+      <button class="btnBlue">Add Task +</button>
+    </div>
+  </header>
+  <div class="scrollBtn">
+    <span><img src="/assets/img/arrowLeftDark.png" class="leftHover" /></span>
+    <span><img src="/assets/img/arrowRightDark.png" class="rightHover" /></span>
+  </div>
+  <div class="dragAndDropContainer">
+    <div class="dragAndDropWrapper">
+      <div class="taskFieldContainer">
+        <span class="taskFieldHeader">
+          <h1 class="headerText">Todo</h1>
+          <span class="addTaskImg">
+            <img src="/assets/img/plusButtonBorder.svg" class="img" />
+          </span>
+        </span>
+        <div class="taskFieldWrapper">
+
+          <div class="todoContainer"*ngFor="let task of ts.tasks">
+
+            <div class="todoHeader">
+              <div class="category" [style.background-color]="task.category.color">
+                <span class="cat">{{ task.category.name }}</span>
+              </div>
+              <div class="wrapper">
+                <img src="/assets/img/dndBlue.svg" class="dragAndDrop">
+                <img src="/assets/img/delete.png" class="delete">
+              </div>
+            </div>
+            <p class="title"> {{ task.title }} </p>
+            <p class="description">{{ task.description }}</p>
+            <div class="wrapper">
+              <div class="assignedToContainer">
+                <span class="assigned"></span>
+              </div>
+              <span class="prio">
+                <img [src]="getPriorityImageSrc(task.priority)"  class="prioImg">
+              </span>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="taskFieldContainer">
+        <span class="taskFieldHeader">
+          <h1 class="headerText">In progress</h1>
+          <span class="addTaskImg">
+            <img src="/assets/img/plusButtonBorder.svg" class="img" />
+          </span>
+        </span>
+        <div class="taskFieldWrapper"></div>
+      </div>
+
+      <div class="taskFieldContainer">
+        <span class="taskFieldHeader">
+          <h1 class="headerText">Awaiting Feedback</h1>
+          <span class="addTaskImg">
+            <img src="/assets/img/plusButtonBorder.svg" class="img" />
+          </span>
+        </span>
+        <div class="taskFieldWrapper"></div>
+      </div>
+
+      <div class="taskFieldContainer">
+        <span class="taskFieldHeader">
+          <h1 class="headerText">Done</h1>
+          <span class="addTaskImg">
+            <img src="/assets/img/plusButtonBorder.svg" class="img" />
+          </span>
+        </span>
+        <div class="taskFieldWrapper"></div>
+      </div>
+    </div>
+  </div>
+</div>

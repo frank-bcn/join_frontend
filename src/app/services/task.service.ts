@@ -9,6 +9,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class TaskService {
+  taskTitle: string = '';;
+  taskDescription: string ='';
+  dateInputValue: string = '';
+
   clickUrgent = true;
   clickMedium = true;
   clickLow = true;
@@ -36,6 +40,8 @@ export class TaskService {
   isMedium: boolean = false;
   isLow: boolean = false;
 
+  tasks: any[] = [];
+
   constructor(
     public us: UserService,
     public router: Router,
@@ -58,23 +64,23 @@ export class TaskService {
     });
   }
 
-    /**
+  /**
    * Sets task priority to 'Urgent' and updates related properties.
    * - Sets 'isUrgent' to true, indicating the task has an urgent priority.
    * - Sets 'isMedium' and 'isLow' to false, indicating non-urgent priorities.
    * - Updates task service properties ('clickUrgent', 'clickMedium', 'clickLow') accordingly.
    */
-    prio(): string {
-      if (this.isUrgent) {
-        return 'Urgent';
-      } else if (this.isMedium) {
-        return 'Medium';
-      } else if (this.isLow) {
-        return 'Low';
-      } else {
-        return '';
-      }
+  prio(): string {
+    if (this.isUrgent) {
+      return 'Urgent';
+    } else if (this.isMedium) {
+      return 'Medium';
+    } else if (this.isLow) {
+      return 'Low';
+    } else {
+      return '';
     }
+  }
 
   checkUser(user: any) {
     const userIndex = this.us.selectedUsers.findIndex(
@@ -92,38 +98,115 @@ export class TaskService {
     console.log(this.us.selectedUsers);
   }
 
-  createTaskBody(): any {
-    const title = (document.querySelector('input[placeholder="enter a Title"]') as HTMLInputElement).value;
-    const description = (document.querySelector('textarea[placeholder="enter a description"]') as HTMLTextAreaElement).value;
-    const category = this.selectedCategory;
-    const assignedTo = this.us.selectedUsers;
-    const date = (document.querySelector('input[name="dateField"]') as HTMLInputElement).value;
-    const priority = this.prio(); 
-    const subtasks = this.subtasks;
-  
-    return {
-      title: title,
-      description: description,
-      category: category,
-      assignedTo: assignedTo,
-      date: date,
-      priority: priority,
-      subtasks: subtasks
-    };
+
+
+  validateTask() {
+    if (
+      !this.taskTitle ||
+      !this.taskDescription ||
+      this.us.selectedUsers.length === 0 ||
+      !this.dateInputValue ||
+      (!this.isUrgent && !this.isMedium && !this.isLow) ||
+      this.subtasks.length === 0 ||
+      !this.selectedCategory.name ||
+      !this.selectedCategory.color
+    ) {
+      console.log('Title, Description, Date, Users, Priority, Subtasks, Category, and Color are required');
+      return;
+    }
+    this.createAddTask();
   }
   
+  
+  
+
   async createAddTask() {
     const url = environment.baseUrl + '/api/addTask/';
-
     const body = this.createTaskBody();
     console.log(body);
-
+  
     try {
       const response = await this.http.post(url, body).toPromise();
-
+  
       console.log('Task erfolgreich erstellt:', response);
+      this.clearInputFields();
+      this.clearArray();
+      this.loadBoard();
     } catch (error) {
       console.error('Fehler beim Erstellen des Tasks:', error);
     }
   }
-}  
+  
+  createTaskBody(): any {
+    const title = (
+      document.querySelector(
+        'input[placeholder="enter a Title"]'
+      ) as HTMLInputElement
+    ).value;
+    const description = (
+      document.querySelector(
+        'textarea[placeholder="enter a description"]'
+      ) as HTMLTextAreaElement
+    ).value;
+    const category = this.selectedCategory;
+    const assignedToIds = this.us.selectedUsers.map((user) => user.user_id);
+    const date = (
+      document.querySelector('input[name="dateField"]') as HTMLInputElement
+    ).value;
+    const priority = this.prio();
+    const subtasks = this.subtasks;
+
+    return {
+      title: title,
+      description: description,
+      category: category,
+      assignedTo: assignedToIds,
+      date: date,
+      priority: priority,
+      subtasks: subtasks,
+    };
+  }
+  
+
+  
+
+  clearInputFields() {
+    (
+      document.querySelector(
+        'input[placeholder="enter a Title"]'
+      ) as HTMLInputElement
+    ).value = '';
+    (
+      document.querySelector(
+        'textarea[placeholder="enter a description"]'
+      ) as HTMLTextAreaElement
+    ).value = '';
+    (
+      document.querySelector('input[name="dateField"]') as HTMLInputElement
+    ).value = '';
+  }
+
+  clearArray() {
+    this.us.selectedUsers = [];
+    this.subtasks = [];
+    this.isUrgent = false;
+    this.isMedium = false;
+    this.isLow= false;
+  }
+
+  loadBoard() {
+    this.router.navigateByUrl('/board');
+    this.hs.activeLink = 'board';
+  }
+
+  async loadTasks() {
+    const url = environment.baseUrl + '/api/loadTasks/';
+    try {
+      const response = await this.http.get<any[]>(url).toPromise();
+      console.log('tasks:', response);
+      this.tasks = response as any[];
+    } catch (error) {
+      console.error('Error loading user list:', error);
+    }
+  }
+}

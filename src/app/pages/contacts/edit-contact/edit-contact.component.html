@@ -18,13 +18,24 @@
           </div>
         </div>
         <div class="form">
-          <input type="text" [(ngModel)]="us.selectedUser.username" />
-          <input type="email" [(ngModel)]="us.selectedUser.email" />
-          <input type="tel" [(ngModel)]="us.selectedUser.phone" />
-          <button class="btnBlue btnCreate" (click)="us.editUserContact()">
-            Save
-          </button>
-        </div>
+          <input type="text" [(ngModel)]="us.selectedUser.username" name="username" required #username="ngModel" />
+          <div *ngIf="(username.errors?.['required'] && (username.dirty || username.touched))" class="errorMessage">
+              Name is required
+          </div>
+      
+          <input type="email" [(ngModel)]="us.selectedUser.email" name="email" required #email="ngModel" />
+          <div *ngIf="(email.errors?.['required'] && (email.dirty || email.touched))" class="errorMessage">
+              Email is required
+          </div>
+      
+          <input type="tel" [(ngModel)]="us.selectedUser.phone" name="phone" required #phone="ngModel" />
+          <div *ngIf="(phone.errors?.['required'] && (phone.dirty || phone.touched))" class="errorMessage">
+              Phone is required
+          </div>
+      
+          <button class="btnBlue btnCreate" (click)="us.editUserContact()">Save</button>
+      </div>
+      
       </div>
     </div>
   </div>

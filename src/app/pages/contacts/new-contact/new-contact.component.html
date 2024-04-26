@@ -2,23 +2,31 @@
   <div class="container">
     <div class="slogen">
       <div class="sloganContainer">
-        <img draggable = "false" src="/assets/img/join-white-logo.png" class="logo" />
+        <img
+          draggable="false"
+          src="/assets/img/join-white-logo.png"
+          class="logo"
+        />
         <h1>Add contact</h1>
         <span class="sloganText">Tasks are better with a team!</span>
       </div>
     </div>
     <div class="formContainer">
       <span class="deleteContainer">
-        <img draggable = "false" src="/assets/img/close.svg" class="close"
-        (click)="closeNewContainer()" />
+        <img
+          draggable="false"
+          src="/assets/img/close.svg"
+          class="close"
+          (click)="closeNewContainer()"
+        />
       </span>
       <div class="wrapper">
         <div class="userImgContainer">
           <div class="frame">
-            <img draggable = "false" src="/assets/img/createUserIcon.png" />
+            <img draggable="false" src="/assets/img/createUserIcon.png" />
           </div>
         </div>
-        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+        <form (ngSubmit)="validateForm()" #contactForm="ngForm">
           <input
             type="text"
             placeholder="First and last name"
@@ -29,7 +37,7 @@
             #username="ngModel"
           />
           <div
-            *ngIf="username.invalid && (username.dirty || username.touched)"
+          *ngIf="(contactForm.submitted || username.invalid) && (username.dirty || contactForm.submitted || username.touched)"
             class="errorMessage"
           >
             <span *ngIf="username.errors?.['required']">Name is required</span>
@@ -48,11 +56,13 @@
             #email="ngModel"
           />
           <div
-            *ngIf="email.invalid && (email.dirty || email.touched)"
-            class="error-message"
+          *ngIf="(contactForm.submitted || email.invalid) && (email.dirty || contactForm.submitted || email.touched)"
+            class="errorMessage"
           >
             <span *ngIf="email.errors?.['required']">Email is required</span>
-            <span *ngIf="email.errors?.['pattern']">Invalid email format</span>
+            <span *ngIf="email.errors?.['pattern'] && email.value.trim()"
+              >Invalid email format</span
+            >
           </div>
 
           <input
@@ -65,23 +75,19 @@
             #phone="ngModel"
           />
           <div
-            *ngIf="phone.invalid && (phone.dirty || phone.touched)"
-            class="error-message"
+          *ngIf="(contactForm.submitted || phone.invalid) && (phone.dirty || contactForm.submitted || phone.touched)"
+            class="errorMessage"
           >
             <span *ngIf="phone.errors?.['required']">Phone is required</span>
-            <span *ngIf="phone.errors?.['pattern']"
+            <span *ngIf="phone.errors?.['pattern'] && phone.value.trim()"
               >Please enter only numbers</span
             >
           </div>
 
-          <button
-          type="submit"
-          class="btnBlue btnCreate"
-          [disabled]="contactForm.invalid"
-        >
-          Create contact
-          <img draggable="false" src="/assets/img/btncheck.png" />
-        </button>
+          <button type="submit" class="btnBlue btnCreate">
+            Create contact
+            <img draggable="false" src="/assets/img/btncheck.png" />
+          </button>
         </form>
       </div>
     </div>

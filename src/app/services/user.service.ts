@@ -113,6 +113,11 @@ export class UserService {
   }
 
   async editUserContact() {
+    if (!this.selectedUser.username || !this.selectedUser.email || !this.selectedUser.phone) {
+      console.log('All fields are required');
+      return;
+    }
+  
     const url = environment.baseUrl + '/api/updateContact/';
     const body = {
       username: this.selectedUser.username,
@@ -125,9 +130,7 @@ export class UserService {
       await this.http.post(url, body).toPromise();
       this.editContact = false;
       this.loadUserListEexternals();
-      
     } catch (error) {
-      
     }
   }
 
@@ -161,7 +164,6 @@ export class UserService {
   employeesInitials(username: string, lastName: string): string {
     return username.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
   }
-
 
   saveUserColor() {
     const url = environment.baseUrl + '/api/update_user_color/';
@@ -217,8 +219,6 @@ export class UserService {
         });
     }
   }
-
-  
 
   logout(): Observable<any> {
     console.log('click');

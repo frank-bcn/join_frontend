@@ -2,244 +2,339 @@
   <header>
     <h2>Add Task</h2>
   </header>
-  <div class="taskContainer">
-    <div class="taskDetailsContainer">
-      <!--Title-->
-      <label>Title</label>
-      <input type="text" placeholder="enter a Title" />
-      <span class="formValidate"></span>
-
-      <!--Description-->
-      <label>Description</label>
-      <textarea placeholder="enter a description"></textarea>
-      <span class="formValidate"> </span>
-
-      <!--Category-->
-      <label>Category</label>
-      <div class="container">
+  <form (ngSubmit)="ts.validateTask()" #taskForm="ngForm">
+    <div class="taskContainer">
+      <div class="taskDetailsContainer">
+        <!-- Title -->
+        <label>Title</label>
         <input
-          class="taskInput"
-          name=""
-          placeholder="choose Category"
           type="text"
-          [(ngModel)]="inputValue"
-          [ngStyle]="{
-            'border-radius':
-              categoryDropdown || newCategoryDropdown ? '10px 0 0 0' : '',
-            'border-right': ts.selectedCategory.name ? '0' : '1px solid #d1d1d1'
-          }"
+          placeholder="enter a Title"
+          [(ngModel)]="ts.taskTitle"
+          name="title"
+          #titleInput="ngModel"
+          required
+          pattern="[a-zA-Z\s]*"
         />
-        <div *ngIf="ts.selectedCategory.name" class="categoryColerInput">
-          <span
-            class="colorNewCategory"
-            [style.background-color]="color"
-          ></span>
+
+        <div
+          *ngIf="
+            (taskForm.submitted || titleInput.invalid) &&
+            (titleInput.dirty || taskForm.submitted || titleInput.touched)
+          "
+          class="errorMessage"
+        >
+          <span *ngIf="titleInput.errors?.['required']">Title is required</span>
+          <span *ngIf="titleInput.errors?.['pattern']"
+            >Invalid title format</span
+          >
         </div>
-        <img
-          (click)="openCategory()"
-          class="assignedDropdown"
-          src="/assets/img/arrowDown.png"
-          draggable="false"
-          [ngStyle]="{
-            'border-radius':
-              categoryDropdown || newCategoryDropdown ? '0 10px 0 0' : ''
-          }"
-        />
-      </div>
-      <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="categoryDropdown">
-        <div class="dropdownContainer categoryDropdownContainer">
-          <div (click)="createNewCategory()" class="taskDropdownContainer">
-            <div class="categoryContainer">
-              <span class="textDropdown">new Category</span>
-              <span class="colorNewCategory"></span>
-            </div>
-          </div>
-          <div *ngIf="ts.selectedCategory.name" class="taskDropdownContainer">
-            <div
-              *ngFor="let category of [ts.selectedCategory]"
-              class="categoryContainer"
-            >
-              <span>{{ category.name }}</span>
-              <span
-                class="colorNewCategory"
-                [style.background-color]="category.color"
-              ></span>
-            </div>
-          </div>
+
+        <!-- Description -->
+        <label>Description</label>
+        <textarea
+          placeholder="enter a description"
+          [(ngModel)]="ts.taskDescription"
+          #descriptionInput="ngModel"
+          name="description"
+          required
+          pattern="[a-zA-Z\s]*"
+        ></textarea>
+
+        <div
+          *ngIf="
+            (taskForm.submitted || descriptionInput.invalid) &&
+            (descriptionInput.dirty ||
+              taskForm.submitted ||
+              descriptionInput.touched)
+          "
+          class="errorMessage"
+        >
+          <span *ngIf="descriptionInput.errors?.['required']"
+            >Description is required</span
+          >
+          <span *ngIf="descriptionInput.errors?.['pattern']"
+            >Invalid description format</span
+          >
         </div>
-      </div>
-      <div class="dropdown" *ngIf="newCategoryDropdown">
-        <div class="dropdownContainer newColor">
-          <div class="colorContainer">
-            <div
-              *ngFor="let color of ts.categoryColors; let i = index"
-              class="color"
-              (click)="selectedColor(color, i)"
+
+        <!--Category-->
+        <label>Category</label>
+        <div class="container">
+          <input
+            class="taskInput"
+            name="category"
+            placeholder="choose Category"
+            type="text"
+            [(ngModel)]="inputValue"
+            #inputValueInput="ngModel"
+            [ngStyle]="{
+              'border-radius':
+                categoryDropdown || newCategoryDropdown ? '10px 0 0 0' : '',
+              'border-right': ts.selectedCategory.name
+                ? '0'
+                : '1px solid #d1d1d1'
+            }"
+            required
+            pattern="[a-zA-Z\s]*"
+          />
+          <div *ngIf="ts.selectedCategory.name" class="categoryColerInput">
+            <span
+              class="colorNewCategory"
               [style.background-color]="color"
-              [ngClass]="{ selectedColor: i === selectedColorIndex }"
-            ></div>
+            ></span>
           </div>
           <img
+            (click)="openCategory()"
+            class="assignedDropdown"
+            src="/assets/img/arrowDown.png"
             draggable="false"
-            (click)="saveCategory()"
-            src="/assets/img/check.svg"
-            alt=""
-            class="saveCategory"
+            [ngStyle]="{
+              'border-radius':
+                categoryDropdown || newCategoryDropdown ? '0 10px 0 0' : ''
+            }"
           />
         </div>
+
+        <div *ngIf="(taskForm.submitted || !ts.selectedCategory.name || !ts.selectedCategory.color) && (taskForm.dirty || taskForm.submitted || taskForm.touched)" class="errorMessage">
+          <span>Category and Color are required</span>
       </div>
 
-      <!--Assigned to -->
-      <label>Assigned to</label>
-      <div class="container">
-        <input
-          class="taskInput"
-          name=""
-          placeholder="choose Contact"
-          type="text"
-          [ngStyle]="{ 'border-radius': assignedDropdown ? '10px 0 0 0' : '' }"
-        />
-        <img
-          draggable="false"
-          (click)="openAssignedTo()"
-          class="assignedDropdown"
-          src="/assets/img/arrowDown.png"
-          [ngStyle]="{ 'border-radius': assignedDropdown ? '0 10px 0 0' : '' }"
-        />
-      </div>
-      <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="assignedDropdown">
-        <div class="dropdownContainer">
-          <div class="taskDropdownContainer" *ngFor="let user of us.users">
-            <span
-              class="userFrame taskFrame"
-              [style.background-color]="user.user_color"
-            >
-              {{ us.employeesInitials(user.username, user.last_name) }}
-            </span>
-            <span class="nameWrapper"
-              >{{ user.username }} {{ user.last_name }}</span
-            >
-
-            <input
-              [ngModel]="user.checked"
-              (ngModelChange)="ts.checkUser(user)"
-              class="userCheckbox"
-              type="checkbox"
+        <!-- DROPDOWN -->
+        <div class="dropdown" *ngIf="categoryDropdown">
+          <div class="dropdownContainer categoryDropdownContainer">
+            <div (click)="createNewCategory()" class="taskDropdownContainer">
+              <div class="categoryContainer">
+                <span class="textDropdown">new Category</span>
+                <span class="colorNewCategory"></span>
+              </div>
+            </div>
+            <div *ngIf="ts.selectedCategory.name" class="taskDropdownContainer">
+              <div
+                *ngFor="let category of [ts.selectedCategory]"
+                class="categoryContainer"
+              >
+                <span>{{ category.name }}</span>
+                <span
+                  class="colorNewCategory"
+                  [style.background-color]="category.color"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown" *ngIf="newCategoryDropdown">
+          <div class="dropdownContainer newColor">
+            <div class="colorContainer">
+              <div
+                *ngFor="let color of ts.categoryColors; let i = index"
+                class="color"
+                (click)="selectedColor(color, i)"
+                [style.background-color]="color"
+                [ngClass]="{ selectedColor: i === selectedColorIndex }"
+              ></div>
+            </div>
+            <img
+              draggable="false"
+              (click)="saveCategory()"
+              src="/assets/img/check.svg"
+              alt=""
+              class="saveCategory"
             />
           </div>
         </div>
-      </div>
 
-      <div class="usercheckContainer" *ngIf="us.selectedUsers.length != 0">
-        <span
-          *ngFor="let user of us.selectedUsers"
-          class="userFrame taskFrame"
-          [style.background-color]="user.user_color"
-          >{{ us.employeesInitials(user.username, user.last_name) }}
-        </span>
-      </div>
-    </div>
-
-    <div class="taskSettingsContainer">
-      <!--Date-->
-      <label>Date</label>
-      <input name="dateField" type="date" [min]="checkDate()" />
-      <span class="formValidate"></span>
-
-      <!--Prio-->
-      <label>Prio</label>
-      <div class="prioContainer">
-        <div
-          class="prioBtn"
-          (click)="prioUrgent()"
-          [ngClass]="{ prioUrgent: ts.isUrgent }"
-        >
-          Urgent
+        <!--Assigned to -->
+        <label>Assigned to</label>
+        <div class="container">
+          <input
+            class="taskInput"
+            placeholder="choose Contact"
+            type="text"
+            [readonly]="true"
+            [ngStyle]="{
+              'border-radius': assignedDropdown ? '10px 0 0 0' : ''
+            }"
+          />
           <img
             draggable="false"
-            [src]="
-              ts.clickUrgent
-                ? '/assets/img/prioUrgent.svg'
-                : '/assets/img/prioUrgent-white.svg'
-            "
+            (click)="openAssignedTo()"
+            class="assignedDropdown"
+            src="/assets/img/arrowDown.png"
+            [ngStyle]="{
+              'border-radius': assignedDropdown ? '0 10px 0 0' : ''
+            }"
           />
         </div>
 
-        <div
-          class="prioBtn"
-          (click)="prioMedium()"
-          [ngClass]="{ prioMedium: ts.isMedium }"
-        >
-          Medium
-          <img
-            draggable="false"
-            [src]="
-              ts.clickMedium
-                ? '/assets/img/prioMedium.svg'
-                : '/assets/img/prioMedium-white.svg'
-            "
-          />
-        </div>
+        <!-- DROPDOWN -->
+        <div class="dropdown" *ngIf="assignedDropdown">
+          <div class="dropdownContainer">
+            <div class="taskDropdownContainer" *ngFor="let user of us.users">
+              <span
+                class="userFrame taskFrame"
+                [style.background-color]="user.user_color"
+              >
+                {{ us.employeesInitials(user.username, user.last_name) }}
+              </span>
+              <span class="nameWrapper"
+                >{{ user.username }} {{ user.last_name }}</span
+              >
 
-        <div class="prioBtn" (click)="prioLow()" [ngClass]="{ prioLow: ts.isLow }">
-          Low
-          <img
-            draggable="false"
-            [src]="
-              ts.clickLow
-                ? '/assets/img/prioLow.svg '
-                : '/assets/img/prioLow-white.svg'
-            "
-          />
-        </div>
-      </div>
-      <span class="formValidate" id="validatePrio"> </span>
-
-      <!--Subtasks-->
-      <label>Subtasks</label>
-      <div class="container">
-        <input
-          class="taskInput"
-          name=""
-          placeholder="New Subtask"
-          type="text"
-          [(ngModel)]="ts.newSubtask"
-          [ngStyle]="{
-            'border-radius':
-              subtasksDropdown && ts.subtasks.length > 0 ? '10px 0 0 0' : ''
-          }"
-        />
-        <img
-          draggable="false"
-          (click)="openSubtasks()"
-          class="assignedDropdown"
-          src="/assets/img/check.svg"
-          [ngStyle]="{
-            'border-radius':
-              subtasksDropdown && ts.subtasks.length > 0 ? '0 10px 0 0' : ''
-          }"
-        />
-      </div>
-
-      <!-- DROPDOWN -->
-      <div class="dropdown" *ngIf="subtasksDropdown && ts.subtasks.length > 0">
-        <div class="dropdownSubtaskContainer">
-          <div
-            class="subtasks"
-            *ngFor="let subtask of ts.subtasks; let last = last"
-            [ngClass]="{ lastSubtask: last }"
-          >
-            {{ subtask }}
+              <input
+                [ngModel]="user.checked"
+                (ngModelChange)="ts.checkUser(user)"
+                class="userCheckbox"
+                type="checkbox"
+                name="checkedUser"
+              />
+            </div>
           </div>
         </div>
+
+        <div class="usercheckContainer" *ngIf="us.selectedUsers.length != 0">
+          <span
+            *ngFor="let user of us.selectedUsers"
+            class="userFrame taskFrame"
+            [style.background-color]="user.user_color"
+            >{{ us.employeesInitials(user.username, user.last_name) }}
+          </span>
+        </div>
+       <div
+          class="usercheckContainer"
+          *ngIf="taskForm.submitted && us.selectedUsers.length === 0 || taskForm.touched"
+        >
+          <div class="errorMessage">
+            <span>No user selected</span>
+          </div>
+        </div> 
       </div>
 
-      <!--Ceate task btn -->
-      <div class="btnTaskContainer">
-        <button (click)="ts.createAddTask()" class="btnBlue">Create Task</button>
+      <!-- right side -->
+      <div class="taskSettingsContainer">
+        <!--Date-->
+        <label>Date</label>
+        <input
+          name="dateField"
+          type="date"
+          [min]="checkDate()"
+          [(ngModel)]="ts.dateInputValue"
+          #dateInput="ngModel"
+        />
+        <div *ngIf="(taskForm.submitted || !ts.dateInputValue) && (dateInput.dirty || taskForm.submitted || dateInput.touched)" class="errorMessage">
+          <span>Date is required</span>
+      </div>
+
+        <!--Prio-->
+        <label>Prio</label>
+        <div class="prioContainer">
+          <div
+            class="prioBtn"
+            (click)="prioUrgent()"
+            [ngClass]="{ prioUrgent: ts.isUrgent }"
+          >
+            Urgent
+            <img
+              draggable="false"
+              [src]="
+                ts.clickUrgent
+                  ? '/assets/img/prioUrgent.svg'
+                  : '/assets/img/prioUrgent-white.svg'
+              "
+            />
+          </div>
+
+          <div
+            class="prioBtn"
+            (click)="prioMedium()"
+            [ngClass]="{ prioMedium: ts.isMedium }"
+          >
+            Medium
+            <img
+              draggable="false"
+              [src]="
+                ts.clickMedium
+                  ? '/assets/img/prioMedium.svg'
+                  : '/assets/img/prioMedium-white.svg'
+              "
+            />
+          </div>
+
+          <div
+            class="prioBtn"
+            (click)="prioLow()"
+            [ngClass]="{ prioLow: ts.isLow }"
+          >
+            Low
+            <img
+              draggable="false"
+              [src]="
+                ts.clickLow
+                  ? '/assets/img/prioLow.svg '
+                  : '/assets/img/prioLow-white.svg'
+              "
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="
+            taskForm.submitted && !(ts.isUrgent || ts.isMedium || ts.isLow)
+          "
+          class="errorMessage"
+        >
+          <span>Please select a priority</span>
+        </div>
+
+        <!--Subtasks-->
+        <label>Subtasks</label>
+        <div class="container">
+          <input
+            class="taskInput"
+            name="subtasks"
+            placeholder="New Subtask"
+            type="text"
+            [(ngModel)]="ts.newSubtask"
+            [ngStyle]="{
+              'border-radius':
+                subtasksDropdown && ts.subtasks.length > 0 ? '10px 0 0 0' : ''
+            }"
+          />
+          <img
+            draggable="false"
+            (click)="openSubtasks()"
+            class="assignedDropdown"
+            src="/assets/img/check.svg"
+            [ngStyle]="{
+              'border-radius':
+                subtasksDropdown && ts.subtasks.length > 0 ? '0 10px 0 0' : ''
+            }"
+          />
+        </div>
+
+        <!-- DROPDOWN -->
+        <div
+          class="dropdown"
+          *ngIf="subtasksDropdown && ts.subtasks.length > 0"
+        >
+          <div class="dropdownSubtaskContainer">
+            <div
+              class="subtasks"
+              *ngFor="let subtask of ts.subtasks; let last = last"
+              [ngClass]="{ lastSubtask: last }"
+            >
+              {{ subtask }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="(taskForm.submitted || !ts.subtasks.length) && (taskForm.touched || taskForm.submitted)" class="errorMessage">
+          <span>At least one subtask is required</span>
+      </div>
+
+        <!--Ceate task btn -->
+        <div class="btnTaskContainer">
+          <button type="submit" class="btnBlue">Create Task</button>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

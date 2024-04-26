@@ -20,12 +20,22 @@ import { trigger, transition, animate, style } from '@angular/animations';
 })
 export class NewContactComponent {
 
+
+
   constructor(public us: UserService) {}
 
   closeNewContainer() {
     this.us.newContact = false;
   }
 
+  validateForm() {
+    if (!this.us.username || !this.us.email || !this.us.phone) {
+      console.log('All fields are required');
+      return;
+    }
+    this.onSubmit();
+  }
+  
   onSubmit(): void {
     this.us.saveUserToUserList();
     this.resetForm();
