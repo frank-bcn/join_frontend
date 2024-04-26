@@ -24,6 +24,10 @@
         </span>
         <div class="taskFieldWrapper">
 
+
+
+
+
           <div class="todoContainer"*ngFor="let task of ts.tasks">
 
             <div class="todoHeader">
@@ -32,7 +36,7 @@
               </div>
               <div class="wrapper">
                 <img src="/assets/img/dndBlue.svg" class="dragAndDrop">
-                <img src="/assets/img/delete.png" class="delete">
+                <img src="/assets/img/delete.png" (click)="ts.deleteTodo(task.id)" class="delete">
               </div>
             </div>
             <p class="title"> {{ task.title }} </p>
@@ -46,6 +50,10 @@
               </span>
             </div>
           </div>
+
+
+
+
 
 
         </div>

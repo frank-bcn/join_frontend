@@ -22,7 +22,7 @@
             border: none;
             background-color: rgb(67, 178, 247);
             color: white;
-            font-size: 16px; /*ändern*/
+            font-size: clamp(14px, 1vw, 24px);
             font-weight: bold;
             cursor: pointer;
         }
@@ -133,3 +133,8 @@
 /*************************************************************/
 /************************   query's   ************************/
 /*************************************************************/
+
+@media screen and (max-width: 650px) {
+
+    
+}

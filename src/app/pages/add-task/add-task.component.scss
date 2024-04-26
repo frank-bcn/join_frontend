@@ -310,33 +310,48 @@
 /************************   query's   ************************/
 /*************************************************************/
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 750px) {
+
     .AddTaskContainer {
         height: 100%;
-        width: calc(100% - 12%);
-        margin: 0 6% 0 6%;
+        width: 100%;
+        margin: 0 0% 0 0%;
+        overflow-y: scroll;
+
+        header {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .taskContainer {
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            margin: 0 5% 0 5%;
+            width: calc(100% - 10%) !important;
+
+            .taskDetailsContainer {
+                display: flex;
+                flex-direction: column;
+                padding: 0 5% 0 0;
+                width: 100% !important;
+                border-right: 0px solid lightgray;
+            }
+        }
+
+        .taskSettingsContainer {
+            padding: 0 !important;
+
+            .prioContainer {
+                width: 100% !important;
+            }
+
+            .btnTaskContainer {
+                justify-content: center !important;
+                margin-top: 10% !important;
+                padding: 0 0 30px 0;
+            }
+        }
     }
 }
-
-// @media screen and (max-width: 750px) {
-
-//     .taskContainer {
-//         flex-direction: column;
-//         overflow-y: scroll;
-//         max-height: 500px;
-//         padding: 0 3% 0 0;
-
-//         .taskDetailsContainer {
-//             display: flex;
-//             flex-direction: column;
-//             padding: 0 0 0 0 !important;
-//             width: 100% !important;
-//             border-right: 0px !important;
-//         }
-
-//         .taskSettingsContainer {
-//             padding: 0 0 0 0 !important;
-//         }
-//     }
-
-// }

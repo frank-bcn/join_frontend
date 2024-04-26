@@ -96,7 +96,7 @@
           />
         </div>
 
-        <div *ngIf="(taskForm.submitted || !ts.selectedCategory.name || !ts.selectedCategory.color) && (taskForm.dirty || taskForm.submitted || taskForm.touched)" class="errorMessage">
+        <div *ngIf="(taskForm.submitted || !ts.selectedCategory.name || !ts.selectedCategory.color) && (taskForm.dirty || taskForm.submitted)" class="errorMessage">
           <span>Category and Color are required</span>
       </div>
 
@@ -202,7 +202,7 @@
         </div>
        <div
           class="usercheckContainer"
-          *ngIf="taskForm.submitted && us.selectedUsers.length === 0 || taskForm.touched"
+          *ngIf="taskForm.submitted && us.selectedUsers.length === 0"
         >
           <div class="errorMessage">
             <span>No user selected</span>
@@ -326,7 +326,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="(taskForm.submitted || !ts.subtasks.length) && (taskForm.touched || taskForm.submitted)" class="errorMessage">
+        <div *ngIf="(taskForm.submitted || !ts.subtasks.length) && taskForm.submitted" class="errorMessage">
           <span>At least one subtask is required</span>
       </div>
 

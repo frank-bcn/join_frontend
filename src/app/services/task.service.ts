@@ -9,8 +9,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class TaskService {
-  taskTitle: string = '';;
-  taskDescription: string ='';
+  taskTitle: string = '';
+  taskDescription: string = '';
   dateInputValue: string = '';
 
   clickUrgent = true;
@@ -98,8 +98,6 @@ export class TaskService {
     console.log(this.us.selectedUsers);
   }
 
-
-
   validateTask() {
     if (
       !this.taskTitle ||
@@ -111,23 +109,22 @@ export class TaskService {
       !this.selectedCategory.name ||
       !this.selectedCategory.color
     ) {
-      console.log('Title, Description, Date, Users, Priority, Subtasks, Category, and Color are required');
+      console.log(
+        'Title, Description, Date, Users, Priority, Subtasks, Category, and Color are required'
+      );
       return;
     }
     this.createAddTask();
   }
-  
-  
-  
 
   async createAddTask() {
     const url = environment.baseUrl + '/api/addTask/';
     const body = this.createTaskBody();
     console.log(body);
-  
+
     try {
       const response = await this.http.post(url, body).toPromise();
-  
+
       console.log('Task erfolgreich erstellt:', response);
       this.clearInputFields();
       this.clearArray();
@@ -136,7 +133,7 @@ export class TaskService {
       console.error('Fehler beim Erstellen des Tasks:', error);
     }
   }
-  
+
   createTaskBody(): any {
     const title = (
       document.querySelector(
@@ -166,9 +163,6 @@ export class TaskService {
       subtasks: subtasks,
     };
   }
-  
-
-  
 
   clearInputFields() {
     (
@@ -191,7 +185,7 @@ export class TaskService {
     this.subtasks = [];
     this.isUrgent = false;
     this.isMedium = false;
-    this.isLow= false;
+    this.isLow = false;
   }
 
   loadBoard() {
@@ -207,6 +201,22 @@ export class TaskService {
       this.tasks = response as any[];
     } catch (error) {
       console.error('Error loading user list:', error);
+    }
+  }
+
+  deleteTodo(taskId: number) {
+    console.log('task deleted:', taskId);
+    if (confirm('Are you sure you want to delete this task?')) {
+      const url = environment.baseUrl + '/api/deleteTask/';
+      this.http
+        .delete<any>(url, { body: { id: taskId } })
+        .toPromise()
+        .then((response) => {
+          this.loadTasks();
+        })
+        .catch((error) => {
+          console.error('Error deleting task:', error);
+        });
     }
   }
 }
