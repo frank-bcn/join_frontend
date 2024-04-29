@@ -28,11 +28,17 @@
             img {
                 cursor: pointer;
             }
+
+            .closeUserData {
+                display: flex;
+                height: 50%;
+            }
         }
 
         .userDataName {
             display: flex;
             align-items: center;
+            margin: 0 0 6% 0;
             height: 30%;
             width: 100%;
 
@@ -145,3 +151,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 700px) and (max-height: 840px) {
+    
+}
+

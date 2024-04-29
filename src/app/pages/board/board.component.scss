@@ -177,12 +177,12 @@
                 flex-direction: column;
                 align-items: center;
                 overflow-x: hidden;
-                    overflow-y: scroll;
-                    -webkit-overflow-scrolling: touch;
+                overflow-y: scroll;
+                -webkit-overflow-scrolling: touch;
 
-                    &::-webkit-scrollbar {
-                        display: none;
-                    }
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
 
             .img:hover {
@@ -195,3 +195,18 @@
 /*************************************************************/
 /************************   query's   ************************/
 /*************************************************************/
+
+@media screen and (max-width: 700px) {
+
+    header h2 {
+        width: 40%;
+    }
+
+    .btnBlue {
+        display: none;
+    }
+
+    input {
+        margin: 0 5px 0 0 !important;
+    }
+}

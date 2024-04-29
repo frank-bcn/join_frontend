@@ -28,9 +28,8 @@
         align-items: center;
         width: 100%;
         border-radius: 8px;
-        padding: 12px 12px;
-        margin-left: 3%;
-        margin-right: 3%;
+        padding: 12px;
+        margin: 0 3% 0 3%;
         text-decoration: none;
         color: white;
 
@@ -124,10 +123,10 @@
 
         .dropdownMenu {
             position: absolute;
-            top: 96px;
+            top: 100px;
             right: 0;
             background-color: white;
-            height: 100px;
+            height: 130px;
             margin-right: 10px;
         }
 
@@ -265,6 +264,7 @@
 @media screen and (max-width: 1050px) {
     .mainPage {
         flex-direction: column;
+        overflow: hidden;
 
         .sideMenu {
             order: 3;
@@ -288,8 +288,7 @@
             flex-direction: column;
             justify-content: center;
             width: 100%;
-            margin-left: 5%;
-            margin-right: 5%;
+            margin: 0;
 
             img {
                 margin-right: 0px;
@@ -336,10 +335,6 @@
                 display: flex !important;
                 height: 32px;
                 cursor: pointer;
-            }
-
-            .userPrivacyContainer {
-                margin-right: 8%;
             }
         }
     }

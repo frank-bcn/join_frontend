@@ -57,11 +57,6 @@
       </div>
       <p class="kanbanText">Kanban Project Management Tool</p>
       <div class="userPrivacyContainer">
-        <div (click)="loadLegalNotice()" class="tooltip-trigger">
-          <img draggable = "false" class="legalNoticeMobile" src="/assets/img/legal-notice.png" />
-          <div class="tooltip-text">Legal Notice</div>
-        </div>
-
         <div class="tooltip-trigger">
           <img draggable = "false" class="dataProtectionImg" src="/assets/img/protection.svg" (click)="loadHelpPage()" />
           <div class="tooltip-text">Help</div>
@@ -82,6 +77,7 @@
             <span class="dropdownMenuUser" (click)="openUserColor()"
               >Choose a Color</span
             >
+            <span class="dropdownMenuUser" (click)="loadLegalNotice()">Legal notice</span>
           </ul>
         </div>
 

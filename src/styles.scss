@@ -157,7 +157,7 @@ html {
         justify-content: center;
         text-decoration: none;
         height: 51px;
-        padding: 0 16px 0 16px;
+        width: fit-content;
         border: none;
         min-width: 70px;
         border-radius: 8px;
@@ -172,6 +172,10 @@ html {
         &:hover {
             background-color: rgb(67, 178, 247);
         }
+    }
+
+    .addTask {
+        width: 150px;
     }
 
     .btnWhite {

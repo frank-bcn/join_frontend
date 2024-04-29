@@ -51,6 +51,8 @@ export class UserService {
   phone: string = '';
   id: string = '';
 
+  mobileScreen: boolean = false;
+
   constructor(public http: HttpClient, public router: Router, public hs: HoverService,) {}
 
   /**
@@ -217,6 +219,17 @@ export class UserService {
         .catch((error) => {
           console.error(error);
         });
+    }
+  }
+
+
+  changeZIndex(ZIndex: number) {
+    const content = document.getElementById('content') as HTMLElement;
+    const userList = document.getElementById('userList') as HTMLElement;
+  
+    if (content && userList) {
+      content.style.zIndex = ZIndex.toString();
+      userList.style.zIndex = (1 - ZIndex).toString();
     }
   }
 

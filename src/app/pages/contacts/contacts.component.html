@@ -1,5 +1,5 @@
 <div class="contactContainer">
-  <div class="userList">
+  <div class="userList" id="userList">
     <button class="switchBtnList" (click)="switchList()">
       {{ us.switchBtnText }}
     </button>
@@ -50,7 +50,7 @@
       </ng-container>
     </div>
   </div>
-  <div class="content" [@slideInOut] >
+  <div class="content" id="content">
     <header>
       <h1 class="headlineText">Contacts</h1>
       <span class="slogan">Better with a team</span>

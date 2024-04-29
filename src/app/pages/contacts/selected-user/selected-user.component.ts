@@ -20,12 +20,29 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class SelectedUserComponent {
+
+  
+
   constructor(public us: UserService, public ts: TaskService) {}
 
-  closeUserData() {
-    this.us.selectedUser = null;
+  ngOnInit() {
+    this.checkScreen();
   }
+
+  goBackTo() {
+    this.us.selectedUser = null;
+
+    if (!this.us.selectedUser) {
+      this.us.changeZIndex(0);
+    }
+  }
+
   openEditContact() {
     this.us.editContact = true;
+  }
+
+  checkScreen() {
+    this.us.mobileScreen = window.innerWidth <= 700;
+    console.log(this.us.mobileScreen);
   }
 }

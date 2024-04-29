@@ -19,7 +19,6 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class ContactsComponent {
-  
 
   constructor(public us: UserService) {}
 
@@ -45,6 +44,8 @@ export class ContactsComponent {
     this.us.selectedUser = null;
     setTimeout(() => {
       this.us.selectedUser = user;
+      this.us.changeZIndex(1);
     }, 10);
   }
+
 }
