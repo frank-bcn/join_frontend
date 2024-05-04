@@ -9,13 +9,25 @@
       <button class="btnBlue addTask">Add Task +</button>
     </div>
   </header>
+
   <div class="scrollBtn">
-    <span><img src="/assets/img/arrowLeftDark.png" class="leftHover" /></span>
-    <span><img src="/assets/img/arrowRightDark.png" class="rightHover" /></span>
+    <span (click)="scrollTo('left')">
+      <img src="/assets/img/arrowLeftDark.png" class="leftHover" />
+    </span>
+    <span (click)="scrollTo('right')">
+      <img src="/assets/img/arrowRightDark.png" class="rightHover" />
+    </span>
   </div>
   <div class="dragAndDropContainer">
     <div class="dragAndDropWrapper">
-      <div class="taskFieldContainer">
+      <!-- todo Container -->
+      <div
+        class="taskFieldContainer"
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListConnectedTo]="[doneList, inProgressList, doTodayList]"
+        (cdkDropListDropped)="ts.drop($event, 'todo')"
+      >
         <span class="taskFieldHeader">
           <h1 class="headerText">Todo</h1>
           <span class="addTaskImg">
@@ -23,70 +35,79 @@
           </span>
         </span>
         <div class="taskFieldWrapper">
-
-
-
-
-
-          <div class="todoContainer"*ngFor="let task of ts.tasks">
-
-            <div class="todoHeader">
-              <div class="category" [style.background-color]="task.category.color">
-                <span class="cat">{{ task.category.name }}</span>
-              </div>
-              <div class="wrapper">
-                <img src="/assets/img/dndBlue.svg" class="dragAndDrop">
-                <img src="/assets/img/delete.png" (click)="ts.deleteTodo(task.id)" class="delete">
-              </div>
-            </div>
-            <p class="title"> {{ task.title }} </p>
-            <p class="description">{{ task.description }}</p>
-            <div class="wrapper">
-              <div class="assignedToContainer">
-                <span class="assigned"></span>
-              </div>
-              <span class="prio">
-                <img [src]="getPriorityImageSrc(task.priority)"  class="prioImg">
-              </span>
-            </div>
-          </div>
-
-
-
-
-
-
+          <ng-container *ngFor="let task of ts.tasks">
+            <app-task *ngIf="task.status === 'todo'" [task]="task"></app-task>
+          </ng-container>
         </div>
       </div>
 
-      <div class="taskFieldContainer">
+      <!-- in progress Container -->
+      <div
+        class="taskFieldContainer"
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListConnectedTo]="[doneList, todoList, doTodayList]"
+        (cdkDropListDropped)="ts.drop($event, 'inProgress')"
+      >
         <span class="taskFieldHeader">
           <h1 class="headerText">In progress</h1>
           <span class="addTaskImg">
             <img src="/assets/img/plusButtonBorder.svg" class="img" />
           </span>
         </span>
-        <div class="taskFieldWrapper"></div>
+        <div class="taskFieldWrapper">
+          <ng-container *ngFor="let task of ts.tasks">
+            <app-task
+              *ngIf="task.status == 'progress'"
+              [task]="task"
+            ></app-task>
+          </ng-container>
+        </div>
       </div>
 
-      <div class="taskFieldContainer">
+      <!-- awaiting feedback container -->
+      <div
+        class="taskFieldContainer"
+        cdkDropList
+        #doTodayList="cdkDropList"
+        [cdkDropListConnectedTo]="[doneList, inProgressList, todoList]"
+        (cdkDropListDropped)="ts.drop($event, 'doToday')"
+      >
         <span class="taskFieldHeader">
           <h1 class="headerText">Awaiting Feedback</h1>
           <span class="addTaskImg">
             <img src="/assets/img/plusButtonBorder.svg" class="img" />
           </span>
         </span>
-        <div class="taskFieldWrapper"></div>
+        <div class="taskFieldWrapper">
+          <ng-container *ngFor="let task of ts.tasks">
+            <app-task
+              *ngIf="task.status == 'awaiting'"
+              [task]="task"
+            ></app-task>
+          </ng-container>
+        </div>
       </div>
 
-      <div class="taskFieldContainer">
+      <!-- done container -->
+      <div
+        class="taskFieldContainer"
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListConnectedTo]="[todoList, inProgressList, doTodayList]"
+        (cdkDropListDropped)="ts.drop($event, 'done')"
+      >
         <span class="taskFieldHeader">
           <h1 class="headerText">Done</h1>
           <span class="addTaskImg">
             <img src="/assets/img/plusButtonBorder.svg" class="img" />
           </span>
         </span>
-        <div class="taskFieldWrapper"></div>
+        <div class="taskFieldWrapper">
+          <ng-container *ngFor="let task of ts.tasks">
+            <app-task *ngIf="task.status == 'done'" [task]="task"></app-task>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

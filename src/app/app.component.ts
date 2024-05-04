@@ -5,6 +5,7 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { HoverService } from './services/hover.service';
 import { GreetingService } from './services/greeting.service';
+import { TaskService } from './services/task.service';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +17,12 @@ export class AppComponent {
   greeting: string = '';
 
   constructor(
-    private router: Router,
+    public router: Router,
     public as: AuthService,
     public us: UserService,
     public hs: HoverService,
-    public gt: GreetingService
+    public gt: GreetingService,
+    public ts: TaskService
   ) {
     console.log(
       '%c  Fränk rules!',
@@ -44,7 +46,7 @@ export class AppComponent {
       });
     this.setActiveLink();
     this.restoreUserData();
-
+    this.ts.loadTasks();
   }
 
   restoreUserData() {

@@ -33,6 +33,10 @@ html {
     background-color: rgb(42, 170, 226);
 }
 
+.assignedToUsersWrapper::-webkit-scrollbar {
+    width: 2px !important;
+}
+
 .page {
     display: flex;
     flex-direction: column;
@@ -258,6 +262,12 @@ header {
     margin: 0 20px 0 0;
     color: #2a3647;
     background-color: transparent;
+}
+
+.userFrameTask {
+    margin: 0 -15px 0 0;
+    width: 15px;
+    height: 15px;
 }
 
 .nameWrapper {

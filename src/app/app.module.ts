@@ -18,6 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditContactComponent } from './pages/contacts/edit-contact/edit-contact.component';
 import { NewContactComponent } from './pages/contacts/new-contact/new-contact.component';
 import { SelectedUserComponent } from './pages/contacts/selected-user/selected-user.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { TaskComponent } from './task/task.component';
+
 
 @NgModule({
   declarations: [
@@ -34,12 +37,14 @@ import { SelectedUserComponent } from './pages/contacts/selected-user/selected-u
     EditContactComponent,
     NewContactComponent,
     SelectedUserComponent,
+    TaskComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    DragDropModule,
     HttpClientModule,
   ],
   providers: [

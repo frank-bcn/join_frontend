@@ -1,0 +1,30 @@
+<div class="todoContainer" cdkDrag [cdkDragData]="task">
+    <div class="todoHeader">
+      <div class="category" [style.background-color]="task.category.color">
+        <span class="cat">{{ task.category.name }}</span>
+      </div>
+      <div class="wrapper">
+        <img src="/assets/img/dndBlue.svg" class="dragAndDrop" />
+        <img
+          src="/assets/img/delete.png"
+          (click)="ts.deleteTodo(task.id)"
+          class="delete"
+        />
+      </div>
+    </div>
+    <p class="title">{{ task.title }}</p>
+    <p class="description">{{ task.description }}</p>
+    <div class="wrapper">
+      <div class="assignedToUsersWrapper">
+        <ng-container *ngFor="let userId of task.assignedTo">
+          <span class="userFrame userFrameTask" [style.background-color]="loadUserColor(userId)">
+            {{ loadUsernameTask(userId) }}
+          </span>
+        </ng-container>
+      </div>
+      
+      <span class="prio">
+        <img [src]="getPriorityImageSrc(task.priority)" class="prioImg" />
+      </span>
+    </div>
+  </div>

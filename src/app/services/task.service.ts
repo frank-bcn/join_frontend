@@ -4,6 +4,8 @@ import { HoverService } from './hover.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+
 
 @Injectable({
   providedIn: 'root',
@@ -152,6 +154,7 @@ export class TaskService {
     ).value;
     const priority = this.prio();
     const subtasks = this.subtasks;
+    const status = 'todo';
 
     return {
       title: title,
@@ -161,6 +164,7 @@ export class TaskService {
       date: date,
       priority: priority,
       subtasks: subtasks,
+      status: status,
     };
   }
 
@@ -219,4 +223,32 @@ export class TaskService {
         });
     }
   }
-}
+
+
+  drop(event: CdkDragDrop<any[]>, status: string) {
+    console.log (event);
+    // Die verschobene Aufgabe
+    const movedTask = event.item.data;
+  
+    // Index der verschobenen Aufgabe im Array finden
+    const movedIndex = this.tasks.indexOf(movedTask);
+  
+    // Wenn die Aufgabe tatsächlich im Array gefunden wurde
+    if (movedIndex !== -1) {
+      // Die Aufgabe aus dem Array entfernen
+      const [removedTask] = this.tasks.splice(movedIndex, 1);
+  
+      // Die Aufgabe in den neuen Index einfügen
+      this.tasks.splice(event.currentIndex, 0, removedTask);
+  
+      // Den Status der Aufgabe aktualisieren
+      removedTask.status = status;
+    } else {
+      console.error('Task not found in tasks array.');
+      console.log(movedTask);
+    }
+  }
+  }
+
+  
+  
