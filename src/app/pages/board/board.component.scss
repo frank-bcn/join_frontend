@@ -73,6 +73,7 @@
             flex-direction: column;
             min-width: 280px;
             padding: 0 24px 0 0;
+            justify-content: flex-start;
 
             .taskFieldHeader {
                 display: flex;
@@ -90,15 +91,15 @@
                 border-radius: 16px;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
                 overflow-x: hidden;
                 overflow-y: scroll;
-                -webkit-overflow-scrolling: touch;
-
+                padding: 0 20px 0 20px;
+            
                 &::-webkit-scrollbar {
                     display: none;
                 }
             }
+            
 
             .img:hover {
                 content: url("/assets/img/plusButtonBorderHover.svg");

@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -224,31 +223,31 @@ export class TaskService {
     }
   }
 
-
-  drop(event: CdkDragDrop<any[]>, status: string) {
-    console.log (event);
-    // Die verschobene Aufgabe
+  drop(event: CdkDragDrop<any[]>, newStatus: string) {
     const movedTask = event.item.data;
+    movedTask.status = newStatus;
+    const taskId = movedTask.id;
+    this.updateTaskStatus(taskId, newStatus);
   
-    // Index der verschobenen Aufgabe im Array finden
-    const movedIndex = this.tasks.indexOf(movedTask);
-  
-    // Wenn die Aufgabe tatsächlich im Array gefunden wurde
-    if (movedIndex !== -1) {
-      // Die Aufgabe aus dem Array entfernen
-      const [removedTask] = this.tasks.splice(movedIndex, 1);
-  
-      // Die Aufgabe in den neuen Index einfügen
-      this.tasks.splice(event.currentIndex, 0, removedTask);
-  
-      // Den Status der Aufgabe aktualisieren
-      removedTask.status = status;
-    } else {
-      console.error('Task not found in tasks array.');
-      console.log(movedTask);
-    }
+    console.log('Task status updated to:', newStatus);
   }
-  }
+  
 
+  updateTaskStatus(taskId: number, newStatus: string) {
+    const url = environment.baseUrl + '/api/updateTaskStatus/';
+    const body = { id: taskId, status: newStatus };
+  
+    this.http
+      .put<any>(url, body)
+      .toPromise()
+      .then((response) => {
+        console.log('Task status updated successfully:', response);
+        this.loadTasks();
+      })
+      .catch((error) => {
+        console.error('Error updating task status:', error);
+      });
+  }
   
   
+}

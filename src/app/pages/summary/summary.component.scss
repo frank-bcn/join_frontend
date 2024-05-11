@@ -55,12 +55,6 @@
                 transform: scale(1.1);
                 transition: 0.1s ease-in-out;
             }
-
-            .textTask {
-                display: flex;
-                font-size: clamp(12px, 2vw, 24px);
-                font-weight: 400;
-            }
         }
 
         .taskPriorityDateContainer {
@@ -92,6 +86,22 @@
                 border-right: 3px solid grey;
                 width: 50%;
                 margin: 5px 0 5px 0;
+
+                .prioTaskWrapper {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+
+                    .prioTaskNum {
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .textTask {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
             }
 
             .deadlineContainer {
@@ -139,6 +149,17 @@
             }
         }
     }
+}
+
+h2 {
+    font-size: clamp(30px, 3vw, 45px);
+    margin: 0;
+}
+
+.textTask {
+    display: flex;
+    font-size: clamp(12px, 2vw, 24px);
+    font-weight: 400;
 }
 
 /*************************************************************/

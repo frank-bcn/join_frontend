@@ -58,7 +58,7 @@
         <div class="taskFieldWrapper">
           <ng-container *ngFor="let task of ts.tasks">
             <app-task
-              *ngIf="task.status == 'progress'"
+              *ngIf="task.status == 'inProgress'"
               [task]="task"
             ></app-task>
           </ng-container>
@@ -71,7 +71,7 @@
         cdkDropList
         #doTodayList="cdkDropList"
         [cdkDropListConnectedTo]="[doneList, inProgressList, todoList]"
-        (cdkDropListDropped)="ts.drop($event, 'doToday')"
+        (cdkDropListDropped)="ts.drop($event, 'awaiting')"
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Awaiting Feedback</h1>

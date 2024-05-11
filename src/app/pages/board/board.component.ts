@@ -1,11 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragMove } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board',
@@ -13,15 +9,6 @@ import {
   styleUrl: './board.component.scss',
 })
 export class BoardComponent {
-
-  
-  // taskCategories = [
-  //   { title: 'Todo', tasks: [] as any[] },
-  //   { title: 'In Progress', tasks: [] as any[] },
-  //   { title: 'Awaiting Feedback', tasks: [] as any[] },
-  //   { title: 'Done', tasks: [] as any[] },
-  // ];
-
 
   constructor(
     public ts: TaskService,
@@ -31,8 +18,6 @@ export class BoardComponent {
 
   ngOnInit() {
     this.ts.loadTasks().then(() => {
-      // this.assignTasksToCategories();
-      // console.log(this.taskCategories);
     });
     this.us.loadUsersFromServer();
   }
@@ -48,14 +33,4 @@ export class BoardComponent {
       behavior: 'smooth',
     });
   }
-
- 
-  // assignTasksToCategories() {
-  //   this.ts.tasks.forEach(task => {
-  //     let categoryIndex = this.taskCategories.findIndex(category => category.title === task.status);
-  //     if (categoryIndex !== -1) {
-  //       this.taskCategories[categoryIndex].tasks.push(task);
-  //     }
-  //   });
-  // }
 }
