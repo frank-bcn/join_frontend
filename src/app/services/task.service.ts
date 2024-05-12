@@ -42,6 +42,7 @@ export class TaskService {
   isLow: boolean = false;
 
   tasks: any[] = [];
+  taskToUpdate: any;
 
   constructor(
     public us: UserService,
@@ -200,7 +201,6 @@ export class TaskService {
     const url = environment.baseUrl + '/api/loadTasks/';
     try {
       const response = await this.http.get<any[]>(url).toPromise();
-      console.log('tasks:', response);
       this.tasks = response as any[];
     } catch (error) {
       console.error('Error loading user list:', error);
@@ -228,26 +228,44 @@ export class TaskService {
     movedTask.status = newStatus;
     const taskId = movedTask.id;
     this.updateTaskStatus(taskId, newStatus);
-  
-    console.log('Task status updated to:', newStatus);
   }
-  
 
   updateTaskStatus(taskId: number, newStatus: string) {
     const url = environment.baseUrl + '/api/updateTaskStatus/';
     const body = { id: taskId, status: newStatus };
-  
+
     this.http
       .put<any>(url, body)
       .toPromise()
       .then((response) => {
-        console.log('Task status updated successfully:', response);
         this.loadTasks();
       })
       .catch((error) => {
-        console.error('Error updating task status:', error);
       });
   }
-  
-  
+
+  updateTaskDeadline(): void {
+    this.taskToUpdate = this.tasks.find((task) => task.id === 25);
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() + 2);
+      this.taskToUpdate.date = currentDate;
+      this.updatedTaskPrio();
+  }
+
+  updatedTaskPrio(): void {
+    const url = environment.baseUrl + '/api/updateTaskDeadline/';
+    const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
+    const body = { id: this.taskToUpdate.id, date: isoDate };
+    console.log(body);
+
+    this.http
+      .put<any>(url, body)
+      .toPromise()
+      .then((response) => {
+        console.log('Updated Task sent to backend successfully:', response);
+      })
+      .catch((error) => {
+        console.error('Error sending updated task to backend:', error);
+      });
+  }
 }

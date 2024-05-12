@@ -24,7 +24,7 @@ export class AuthInterceptorService implements HttpInterceptor {
       request = request.clone({
         setHeaders: { Authorization: `Token ${token}` },
       });
-      console.log('Token gesetzt:', token);
+      // console.log('Token gesetzt:', token);
     }
     return next.handle(request).pipe(
       catchError((error) => {

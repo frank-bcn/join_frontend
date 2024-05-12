@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-login',
@@ -27,8 +28,9 @@ export class LoginComponent {
 
   constructor(
     public as: AuthService,
-    private router: Router,
-    public us: UserService
+    public router: Router,
+    public us: UserService,
+    public ts: TaskService,
   ) {}
 
 
@@ -65,6 +67,7 @@ export class LoginComponent {
       this.login_successful = true;
       this.loginSuccessMessage = resp.success_message;
       this.navigateAfterLogin();
+      this.ts.updateTaskDeadline(); 
     }
   }
 

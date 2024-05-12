@@ -28,7 +28,7 @@ export class SummaryComponent implements OnInit {
     if (storedToken) {
       this.us.authToken = storedToken;
     }
-    console.log(this.us.userData);
+    this.ts.loadTasks();
   }
 
   /**
@@ -79,9 +79,8 @@ export class SummaryComponent implements OnInit {
   getNextUrgentDeadline(): Date | null {
     const urgentTasks = this.ts.tasks.filter(task => task.priority === 'Urgent');
     if (urgentTasks.length === 0) {
-      return null; // Keine dringenden Aufgaben gefunden
+      return null; 
     }
-    // Finde das früheste Fälligkeitsdatum unter den dringenden Aufgaben
     const nextDeadline = new Date(Math.min(...urgentTasks.map(task => new Date(task.date).getTime())));
     return nextDeadline;
   }
