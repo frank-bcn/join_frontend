@@ -68,36 +68,60 @@ export class SummaryComponent implements OnInit {
     this.hs.hoverDone = false;
   }
 
-  countTasksByStatus(status: string): number {
-    return this.ts.tasks.filter(task => task.status === status).length;
+  /**
+   * This function filters tasks based on their status and returns the count of tasks with the specified status.
+   * @param status The status by which tasks should be filtered.
+   * @returns The count of tasks with the specified status.
+   */
+  countTasksStatus(status: string): number {
+    return this.ts.tasks.filter((task) => task.status === status).length;
   }
 
-  countTasksByPriority(priority: string): number {
-    return this.ts.tasks.filter(task => task.priority === priority).length;
+  /**
+   * This function filters tasks based on their priority and returns the count of tasks with the specified priority.
+   * @param priority The priority by which tasks should be filtered.
+   * @returns The count of tasks with the specified priority.
+   */
+  countTasksPriority(priority: string): number {
+    return this.ts.tasks.filter((task) => task.priority === priority).length;
   }
 
-  getNextUrgentDeadline(): Date | null {
-    const urgentTasks = this.ts.tasks.filter(task => task.priority === 'Urgent');
+  /**
+   * This function calculates the earliest deadline among tasks with 'Urgent' priority and returns it.
+   * If there are no tasks with 'Urgent' priority, it returns null.
+   * @returns The earliest deadline among tasks with 'Urgent' priority, or null if there are no such tasks.
+   */
+  loadUrgentDeadline(): Date | null {
+    let urgentTasks = this.ts.tasks.filter(
+      (task) => task.priority === 'Urgent'
+    );
     if (urgentTasks.length === 0) {
-      return null; 
+      return null;
     }
-    const nextDeadline = new Date(Math.min(...urgentTasks.map(task => new Date(task.date).getTime())));
+    const nextDeadline = new Date(
+      Math.min(...urgentTasks.map((task) => new Date(task.date).getTime()))
+    );
     return nextDeadline;
   }
 
-  getRemainingDaysColor(remainingDays: number): string {
+  /**
+   * This function determines the color based on the number of remaining days.
+   * If the remaining days are 2 or less, it returns 'red', otherwise, it returns 'black'.
+   * @param remainingDays The number of days remaining until the deadline.
+   * @returns The color string ('red' or 'black') based on the number of remaining days.
+   */
+  remainingDaysColor(remainingDays: number): string {
     return remainingDays <= 2 ? 'red' : 'black';
   }
-  
 
-  getRemainingDaysUntilDeadline(deadline: Date): number {
+  /**
+   * This function calculates the number of remaining days until the given deadline.
+   * @param deadline The deadline date.
+   * @returns The number of remaining days until the deadline.
+   */
+  remainingDaysDeadline(deadline: Date): number {
     const currentDate = new Date();
     const timeDifference = deadline.getTime() - currentDate.getTime();
     return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
   }
-  
-  
-  
-  
-  
 }

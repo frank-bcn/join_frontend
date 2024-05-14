@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { HoverService } from './hover.service';
@@ -43,6 +44,8 @@ export class TaskService {
 
   tasks: any[] = [];
   taskToUpdate: any;
+  openTask: boolean = false;
+  openAddTaskBoard: boolean = false;
 
   constructor(
     public us: UserService,
@@ -130,7 +133,9 @@ export class TaskService {
       console.log('Task erfolgreich erstellt:', response);
       this.clearInputFields();
       this.clearArray();
+      this.openAddTaskBoard = false;
       this.loadBoard();
+      this.loadTasks();
     } catch (error) {
       console.error('Fehler beim Erstellen des Tasks:', error);
     }
@@ -216,6 +221,7 @@ export class TaskService {
         .toPromise()
         .then((response) => {
           this.loadTasks();
+          this.openTask = false;
         })
         .catch((error) => {
           console.error('Error deleting task:', error);
@@ -228,6 +234,7 @@ export class TaskService {
     movedTask.status = newStatus;
     const taskId = movedTask.id;
     this.updateTaskStatus(taskId, newStatus);
+    
   }
 
   updateTaskStatus(taskId: number, newStatus: string) {
@@ -256,16 +263,22 @@ export class TaskService {
     const url = environment.baseUrl + '/api/updateTaskDeadline/';
     const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
     const body = { id: this.taskToUpdate.id, date: isoDate };
-    console.log(body);
 
     this.http
       .put<any>(url, body)
       .toPromise()
       .then((response) => {
-        console.log('Updated Task sent to backend successfully:', response);
       })
       .catch((error) => {
-        console.error('Error sending updated task to backend:', error);
       });
   }
+
+  openAddTaskPage() {
+    this.openAddTaskBoard = true;
+  }
+
+  closeAddTaskPage() {
+    this.openAddTaskBoard = false;
+  }
+
 }

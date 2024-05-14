@@ -13,7 +13,7 @@ export class TaskComponent {
   constructor(public ts: TaskService, public us: UserService) { }
 
 
-  getPriorityImageSrc(priority: string): string {
+  prioImages(priority: string): string {
     switch (priority) {
       case 'Urgent':
         return '/assets/img/prioUrgent.svg';

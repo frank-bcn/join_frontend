@@ -12,7 +12,6 @@
 
     .summaryContent {
         display: flex;
-
         justify-content: flex-start;
         margin-left: 100px;
     }
@@ -84,7 +83,7 @@
                 display: flex;
                 align-items: center;
                 border-right: 3px solid grey;
-                width: 50%;
+                width: 40%;
                 margin: 5px 0 5px 0;
 
                 .prioTaskWrapper {
@@ -207,4 +206,3 @@ h2 {
 
 
  }
-

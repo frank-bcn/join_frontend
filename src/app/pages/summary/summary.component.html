@@ -4,98 +4,117 @@
     <span class="slogan">Everything in a nutshell!</span>
   </header>
   <div class="taskGreetingContainer">
-   <!--front row-->
-<div class="taskStatusContainer">
-  <div class="statusFrontRow">
-    <span
-      class="tasksSmallContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-    >
-    <h2>{{ ts.tasks.length }}</h2>
-    <div class="textTask">Tasks in<br />Board</div>
-    </span>
-    <span
-      class="tasksSmallContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-    >
-      <h2>{{ countTasksByStatus('inProgress') }}</h2>
-      <div class="textTask">Tasks in<br />Progress</div>
-    </span>
-    <span
-      class="tasksSmallContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-    >
-      <h2>{{ countTasksByStatus('awaiting') }}</h2>
-      <div class="textTask">Awaiting<br />Feedback</div>
-    </span>
-  </div>
-  <!--second row-->
-  <div class="taskPriorityDateContainer">
-    <span
-      class="tasksLargeContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-    >
-      <div class="priorityContainer">
-        <img draggable="false" src="/assets/img/urgent-button.png" />
-        <div class="prioTaskWrapper">
-          <div class="prioTaskNum">
-            <h2>{{ countTasksByPriority('Urgent') }}</h2>
+    <!--front row-->
+    <div class="taskStatusContainer">
+      <div class="statusFrontRow">
+        <span
+          class="tasksSmallContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+        >
+          <h2>{{ ts.tasks.length }}</h2>
+          <div class="textTask">Tasks in<br />Board</div>
+        </span>
+        <span
+          class="tasksSmallContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+        >
+          <h2>{{ countTasksStatus("inProgress") }}</h2>
+          <div class="textTask">Tasks in<br />Progress</div>
+        </span>
+        <span
+          class="tasksSmallContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+        >
+          <h2>{{ countTasksStatus("awaiting") }}</h2>
+          <div class="textTask">Awaiting<br />Feedback</div>
+        </span>
+      </div>
+      <!--second row-->
+      <div class="taskPriorityDateContainer">
+        <span
+          class="tasksLargeContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+        >
+          <div class="priorityContainer">
+            <img draggable="false" src="/assets/img/urgent-button.png" />
+            <div class="prioTaskWrapper">
+              <div class="prioTaskNum">
+                <h2>{{ countTasksPriority("Urgent") }}</h2>
+              </div>
+              <div class="textTask">Urgent</div>
+            </div>
           </div>
-          <div class="textTask">Urgent</div>
-        </div>
+          <div
+            class="deadlineContainer"
+            *ngIf="loadUrgentDeadline(); let deadline"
+          >
+            <div>
+              <b>{{ loadUrgentDeadline() | date : "yyyy-MM-dd" }}</b>
+              <span
+                [style.color]="
+                  remainingDaysColor(remainingDaysDeadline(deadline))
+                "
+              >
+                ({{ remainingDaysDeadline(deadline) }} Tage)
+              </span>
+            </div>
+            <div>Upcoming deadline</div>
+          </div>
+        </span>
       </div>
-      <div class="deadlineContainer" *ngIf="getNextUrgentDeadline(); let deadline">
-        <div>
-          <b>{{ getNextUrgentDeadline() | date: 'yyyy-MM-dd' }}</b> 
-          <span [style.color]="getRemainingDaysColor(getRemainingDaysUntilDeadline(deadline))">
-            ({{ getRemainingDaysUntilDeadline(deadline) }} Tage)
-          </span>
-        </div>
-        <div>Upcoming deadline</div>
-      </div>
-    </span>
-  </div>
-  <!--third row-->
-  <div class="statusOptions">
-    <span
-      class="tasksMediumContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-      (mouseenter)="onHoverTodo()"
-      (mouseleave)="onLeaveTodo()"
-    >
-      <div class="imgContainer">
-        <img draggable="false" [src]=" hs.hoverTodo ?
-        '/assets/img/hoverTodo.png' : '/assets/img/todo.png' " />
-      </div>
-      <div>
-        <h2>{{ countTasksByStatus('todo') }}</h2>
-        <div class="textTask">To do</div>
-      </div>
-    </span>
+      <!--third row-->
+      <div class="statusOptions">
+        <span
+          class="tasksMediumContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+          (mouseenter)="onHoverTodo()"
+          (mouseleave)="onLeaveTodo()"
+        >
+          <div class="imgContainer">
+            <img
+              draggable="false"
+              [src]="
+                hs.hoverTodo
+                  ? '/assets/img/hoverTodo.png'
+                  : '/assets/img/todo.png'
+              "
+            />
+          </div>
+          <div>
+            <h2>{{ countTasksStatus("todo") }}</h2>
+            <div class="textTask">To do</div>
+          </div>
+        </span>
 
-    <span
-      class="tasksMediumContainer"
-      (click)="navigateToBoard()"
-      [class.active]="hs.activeLink === 'board'"
-      (mouseenter)="onHover()"
-      (mouseleave)="onLeave()"
-    >
-      <div class="imgContainer">
-        <img draggable="false" [src]=" hs.hoverDone ?
-        '/assets/img/hoverDone.png' : '/assets/img/joinDone.png' " />
+        <span
+          class="tasksMediumContainer"
+          (click)="navigateToBoard()"
+          [class.active]="hs.activeLink === 'board'"
+          (mouseenter)="onHover()"
+          (mouseleave)="onLeave()"
+        >
+          <div class="imgContainer">
+            <img
+              draggable="false"
+              [src]="
+                hs.hoverDone
+                  ? '/assets/img/hoverDone.png'
+                  : '/assets/img/joinDone.png'
+              "
+            />
+          </div>
+          <div>
+            <h2>{{ countTasksStatus("done") }}</h2>
+            <div class="textTask">Done</div>
+          </div>
+        </span>
       </div>
-      <div>
-        <h2>{{ countTasksByStatus('done') }}</h2>
-        <div class="textTask">Done</div>
-      </div>
-    </span>
-  </div>
-</div>
+    </div>
 
     <!--greeting-->
     <div class="greetingContainer d-none">

@@ -1,5 +1,5 @@
 <div class="todoContainer" cdkDrag [cdkDragData]="task">
-  <div class="todoHeader">
+  <header>
     <div class="category" [style.background-color]="task.category.color">
       <span class="catName">{{ task.category.name }}</span>
     </div>
@@ -11,7 +11,7 @@
         class="delete"
       />
     </div>
-  </div>
+  </header>
   <span class="title">{{ task.title }}</span>
   <span class="description">{{ task.description }}</span>
   <div class="wrapper">
@@ -27,7 +27,7 @@
     </div>
 
     <span class="prio">
-      <img [src]="getPriorityImageSrc(task.priority)" class="prioImg" />
+      <img [src]="prioImages(task.priority)" class="prioImg" />
     </span>
   </div>
 </div>

@@ -6,7 +6,9 @@
         <input type="search" placeholder="Find Task" />
         <img src="/assets/img/search.svg" class="" />
       </span>
-      <button class="btnBlue addTask">Add Task +</button>
+      <button (click)="ts.openAddTaskPage()" class="btnBlue addTask">
+        Add Task +
+      </button>
     </div>
   </header>
 
@@ -30,13 +32,14 @@
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Todo</h1>
-          <span class="addTaskImg">
-            <img src="/assets/img/plusButtonBorder.svg" class="img" />
-          </span>
         </span>
         <div class="taskFieldWrapper">
           <ng-container *ngFor="let task of ts.tasks">
-            <app-task *ngIf="task.status === 'todo'" [task]="task"></app-task>
+            <app-task
+              (click)="openTasks(task)"
+              *ngIf="task.status === 'todo'"
+              [task]="task"
+            ></app-task>
           </ng-container>
         </div>
       </div>
@@ -51,13 +54,11 @@
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">In progress</h1>
-          <span class="addTaskImg">
-            <img src="/assets/img/plusButtonBorder.svg" class="img" />
-          </span>
         </span>
         <div class="taskFieldWrapper">
           <ng-container *ngFor="let task of ts.tasks">
             <app-task
+              (click)="openTasks(task)"
               *ngIf="task.status == 'inProgress'"
               [task]="task"
             ></app-task>
@@ -75,13 +76,11 @@
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Awaiting Feedback</h1>
-          <span class="addTaskImg">
-            <img src="/assets/img/plusButtonBorder.svg" class="img" />
-          </span>
         </span>
         <div class="taskFieldWrapper">
           <ng-container *ngFor="let task of ts.tasks">
             <app-task
+              (click)="openTasks(task)"
               *ngIf="task.status == 'awaiting'"
               [task]="task"
             ></app-task>
@@ -99,16 +98,84 @@
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Done</h1>
-          <span class="addTaskImg">
-            <img src="/assets/img/plusButtonBorder.svg" class="img" />
-          </span>
         </span>
         <div class="taskFieldWrapper">
           <ng-container *ngFor="let task of ts.tasks">
-            <app-task *ngIf="task.status == 'done'" [task]="task"></app-task>
+            <app-task
+              (click)="openTasks(task)"
+              *ngIf="task.status == 'done'"
+              [task]="task"
+            ></app-task>
           </ng-container>
         </div>
       </div>
     </div>
+  </div>
+</div>
+<!-- open Task -->
+<div class="shadowPage" *ngIf="ts.openTask">
+  <div class="openContainer">
+    <header>
+      <span
+        class="categoryName"
+        [style.background-color]="openTaskData.category.color"
+        >{{ openTaskData?.category.name }}</span
+      >
+      <span class="closeOpenTask">
+        <img
+          (click)="closeOpenTasks()"
+          src="/assets/img/close.svg"
+          class="close"
+      /></span>
+    </header>
+    <span class="title">{{ openTaskData?.title }}</span>
+    <span class="openTaskInfo">{{ openTaskData?.description }}</span>
+    <span class="openTaskInfo"
+      ><b>Due Date:</b>&nbsp;&nbsp;{{ openTaskData?.date }}</span
+    >
+    <span class="openTaskInfo">
+      <b>Priority:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {{ openTaskData?.priority }}&nbsp;&nbsp;
+      <span class="prio">
+        <img [src]="prioImages(openTaskData?.priority)" class="prioImg" />
+      </span>
+    </span>
+
+    <span class="openTaskInfo"
+      ><b>Subtasks:</b>&nbsp;&nbsp;{{ openTaskData?.subtasks }}</span
+    >
+    <span class="openTaskInfo"><b>Assigned To:</b>&nbsp;&nbsp;</span>
+    <div class="assignedTo">
+      <div
+        class="assignedToWrapper"
+        *ngFor="let userId of openTaskData.assignedTo"
+      >
+        <span
+          class="userFrame userFrameOpenTask"
+          [style.background-color]="loadUserColor(userId)"
+        >
+          {{ loadUsernameTask(userId).initials }}
+        </span>
+        <span class="nameWrapper">
+          {{ loadUsernameTask(userId).fullName }}
+        </span>
+      </div>
+    </div>
+    <span class="edit">
+      <img (click)="openEditTask()" src="/assets/img/edit.png" class="" />
+    </span>
+  </div>
+</div>
+
+<!-- open task page -->
+<div class="shadowPage" *ngIf="ts.openAddTaskBoard">
+  <div class="openContainer containerTask">
+    <span class="closeOpenAddTask">
+      <img
+        (click)="ts.closeAddTaskPage()"
+        src="/assets/img/close.svg"
+        class="close"
+    /></span>
+    <app-add-task></app-add-task>
   </div>
 </div>
