@@ -19,13 +19,12 @@
             type="text"
             [(ngModel)]="username"
             name="username"
-            placeholder="First name Last name"
+            placeholder="Username"
             autocomplete="username"
             #usernameInput="ngModel"
             pattern="^[a-zA-Z]+$"
             required
           />
-
           <div
             *ngIf="(formSubmitted && !username.trim()) || (usernameInput.touched && usernameInput.errors?.['required'])"
             class="errorMessagelogin"
@@ -38,7 +37,6 @@
           >
             Please enter only letters
           </div>
-
           <input
             type="password"
             [(ngModel)]="password"
@@ -49,7 +47,6 @@
             required
             pattern="^(?!.*<)(?!.*>).*"
           />
-
           <div
             *ngIf="(formSubmitted && !password.trim()) || (passwordInput.touched && passwordInput.errors?.['required'])"
             class="errorMessagePass"
@@ -83,11 +80,9 @@
       </form>
     </div>
   </div>
-
   <div *ngIf="login_successful" class="successMessage">
     {{ loginSuccessMessage }}
   </div>
-
   <div *ngIf="login_unsuccessful" class="unsuccessMessage">
     {{ loginErrorMessage }}
   </div>

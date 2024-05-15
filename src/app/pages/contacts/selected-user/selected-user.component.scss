@@ -9,7 +9,6 @@
     border-radius: 30px;
     width: calc(100% - 10%);
     height: calc(100% - 10%);
-    // background-color: #ffffff;
 
     .userDataWrapper {
         display: flex;
@@ -151,13 +150,3 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-
-/*************************************************************/
-/************************   query's   ************************/
-/*************************************************************/
-
-@media screen and (max-width: 700px) and (max-height: 840px) {
-    
-}
-

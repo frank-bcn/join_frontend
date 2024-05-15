@@ -2,14 +2,22 @@
   <div class="container">
     <div class="slogen">
       <div class="sloganContainer">
-        <img draggable = "false" src="/assets/img/join-white-logo.png" class="logo" />
+        <img
+          draggable="false"
+          src="/assets/img/join-white-logo.png"
+          class="logo"
+        />
         <h2>Edit contact</h2>
       </div>
     </div>
     <div class="formContainer">
       <span class="deleteContainer">
-        <img draggable = "false" src="/assets/img/close.svg" class="close"
-        (click)="closeSliderEditContainer()" />
+        <img
+          draggable="false"
+          src="/assets/img/close.svg"
+          class="close"
+          (click)="closeSliderEditContainer()"
+        />
       </span>
       <div class="wrapper">
         <div class="userImgContainer">
@@ -18,24 +26,49 @@
           </div>
         </div>
         <div class="form">
-          <input type="text" [(ngModel)]="us.selectedUser.username" name="username" required #username="ngModel" />
-          <div *ngIf="(username.errors?.['required'] && (username.dirty || username.touched))" class="errorMessage">
-              Name is required
+          <input
+            type="text"
+            [(ngModel)]="us.selectedUser.username"
+            name="username"
+            required
+            #username="ngModel"
+          />
+          <div
+            *ngIf="(username.errors?.['required'] && (username.dirty || username.touched))"
+            class="errorMessage"
+          >
+            Name is required
           </div>
-      
-          <input type="email" [(ngModel)]="us.selectedUser.email" name="email" required #email="ngModel" />
-          <div *ngIf="(email.errors?.['required'] && (email.dirty || email.touched))" class="errorMessage">
-              Email is required
+          <input
+            type="email"
+            [(ngModel)]="us.selectedUser.email"
+            name="email"
+            required
+            #email="ngModel"
+          />
+          <div
+            *ngIf="(email.errors?.['required'] && (email.dirty || email.touched))"
+            class="errorMessage"
+          >
+            Email is required
           </div>
-      
-          <input type="tel" [(ngModel)]="us.selectedUser.phone" name="phone" required #phone="ngModel" />
-          <div *ngIf="(phone.errors?.['required'] && (phone.dirty || phone.touched))" class="errorMessage">
-              Phone is required
+          <input
+            type="tel"
+            [(ngModel)]="us.selectedUser.phone"
+            name="phone"
+            required
+            #phone="ngModel"
+          />
+          <div
+            *ngIf="(phone.errors?.['required'] && (phone.dirty || phone.touched))"
+            class="errorMessage"
+          >
+            Phone is required
           </div>
-      
-          <button class="btnBlue btnCreate" (click)="us.editUserContact()">Save</button>
-      </div>
-      
+          <button class="btnBlue btnCreate" (click)="us.editUserContact()">
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -29,7 +29,6 @@
             >Invalid title format</span
           >
         </div>
-
         <!-- Description -->
         <label>Description</label>
         <textarea
@@ -57,7 +56,6 @@
             >Invalid description format</span
           >
         </div>
-
         <!--Category-->
         <label>Category</label>
         <div class="container">
@@ -95,11 +93,6 @@
             }"
           />
         </div>
-
-        <div *ngIf="(taskForm.submitted || !ts.selectedCategory.name || !ts.selectedCategory.color) && (taskForm.dirty || taskForm.submitted)" class="errorMessage">
-          <span>Category and Color are required</span>
-      </div>
-
         <!-- DROPDOWN -->
         <div class="dropdown" *ngIf="categoryDropdown">
           <div class="dropdownContainer categoryDropdownContainer">
@@ -143,7 +136,17 @@
             />
           </div>
         </div>
-
+        <div
+          *ngIf="
+            (taskForm.submitted ||
+              !ts.selectedCategory.name ||
+              !ts.selectedCategory.color) &&
+            (taskForm.dirty || taskForm.submitted)
+          "
+          class="errorMessage"
+        >
+          <span>Category and Color are required</span>
+        </div>
         <!--Assigned to -->
         <label>Assigned to</label>
         <div class="container">
@@ -166,7 +169,6 @@
             }"
           />
         </div>
-
         <!-- DROPDOWN -->
         <div class="dropdown" *ngIf="assignedDropdown">
           <div class="dropdownContainer">
@@ -180,7 +182,6 @@
               <span class="nameWrapper"
                 >{{ user.username }} {{ user.last_name }}</span
               >
-
               <input
                 [ngModel]="user.checked"
                 (ngModelChange)="ts.checkUser(user)"
@@ -191,7 +192,6 @@
             </div>
           </div>
         </div>
-
         <div class="usercheckContainer" *ngIf="us.selectedUsers.length != 0">
           <span
             *ngFor="let user of us.selectedUsers"
@@ -200,16 +200,15 @@
             >{{ us.employeesInitials(user.username, user.last_name) }}
           </span>
         </div>
-       <div
+        <div
           class="usercheckContainer"
           *ngIf="taskForm.submitted && us.selectedUsers.length === 0"
         >
           <div class="errorMessage">
             <span>No user selected</span>
           </div>
-        </div> 
+        </div>
       </div>
-
       <!-- right side -->
       <div class="taskSettingsContainer">
         <!--Date-->
@@ -221,10 +220,15 @@
           [(ngModel)]="ts.dateInputValue"
           #dateInput="ngModel"
         />
-        <div *ngIf="(taskForm.submitted || !ts.dateInputValue) && (dateInput.dirty || taskForm.submitted || dateInput.touched)" class="errorMessage">
+        <div
+          *ngIf="
+            (taskForm.submitted || !ts.dateInputValue) &&
+            (dateInput.dirty || taskForm.submitted || dateInput.touched)
+          "
+          class="errorMessage"
+        >
           <span>Date is required</span>
-      </div>
-
+        </div>
         <!--Prio-->
         <label>Prio</label>
         <div class="prioContainer">
@@ -243,7 +247,6 @@
               "
             />
           </div>
-
           <div
             class="prioBtn"
             (click)="prioMedium()"
@@ -259,7 +262,6 @@
               "
             />
           </div>
-
           <div
             class="prioBtn"
             (click)="prioLow()"
@@ -284,7 +286,6 @@
         >
           <span>Please select a priority</span>
         </div>
-
         <!--Subtasks-->
         <label>Subtasks</label>
         <div class="container">
@@ -310,7 +311,6 @@
             }"
           />
         </div>
-
         <!-- DROPDOWN -->
         <div
           class="dropdown"
@@ -326,10 +326,14 @@
             </div>
           </div>
         </div>
-        <div *ngIf="(taskForm.submitted || !ts.subtasks.length) && taskForm.submitted" class="errorMessage">
+        <div
+          *ngIf="
+            (taskForm.submitted || !ts.subtasks.length) && taskForm.submitted
+          "
+          class="errorMessage"
+        >
           <span>At least one subtask is required</span>
-      </div>
-
+        </div>
         <!--Ceate task btn -->
         <div class="btnTaskContainer">
           <button type="submit" class="btnBlue">Create Task</button>

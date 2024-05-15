@@ -13,7 +13,7 @@
         height: 100%;
         background: #2a3647;
 
-        .logo  {
+        .logo {
             height: 100px;
         }
     }
@@ -121,7 +121,7 @@
             height: 25px;
             font-weight: 700;
             color: #2a3647;
-            background-color: transparent; /**************/
+            background-color: transparent;
             cursor: pointer;
         }
 
@@ -235,9 +235,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            margin-top: 12px;
-            margin-left: 150px;
-            margin-right: 150px;
+            margin: 12px 150px 0 150px;
         }
 
         .colorSquare {

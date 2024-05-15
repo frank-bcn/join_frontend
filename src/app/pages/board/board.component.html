@@ -11,7 +11,7 @@
       </button>
     </div>
   </header>
-
+  <!-- scroll buttons -->
   <div class="scrollBtn">
     <span (click)="scrollTo('left')">
       <img src="/assets/img/arrowLeftDark.png" class="leftHover" />
@@ -43,7 +43,6 @@
           </ng-container>
         </div>
       </div>
-
       <!-- in progress Container -->
       <div
         class="taskFieldContainer"
@@ -65,7 +64,6 @@
           </ng-container>
         </div>
       </div>
-
       <!-- awaiting feedback container -->
       <div
         class="taskFieldContainer"
@@ -87,7 +85,6 @@
           </ng-container>
         </div>
       </div>
-
       <!-- done container -->
       <div
         class="taskFieldContainer"
@@ -167,7 +164,7 @@
   </div>
 </div>
 
-<!-- open task page -->
+<!-- open add task page -->
 <div class="shadowPage" *ngIf="ts.openAddTaskBoard">
   <div class="openContainer containerTask">
     <span class="closeOpenAddTask">

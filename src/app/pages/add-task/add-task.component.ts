@@ -10,22 +10,21 @@ import { UserService } from '../../services/user.service';
 export class AddTaskComponent {
   inputValue: string = '';
   color: string = '';
-
   categoryDropdown: boolean = false;
   newCategoryDropdown: boolean = false;
   selectedColorIndex: number = -1;
-
   assignedDropdown: boolean = false;
   subtasksDropdown: boolean = false;
 
   constructor(public ts: TaskService, public us: UserService) {}
 
   /**
-   * Angular lifecycle hook called after the component has been initialized.
-   * Initiates the process of loading user data from the server by calling the appropriate service method.
+   * ngOnInit is an Angular lifecycle hook that is called after the component is initialized.
+   * In this function, users are loaded from the server.
    */
   ngOnInit() {
     this.us.loadUsersFromServer();
+    console.log(this.us.selectedUsers)
   }
 
   /**
@@ -36,36 +35,52 @@ export class AddTaskComponent {
     this.categoryDropdown = !this.categoryDropdown;
   }
 
+  /**
+   * Sets the flags to control the visibility of category dropdowns.
+   * It hides the category dropdown and shows the new category dropdown.
+   */
   createNewCategory() {
     this.categoryDropdown = false;
     this.newCategoryDropdown = true;
   }
 
+  /**
+   * Sets the selected color index and updates the selected color.
+   * @param color The color string to be selected.
+   * @param index The index of the selected color in the color array.
+   */
   selectedColor(color: string, index: number) {
     this.selectedColorIndex = index;
     this.color = color;
     console.log(color);
   }
 
+  /**
+   * Saves the selected category by updating its name and color properties.
+   * It also logs the selected category to the console and hides the new category dropdown.
+   */
   saveCategory() {
     this.ts.selectedCategory.name = this.inputValue;
     this.ts.selectedCategory.color = this.color;
     console.log(this.ts.selectedCategory);
     this.newCategoryDropdown = false;
-
-    // this.inputValue = this.selectedCategory.name;
-    // this.color = this.selectedCategory.color;
   }
 
   /**
-   * Toggles the visibility of the assigned-to dropdown.
-   * Sets the 'isAssignedDropdownOpen' property to true, indicating that the dropdown should be displayed.
+   * Toggles the visibility of the assigned dropdown and updates the checked status of tasks.
+   * If the dropdown is currently visible, it hides it; otherwise, it shows it.
    */
   openAssignedTo() {
     this.assignedDropdown = !this.assignedDropdown;
     this.ts.updateCheckedStatus();
   }
 
+  /**
+   * Toggles the visibility of the subtasks dropdown.
+   * If the dropdown is currently closed and there is a new subtask entered,
+   * it opens the dropdown and adds the new subtask to the list of subtasks.
+   * If the dropdown is currently open, it closes it.
+   */
   openSubtasks() {
     if (!this.subtasksDropdown && this.ts.newSubtask.trim() !== '') {
       this.subtasksDropdown = true;
@@ -94,6 +109,7 @@ export class AddTaskComponent {
     this.ts.clickMedium = true;
     this.ts.clickLow = true;
   }
+
   /**
    * Sets task priority to 'Medium' and updates related properties.
    * - Sets 'isMedium' to true, indicating the task has a medium priority.
@@ -124,6 +140,10 @@ export class AddTaskComponent {
     this.ts.clickLow = false;
   }
 
+  /**
+   * Retrieves the current date in the format 'YYYY-MM-DD'.
+   * @returns The current date in the format 'YYYY-MM-DD'.
+   */
   checkDate(): string {
     let today = new Date();
     let formattedDate = today.toISOString().split('T')[0];

@@ -37,7 +37,10 @@
             #username="ngModel"
           />
           <div
-          *ngIf="(contactForm.submitted || username.invalid) && (username.dirty || contactForm.submitted || username.touched)"
+            *ngIf="
+              (contactForm.submitted || username.invalid) &&
+              (username.dirty || contactForm.submitted || username.touched)
+            "
             class="errorMessage"
           >
             <span *ngIf="username.errors?.['required']">Name is required</span>
@@ -45,7 +48,6 @@
               >Please enter first and last name with a space in between</span
             >
           </div>
-
           <input
             type="email"
             placeholder="E-mail"
@@ -56,7 +58,10 @@
             #email="ngModel"
           />
           <div
-          *ngIf="(contactForm.submitted || email.invalid) && (email.dirty || contactForm.submitted || email.touched)"
+            *ngIf="
+              (contactForm.submitted || email.invalid) &&
+              (email.dirty || contactForm.submitted || email.touched)
+            "
             class="errorMessage"
           >
             <span *ngIf="email.errors?.['required']">Email is required</span>
@@ -64,7 +69,6 @@
               >Invalid email format</span
             >
           </div>
-
           <input
             type="tel"
             placeholder="Phone"
@@ -75,7 +79,10 @@
             #phone="ngModel"
           />
           <div
-          *ngIf="(contactForm.submitted || phone.invalid) && (phone.dirty || contactForm.submitted || phone.touched)"
+            *ngIf="
+              (contactForm.submitted || phone.invalid) &&
+              (phone.dirty || contactForm.submitted || phone.touched)
+            "
             class="errorMessage"
           >
             <span *ngIf="phone.errors?.['required']">Phone is required</span>
@@ -83,7 +90,6 @@
               >Please enter only numbers</span
             >
           </div>
-
           <button type="submit" class="btnBlue btnCreate">
             Create contact
             <img draggable="false" src="/assets/img/btncheck.png" />

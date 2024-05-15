@@ -81,7 +81,6 @@
                 font-size: clamp(10px, 1vw, 12px);
                 color: #2a3647;
                 align-items: center;
-                cursor: pointer;
             }
 
             .taskFieldWrapper {
@@ -98,10 +97,6 @@
                 &::-webkit-scrollbar {
                     display: none;
                 }
-            }
-
-            .img:hover {
-                content: url("/assets/img/plusButtonBorderHover.svg");
             }
         }
     }

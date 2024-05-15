@@ -30,16 +30,20 @@ export class LoginComponent {
     public as: AuthService,
     public router: Router,
     public us: UserService,
-    public ts: TaskService,
+    public ts: TaskService
   ) {}
 
-
+  /**
+   * Performs the login process.
+   * It sets the 'formSubmitted' flag to true, validates the username and password fields,
+   * attempts to log in with the provided credentials using the authentication service,
+   * and handles the login response or error accordingly.
+   */
   async login(username: string, password: string) {
     this.formSubmitted = true;
     if (!this.username.trim() || !this.password.trim()) {
       return;
     }
-
     try {
       const resp: any = await this.as.loginWithEmailAndPassword(
         this.username,
@@ -53,13 +57,8 @@ export class LoginComponent {
   }
 
   /**
-   * Handles the response from the authentication service after a login attempt.
-   *
-   * Updates user data based on the response.
-   * If the response includes a token, sets the 'login_successful' flag to true, stores the success message,
-   * and navigates to the next page using 'navigateAfterLogin'.
-   *
-   * @param resp - The response object from the authentication service.
+   * Handles the response after a login attempt.
+   * @param resp The response object returned after attempting login.
    */
   loginResponse(resp: any) {
     this.updateUserData(resp);
@@ -67,14 +66,15 @@ export class LoginComponent {
       this.login_successful = true;
       this.loginSuccessMessage = resp.success_message;
       this.navigateAfterLogin();
-      this.ts.updateTaskDeadline(); 
+      this.ts.updateTaskDeadline25();
+      this.ts.updateTaskDeadline26();
+      this.ts.updateTaskDeadline27();
     }
   }
 
   /**
-   * Updates user data in the application state based on the response received after login.
-   * It sets the 'authToken' in 'us' service and updates 'userData' with various user information.
-   * @param response - The response received after a successful login.
+   * Updates the user data with the response from the login attempt.
+   * @param response The response object containing user data.
    */
   updateUserData(response: any) {
     this.us.authToken = response.token;
@@ -94,10 +94,8 @@ export class LoginComponent {
   }
 
   /**
-   * Asynchronous method to navigate to '/join' route after a login.
-   * It sets a timeout of 3000 milliseconds to delay the navigation.
-   * Additionally, it updates the 'viewLoginPage' property in 'ViewSignupAndLoginService'
-   * to true and triggers the loading of the summary.
+   * Navigates to the summary page after a delay.
+   * This function also sets a flag to indicate that the user color selection should be open (needs to be updated to check if user color is not assigned yet).
    */
   navigateAfterLogin() {
     setTimeout(() => {
@@ -108,11 +106,8 @@ export class LoginComponent {
   }
 
   /**
-   * Handles login errors by setting the 'login_unsuccessful' flag to true,
-   * logging the error to the console, and updating the login error message.
-   * If the error object contains a nested 'error' property, it uses that as the error message,
-   * otherwise, it defaults to 'Unknown error'.
-   * @param error - The error object received during login.
+   * Handles errors that occur during the login process.
+   * @param error The error object representing the error.
    */
   loginError(error: any) {
     this.login_unsuccessful = true;

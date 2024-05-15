@@ -13,9 +13,7 @@ export class UserService {
   userData: any = {};
   users: any[] = [];
   userListEexternals: any[] = [];
-
   selectedUsers: any[] = [];
-
   userColors: string[] = [
     '#FFD700',
     '#98FB98',
@@ -34,38 +32,38 @@ export class UserService {
     '#FAFAD2',
     '#E6E6FA',
   ];
-
-  switchBtnText: string = 'go to the employees';
-
+  switchBtnText: string = 'go to the externals';
   selectedUser: any = null;
   selectedColor: string = '';
   isUserColorOpen: boolean = false;
   isDropdownOpen: boolean = false;
-
   newContact: boolean = false;
   editContact: boolean = false;
   employees: boolean = false;
-
   username: string = '';
   email: string = '';
   phone: string = '';
   id: string = '';
-
   mobileScreen: boolean = false;
 
-  constructor(public http: HttpClient, public router: Router, public hs: HoverService,) {}
+  constructor(
+    public http: HttpClient,
+    public router: Router,
+    public hs: HoverService
+  ) {}
 
   /**
-   * Service method to fetch user data from the server.
-   * Retrieves user data from the specified API endpoint and updates the service's users property.
+   * Loads user data from the server and updates the 'users' array.
+   * This function sends a GET request to the server to retrieve user data,
+   * sorts the user data by username, and updates the 'users' array with the sorted data.
+   * @throws Error if an error occurs during the data loading process.
    */
   async loadUsersFromServer() {
-    const url = environment.baseUrl + '/api/users/';
-
+    let url = environment.baseUrl + '/api/users/';
     try {
-      const response = await this.http.get<any[]>(url).toPromise();
+      let response = await this.http.get<any[]>(url).toPromise();
       if (response) {
-        this.users = this.sortUsersByUsername(response);
+        this.users = this.sortUsersUsername(response);
       }
     } catch (error) {
       console.error('Fehler beim Laden der Benutzer:', error);
@@ -74,11 +72,11 @@ export class UserService {
   }
 
   /**
-   * Sorts users by username in alphabetical order.
-   * @param users The array of users to be sorted.
-   * @returns The sorted array of users.
+   * Sorts an array of users by their usernames.
+   * @param users An array of user objects to be sorted.
+   * @returns A new array of user objects sorted by username.
    */
-  sortUsersByUsername(users: any[]): any[] {
+  sortUsersUsername(users: any[]): any[] {
     return users.sort((a, b) => {
       if (a.username < b.username) {
         return -1;
@@ -90,70 +88,109 @@ export class UserService {
     });
   }
 
+  /**
+   * Saves the user to the user list on the server.
+   * This function constructs the URL and request body for saving the user,
+   * sends a request to the server to save the user data,
+   * and handles the response or error accordingly.
+   * Finally, it resets the 'newContact' flag and updates the user's initials.
+   */
   async saveUserToUserList() {
-    const url = environment.baseUrl + '/api/saveEexternalsUser/';
-    const randomColor = this.randomColor();
-    const body = {
+    let url = environment.baseUrl + '/api/eexternalsUser/';
+    let randomColor = this.randomColor();
+    let body = this.userBody(randomColor);
+    try {
+      let response = await this.saveUser(url, body);
+      this.saveUserResponse(response);
+    } catch (error) {
+      this.error(error);
+    }
+    this.newContact = false;
+    this.externalsInitials(this.username);
+  }
+
+  /**
+   * Constructs the request body for saving user data to the server.
+   * This function returns an object containing the user's username, email, phone number, and a randomly generated color.
+   * @param randomColor The randomly generated color for the user.
+   * @returns An object representing the request body for saving user data.
+   */
+  userBody(randomColor: string): any {
+    return {
       username: this.username,
       email: this.email,
       phone: this.phone,
       color: randomColor,
     };
-    console.log('Request Body:', body);
-
-    try {
-      const response = await this.http.post(url, body).toPromise();
-      console.log('Response:', response);
-      this.userListEexternals.push(response);
-      this.loadUserListEexternals();
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    this.newContact = false;
-    console.log('Request Body:', body);
-    this.externalsInitials(this.username);
   }
 
-  async editUserContact() {
-    if (!this.selectedUser.username || !this.selectedUser.email || !this.selectedUser.phone) {
-      console.log('All fields are required');
-      return;
-    }
-  
-    const url = environment.baseUrl + '/api/updateContact/';
-    const body = {
-      username: this.selectedUser.username,
-      email: this.selectedUser.email,
-      phone: this.selectedUser.phone,
-      id: this.selectedUser.id,
-    };
-    console.log('Body:', body);
-    try {
-      await this.http.post(url, body).toPromise();
-      this.editContact = false;
-      this.loadUserListEexternals();
-    } catch (error) {
-    }
+  /**
+   * Sends a POST request to save user data to the server.
+   * @param url The URL endpoint for saving user data.
+   * @param body The request body containing user data to be saved.
+   * @returns A promise that resolves with the response from the server after saving the user data.
+   */
+  async saveUser(url: string, body: any): Promise<any> {
+    return this.http.post(url, body).toPromise();
   }
 
+  /**
+   * Handles the response after successfully saving user data to the server.
+   * This function adds the response data to the 'userListEexternals' array
+   * and reloads the user list from the server to reflect the changes.
+   * @param response The response object returned after saving user data.
+   */
+  saveUserResponse(response: any): void {
+    this.userListEexternals.push(response);
+    this.loadUserListEexternals();
+  }
+
+  /**
+   * Logs an error message to the console.
+   * This function is used to handle errors that occur during asynchronous operations.
+   * It logs the provided error object to the console for debugging purposes.
+   * @param error The error object representing the error that occurred.
+   */
+  error(error: any): void {
+    console.error('Error:', error);
+  }
+
+  /**
+   * Generates a random color from a predefined list of colors.
+   * This function calculates a random index within the range of the userColors array,
+   * selects a color at that index, and returns the selected color.
+   * @returns A randomly selected color from the userColors array.
+   */
   randomColor(): string {
-    const randomIndex = Math.floor(Math.random() * this.userColors.length);
+    let randomIndex = Math.floor(Math.random() * this.userColors.length);
     return this.userColors[randomIndex];
   }
 
+  /**
+   * Loads the user list of externals from the server.
+   * This function sends a GET request to the server to retrieve the user list of externals,
+   * updates the 'userListEexternals' array with the retrieved data,
+   * and logs the response for debugging purposes.
+   */
   async loadUserListEexternals() {
-    const url = environment.baseUrl + '/api/loadUserListEexternals/';
+    let url = environment.baseUrl + '/api/eexternalsUser/';
     try {
-      const response = await this.http.get<any[]>(url).toPromise();
-      console.log('User List Eexternals:', response);
+      let response = await this.http.get<any[]>(url).toPromise();
       this.userListEexternals = response as any[];
     } catch (error) {
       console.error('Error loading user list:', error);
     }
   }
 
+  /**
+   * Generates initials from the provided username.
+   * This function splits the username into words, extracts the first letter of each word,
+   * converts the letters to uppercase, and concatenates them to form the initials.
+   * @param username The username from which initials are generated.
+   * @returns The initials extracted from the username.
+   */
   externalsInitials(username: string) {
-    const names = username.split(' ');
+    let names = username.split(' ');
     let initials = '';
     names.forEach((name) => {
       if (name.length > 0) {
@@ -163,56 +200,107 @@ export class UserService {
     return initials;
   }
 
+  /**
+   * Generates initials from the provided username and last name.
+   * This function extracts the first letter of the username and last name,
+   * converts them to uppercase, and concatenates them to form the initials.
+   * @param username The username from which the first initial is extracted.
+   * @param lastName The last name from which the second initial is extracted.
+   * @returns The initials extracted from the username and last name.
+   */
   employeesInitials(username: string, lastName: string): string {
     return username.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
   }
 
-  saveUserColor() {
-    const url = environment.baseUrl + '/api/update_user_color/';
+  /**
+   * Saves the selected color for the user to the server.
+   * This function constructs the URL and request body for updating the user's color,
+   * sends a request to the server to update the user's color,
+   * and returns a promise representing the result of the operation.
+   * @param selectedColor The selected color to be saved for the user.
+   * @returns A promise that resolves with the response from the server after updating the user's color.
+   */
+  saveUserColor(selectedColor: string): Promise<any> {
+    const url = environment.baseUrl + '/api/user/';
     const body = {
       pk: this.userData.pk,
-      user_color: this.selectedColor,
+      user_color: selectedColor,
     };
-    const user_color = this.http.put(url, body).toPromise();
-
-    user_color
-      .then((response) => {
-        console.log('Response:', response);
-        this.isUserColorOpen = false;
-        this.userData.user_color = this.selectedColor;
-        console.log(this.userData);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
-    return user_color;
+    return this.updateUserColor(url, body);
   }
 
-  sortUser(users: any[]): { [key: string]: any[] } {
-    const groupedUsers: { [key: string]: any[] } = {};
+  /**
+   * Sends a PUT request to update the user's color on the server.
+   * @param url The URL endpoint for updating the user's color.
+   * @param body The request body containing the user's primary key and the selected color.
+   * @returns A promise that resolves with the response from the server after updating the user's color.
+   */
+  async updateUserColor(url: string, body: any): Promise<any> {
+    return this.http
+      .put(url, body)
+      .toPromise()
+      .then((response) => {
+        this.successResponse(response);
+        return response;
+      })
+      .catch((error) => {
+        this.error(error);
+        throw error;
+      });
+  }
 
+  /**
+   * Handles the success response after updating the user's color.
+   * This function logs the response for debugging purposes,
+   * closes the user color selection interface,
+   * and updates the user's color in the application state.
+   * @param response The response object received after updating the user's color.
+   */
+  successResponse(response: any): void {
+    console.log('Response:', response);
+    this.isUserColorOpen = false;
+    this.userData.user_color = this.selectedColor;
+  }
+
+  /**
+   * Sorts an array of users into groups based on their usernames' initial letters.
+   * This function iterates over the array of users, extracts the initial letter of each username,
+   * groups users with the same initial letter together, and returns an array of grouped users.
+   * @param users An array of users to be sorted.
+   * @returns An array of grouped users, where each group represents users with the same initial letter.
+   */
+  sortUser(users: any[]): any[] {
+    const groupedUsers: any[] = [];
     users.forEach((user) => {
       if (user.username) {
-        const initial = user.username.charAt(0).toUpperCase();
-        if (!groupedUsers[initial]) {
-          groupedUsers[initial] = [];
+        let initial = user.username.charAt(0).toUpperCase();
+        let existingGroup = groupedUsers.find(
+          (group) => group.initial === initial
+        );
+        if (existingGroup) {
+          existingGroup.users.push(user);
+        } else {
+          groupedUsers.push({ initial: initial, users: [user] });
         }
-        groupedUsers[initial].push(user);
       }
     });
-
     return groupedUsers;
   }
 
+  /**
+   * Deletes the selected contact from the server.
+   * This function prompts the user for confirmation before initiating the deletion process.
+   * If the user confirms the deletion, it sends a DELETE request to the server to delete the contact with the specified ID.
+   * After successful deletion, it resets the selected user to null and reloads the user list of externals.
+   * If any errors occur during the deletion process, they are logged to the console.
+   */
   deleteContact(): void {
     if (confirm('Are you sure you want to delete this contact?')) {
-      const url = environment.baseUrl + '/api/delete/';
+      const url = environment.baseUrl + '/api/eexternalsUser/';
       this.http
         .delete<any>(url, { body: { id: this.selectedUser.id } })
         .toPromise()
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           this.selectedUser = null;
           this.loadUserListEexternals();
         })
@@ -222,21 +310,80 @@ export class UserService {
     }
   }
 
-
+  /**
+   * Changes the z-index property of HTML elements with specific IDs to control their stacking order.
+   * This function takes a z-index value as input and applies it to the content and userList elements.
+   * @param zIndex The z-index value to be applied to the elements.
+   */
   changeZIndex(ZIndex: number) {
     const content = document.getElementById('content') as HTMLElement;
     const userList = document.getElementById('userList') as HTMLElement;
-  
+
     if (content && userList) {
       content.style.zIndex = ZIndex.toString();
       userList.style.zIndex = (1 - ZIndex).toString();
     }
   }
 
+
+
+  validateUserFields(user: any): boolean {
+    if (!user.username || !user.email || !user.phone) {
+      return false;
+    }
+    return true;
+  }
+  
+  async editUserContact() {
+    // if (!this.validateUserFields(this.selectedUser)) {
+    //   return;
+    // }
+    const url = environment.baseUrl + '/api/updateContact/';
+    const body = {
+      username: this.selectedUser.username,
+      email: this.selectedUser.email,
+      phone: this.selectedUser.phone,
+      id: this.selectedUser.id,
+    };
+    try {
+      await this.http.post(url, body).toPromise();
+      console.log('Contact updated successfully');
+    } catch (error) {
+      console.error('Error updating contact:', error);
+    }
+  }
+    // async editUserContact() {
+  //   if (
+  //     !this.selectedUser.username ||
+  //     !this.selectedUser.email ||
+  //     !this.selectedUser.phone
+  //   ) {
+  //     console.log('All fields are required');
+  //     return;
+  //   }
+
+  //   const url = environment.baseUrl + '/api/updateContact/';
+  //   const body = {
+  //     username: this.selectedUser.username,
+  //     email: this.selectedUser.email,
+  //     phone: this.selectedUser.phone,
+  //     id: this.selectedUser.id,
+  //   };
+  //   console.log('Body:', body);
+  //   try {
+  //     await this.http.post(url, body).toPromise();
+  //     this.editContact = false;
+  //     this.loadUserListEexternals();
+  //     console.log('Contact updated');
+  //   } catch (error) {}
+  // }
+
+
+
+  // muss noch erstellt werden, funktioniert nicht
   logout(): Observable<any> {
     console.log('click');
     const url = environment.baseUrl + '/logout/';
     return this.http.post(url, {});
-    
   }
 }

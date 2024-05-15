@@ -136,37 +136,35 @@
 /*************************************************************/
 
 @media screen and (max-width: 700px) {
-
     header {
         justify-content: center;
-        // display: none;
     }
 
     .contactContainer .userList {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: calc(100% - 2%);
-      z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 2%);
+        z-index: 1;
     }
 
     .content {
-        background-color: #f6f7f8
+        background-color: #f6f7f8;
     }
-  
+
     .contactContainer .content {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: calc(100% - 2%);
-      z-index: 0;
-      margin: 6px 6% 0 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 2%);
+        z-index: 0;
+        margin: 6px 6% 0 0;
     }
 
     .employeesContainer {
         width: 94% !important;
         margin: 6% 0 0 6% !important;
     }
-  }
+}

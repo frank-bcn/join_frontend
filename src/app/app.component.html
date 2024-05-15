@@ -1,7 +1,7 @@
 <div [ngClass]="{ mainPage: !isLoginPage(), loginPage: isLoginPage() }">
+  <!-- side menu -->
   <div class="sideMenu" *ngIf="!isLoginPage()">
     <img draggable="false" class="logo d-none" src="/assets/img/join-white-logo.png" />
-
     <div class="navigationLinksContainer">
       <a
         (click)="loadSummary()"
@@ -11,7 +11,6 @@
         <img draggable="false" class="" src="/assets/img/summary.svg" />
         <div class="navigationLinksName">Summary</div>
       </a>
-
       <a
         (click)="loadBoard()"
         class="navigationLink"
@@ -20,7 +19,6 @@
         <img draggable = "false" class="" src="/assets/img/board.svg" />
         <div class="navigationLinksName">Board</div>
       </a>
-
       <a
         (click)="loadAddTask()"
         class="navigationLink"
@@ -29,7 +27,6 @@
         <img draggable = "false" class="" src="/assets/img/add_task.svg" />
         <div class="navigationLinksName">Add Task</div>
       </a>
-
       <a
         (click)="loadContacts()"
         class="navigationLink"
@@ -38,7 +35,6 @@
         <img draggable = "false" class="" src="/assets/img/contacts.svg" />
         <div class="navigationLinksName">Contacts</div>
       </a>
-
       <a
         (click)="loadLegalNotice()"
         class="navigationLink legal-notice d-none"
@@ -49,7 +45,7 @@
       </a>
     </div>
   </div>
-
+<!-- header -->
   <div class="page">
     <div class="header" *ngIf="!isLoginPage()">
       <div class="kanbanImage">
@@ -80,7 +76,6 @@
             <span class="dropdownMenuUser" (click)="loadLegalNotice()">Legal notice</span>
           </ul>
         </div>
-
         <div
           *ngIf="us.isUserColorOpen && !us.userData.usercolor"
           class="userColorsContainer"
@@ -106,7 +101,7 @@
                 <button
                   class="btnBlue"
                   type="button"
-                  (click)="us.saveUserColor()"
+                  (click)="us.saveUserColor(this.us.selectedColor)"
                 >
                   save
                 </button>
@@ -116,7 +111,7 @@
         </div>
       </div>
     </div>
-
+    <!-- main Page -->
     <div class="loadLinkCompomemts">
       <router-outlet></router-outlet>
     </div>

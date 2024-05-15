@@ -30,6 +30,7 @@ export class SummaryComponent implements OnInit {
     }
     this.ts.loadTasks();
   }
+  
 
   /**
    * Navigates to the '/board' route using the Angular Router.

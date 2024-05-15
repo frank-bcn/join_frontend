@@ -1,7 +1,12 @@
 <div *ngIf="us.selectedUser" class="employeesDataWrapper" [@slideInOut]>
   <div class="userDataWrapper">
     <span class="userDataCloseContainer" *ngIf="us.mobileScreen">
-      <img draggable = "false" src="/assets/img/goBack.png" class="closeUserData" (click)="goBackTo()">
+      <img
+        draggable="false"
+        src="/assets/img/goBack.png"
+        class="closeUserData"
+        (click)="goBackTo()"
+      />
     </span>
     <div class="userDataName">
       <span

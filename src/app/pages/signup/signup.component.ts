@@ -8,18 +8,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-   /**
-   * Host listener for document click events.
-   * Calls the hideMessages method to hide registration-related messages.
-   * @param {Event} event - The click event on the document.
-   */
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: Event): void {
     this.hideMessages();
   }
 
- formSubmitted:boolean = false;
-
+  formSubmitted: boolean = false;
   username: string = '';
   email: string = '';
   password: string = '';
@@ -29,39 +23,36 @@ export class SignupComponent {
   phone_number: string = '';
   registrationErrorMessage: string = '';
   registrationSuccessMessage: string = '';
-
   registration_successful: boolean = false;
   registration_unsuccessful: boolean = false;
 
   constructor(private router: Router, private as: AuthService) {}
 
   /**
- * Asynchronous method to initiate the user signup process.
- * It creates user data, registers the user, and handles success or failure accordingly.
- */
+   * Initiates the user signup process.
+   * This function sets the 'formSubmitted' flag to true, validates the form fields (username, email, password),
+   * creates user data from the form input, attempts to register the user with the provided data,
+   * and handles the registration response or error accordingly.
+   */
   async Signup() {
     this.formSubmitted = true;
     if (!this.username.trim() || !this.email.trim() || !this.password.trim()) {
-      // Fehlerhafte Eingabe, Anmeldeversuch abbrechen
       return;
     }
-  
     try {
-      const userData = this.createUserData();
-      const resp: any = await this.registerUser(userData);
-  
+      let userData = this.createUserData();
+      let resp: any = await this.registerUser(userData);
       this.successfulRegistration(resp);
     } catch (error: any) {
       this.failedRegistration(error);
     }
   }
-  
 
   /**
- * Asynchronous method to register a user using provided user data.
- * @param {object} userData - User data object containing properties such as username, first_name, last_name, email, and password.
- * @returns {Promise<any>} A promise that resolves with the result of the user registration.
- */
+   * Registers a user with the provided user data.
+   * @param userData The user data object containing username, first name, last name, email, and password.
+   * @returns A promise that resolves with the registration response.
+   */
   async registerUser(userData: any): Promise<any> {
     return await this.as.SignupWithNameAndEmailAndPassword(
       userData.username,
@@ -72,36 +63,43 @@ export class SignupComponent {
     );
   }
 
- /**
- * Method to create user data object based on input properties.
- * @returns User data object containing properties such as username, first_name, last_name, email, and password.
- */
+  /**
+   * Creates user data object from the input fields.
+   * @returns An object containing user data such as username, first name, last name, email, password, user color, and phone number.
+   */
   createUserData() {
-    const username = this.createNames();
-    const first_name = this.first_name;
-    const last_name = this.last_name;
-    const email = this.email;
-    const password = this.password;
+    let username = this.createNames();
+    let first_name = this.first_name;
+    let last_name = this.last_name;
+    let email = this.email;
+    let password = this.password;
 
-    return { username, first_name, last_name, email, password, user_color: this.user_color, phone_number: this.phone_number };
+    return {
+      username,
+      first_name,
+      last_name,
+      email,
+      password,
+      user_color: this.user_color,
+      phone_number: this.phone_number,
+    };
   }
 
   /**
- * Method to handle a successful registration attempt.
- * @param {any} resp - The response object received from the registration attempt.
- */
+   * Handles the response after a successful user registration.
+   * @param resp The response object returned after the user registration.
+   */
   successfulRegistration(resp: any) {
     localStorage.setItem('token', resp['token']);
     this.registration_successful = true;
     this.registrationSuccessMessage = resp['message'];
-
     this.navigateToLoginAfterDelay();
   }
 
   /**
- * Method to handle a failed registration attempt.
- * @param {any} error - The error object received from the registration attempt.
- */
+   * Handles errors that occur during the user registration process.
+   * @param error The error object representing the error.
+   */
   failedRegistration(error: any) {
     this.registration_unsuccessful = true;
     this.registrationErrorMessage = error.error
@@ -110,9 +108,9 @@ export class SignupComponent {
   }
 
   /**
- * Method to navigate to the '/login' route after a delay of 3000 milliseconds (3 seconds).
- * Useful for scenarios like delayed redirects or displaying messages before navigating.
- */
+   * Navigates to the login page after a delay.
+   * This function sets a timeout to delay the navigation to the login page using the Angular Router.
+   */
   navigateToLoginAfterDelay() {
     setTimeout(() => {
       this.router.navigateByUrl('/login');
@@ -120,7 +118,12 @@ export class SignupComponent {
   }
 
   /**
-   * Function to split username into first and last name
+   * Parses the username to extract first and last names.
+   * This function splits the username into an array of names,
+   * sets the first name to the first element of the array,
+   * sets the last name to the remaining elements joined by space,
+   * and returns the first name.
+   * @returns The first name extracted from the username.
    */
   createNames() {
     const names = this.username.split(' ');
@@ -129,11 +132,12 @@ export class SignupComponent {
     return this.first_name;
   }
 
-   /**
-   * Method to hide registration-related messages.
-   * Resets flags for successful and unsuccessful registration.
+  /**
+   * Hides all registration-related messages.
+   * This function resets flags related to successful and unsuccessful registration.
+   * It sets these flags to false to hide any messages displayed to the user.
    */
-   hideMessages(): void {
+  hideMessages(): void {
     this.registration_successful = false;
     this.registration_unsuccessful = false;
   }

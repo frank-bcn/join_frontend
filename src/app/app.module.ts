@@ -19,7 +19,7 @@ import { EditContactComponent } from './pages/contacts/edit-contact/edit-contact
 import { NewContactComponent } from './pages/contacts/new-contact/new-contact.component';
 import { SelectedUserComponent } from './pages/contacts/selected-user/selected-user.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TaskComponent } from './task/task.component';
+import { TaskComponent } from './pages/task/task.component';
 
 
 @NgModule({

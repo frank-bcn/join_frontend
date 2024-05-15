@@ -8,20 +8,19 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-
   showLogin = false;
-  
+
   constructor(public http: HttpClient, public us: UserService) {}
 
   /**
-  * Service method for user signup with username, first name, last name, email, and password.
-  * @param username - The desired username for the new user.
-  * @param first_name - The first name of the new user.
-  * @param last_name - The last name of the new user.
-  * @param email - The email address of the new user.
-  * @param password - The desired password for the new user.
-  * @returns An Observable for the signup request.
-  */
+   * Sends a POST request to sign up a new user with the provided username, first name, last name, email, and password.
+   * @param username The username of the new user.
+   * @param first_name The first name of the new user.
+   * @param last_name The last name of the new user.
+   * @param email The email address of the new user.
+   * @param password The password of the new user.
+   * @returns An observable of the HTTP response from the signup request.
+   */
   SignupWithNameAndEmailAndPassword(
     username: string,
     first_name: string,
@@ -29,8 +28,8 @@ export class AuthService {
     email: string,
     password: string
   ) {
-    const url = environment.baseUrl + '/signup/';
-    const body = {
+    let url = environment.baseUrl + '/signup/';
+    let body = {
       username: username,
       first_name: first_name,
       last_name: last_name,
@@ -42,11 +41,11 @@ export class AuthService {
   }
 
   /**
-  * Service method for user login with email and password.
-  *
-  * @param password - The password associated with the user's account.
-  * @returns An Observable for the login request.
-  */
+   * Sends a POST request to authenticate a user with the provided username and password.
+   * @param username The username of the user attempting to log in.
+   * @param password The password of the user attempting to log in.
+   * @returns An observable of the HTTP response from the login request.
+   */
   loginWithEmailAndPassword(username: string, password: string) {
     const url = environment.baseUrl + '/login/';
     const body = {
