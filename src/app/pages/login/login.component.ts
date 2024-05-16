@@ -100,7 +100,7 @@ export class LoginComponent {
   navigateAfterLogin() {
     setTimeout(() => {
       this.us.isUserColorOpen =
-        true; /* diese muss ich noch ändern das das nur aufgerufen wird wenn usercolor nicht vergeben ist*/
+        true; 
       this.router.navigateByUrl('/summary');
     }, 3000);
   }

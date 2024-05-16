@@ -70,8 +70,10 @@ export class TaskService {
       user.checked = this.us.selectedUsers.some(
         (selectedUser) => selectedUser.user_id === user.user_id
       );
+      console.log(`User ${user.username} - checked: ${user.checked}`);
     });
   }
+  
 
   /**
    * Determines the priority level based on the boolean flags isUrgent, isMedium, and isLow.
@@ -153,27 +155,14 @@ export class TaskService {
     } catch (error) {}
   }
 
-
-
+  /**
+   * Constructs the request body for creating a new task.
+   * @returns {any} The request body containing task details.
+   */
   createTaskBody(): any {
-    const title = (
-      document.querySelector(
-        'input[placeholder="enter a Title"]'
-      ) as HTMLInputElement
-    ).value;
-    const description = (
-      document.querySelector(
-        'textarea[placeholder="enter a description"]'
-      ) as HTMLTextAreaElement
-    ).value;
-    const category = this.selectedCategory;
-    const assignedToIds = this.us.selectedUsers.map((user) => user.user_id);
-    const date = (
-      document.querySelector('input[name="dateField"]') as HTMLInputElement
-    ).value;
-    const priority = this.prio();
-    const subtasks = this.subtasks;
-    const status = 'todo';
+    const { title, description, date } = this.basicTaskDetails();
+    const { category, assignedToIds, priority, subtasks, status } =
+      this.additionalTaskDetails();
 
     return {
       title: title,
@@ -187,6 +176,44 @@ export class TaskService {
     };
   }
 
+  /**
+   * Retrieves basic task details from HTML input elements.
+   * @returns title, description and date the basic task details.
+   */
+  basicTaskDetails() {
+    const title = (
+      document.querySelector(
+        'input[placeholder="enter a Title"]'
+      ) as HTMLInputElement
+    ).value;
+    const description = (
+      document.querySelector(
+        'textarea[placeholder="enter a description"]'
+      ) as HTMLTextAreaElement
+    ).value;
+    const date = (
+      document.querySelector('input[name="dateField"]') as HTMLInputElement
+    ).value;
+    return { title, description, date };
+  }
+
+  /**
+   * Gathers additional details of a task.
+   * @returns category, assignedToIds, prioity ,subtasks and status additional task details.
+   */
+  additionalTaskDetails() {
+    const category = this.selectedCategory;
+    const assignedToIds = this.us.selectedUsers.map((user) => user.user_id);
+    const priority = this.prio();
+    const subtasks = this.subtasks;
+    const status = 'todo';
+
+    return { category, assignedToIds, priority, subtasks, status };
+  }
+
+  /**
+   * Clears the input fields related to task creation.
+   */
   clearInputFields() {
     (
       document.querySelector(
@@ -204,10 +231,10 @@ export class TaskService {
   }
 
   /**
- * Clears the arrays and boolean flags related to task creation.
- * This function resets the arrays and boolean flags used during task creation to their initial state.
- * It empties the array of selected users, subtasks, and resets the priority level flags to false.
- */
+   * Clears the arrays and boolean flags related to task creation.
+   * This function resets the arrays and boolean flags used during task creation to their initial state.
+   * It empties the array of selected users, subtasks, and resets the priority level flags to false.
+   */
   clearArray() {
     this.us.selectedUsers = [];
     this.subtasks = [];
@@ -217,21 +244,21 @@ export class TaskService {
   }
 
   /**
- * Navigates to the "board" route and sets the active link accordingly.
- * This function navigates to the "board" route using the Angular router.
- * It also sets the active link in the navigation bar to "board".
- */
+   * Navigates to the "board" route and sets the active link accordingly.
+   * This function navigates to the "board" route using the Angular router.
+   * It also sets the active link in the navigation bar to "board".
+   */
   loadBoard() {
     this.router.navigateByUrl('/board');
     this.hs.activeLink = 'board';
   }
 
   /**
- * Loads tasks from the server.
- * This function sends a GET request to the server to fetch tasks data.
- * If the request is successful, it updates the 'tasks' array with the received data.
- * If an error occurs during the request, it catches the error and logs it.
- */
+   * Loads tasks from the server.
+   * This function sends a GET request to the server to fetch tasks data.
+   * If the request is successful, it updates the 'tasks' array with the received data.
+   * If an error occurs during the request, it catches the error and logs it.
+   */
   async loadTasks() {
     const url = environment.baseUrl + '/api/task/';
     try {
@@ -243,13 +270,13 @@ export class TaskService {
   }
 
   /**
- * Deletes a task by sending a DELETE request to the server.
- * This function prompts the user to confirm the deletion of the task.
- * If the user confirms, it sends a DELETE request to the server to delete the task.
- * After successful deletion, it reloads the tasks list and closes the task view.
- * If an error occurs during the request, it logs the error.
- * @param taskId The ID of the task to be deleted.
- */
+   * Deletes a task by sending a DELETE request to the server.
+   * This function prompts the user to confirm the deletion of the task.
+   * If the user confirms, it sends a DELETE request to the server to delete the task.
+   * After successful deletion, it reloads the tasks list and closes the task view.
+   * If an error occurs during the request, it logs the error.
+   * @param taskId The ID of the task to be deleted.
+   */
   deleteTodo(taskId: number) {
     if (confirm('Are you sure you want to delete this task?')) {
       const url = environment.baseUrl + '/api/task/';
@@ -267,12 +294,12 @@ export class TaskService {
   }
 
   /**
- * Handles the drop event when a task is moved to a new status column.
- * This function is triggered when a task is dropped into a new status column in the task board.
- * It updates the status of the moved task locally and sends a request to the server to update the status.
- * @param event The drop event containing information about the dropped task.
- * @param newStatus The new status column to which the task is moved.
- */
+   * Handles the drop event when a task is moved to a new status column.
+   * This function is triggered when a task is dropped into a new status column in the task board.
+   * It updates the status of the moved task locally and sends a request to the server to update the status.
+   * @param event The drop event containing information about the dropped task.
+   * @param newStatus The new status column to which the task is moved.
+   */
   drop(event: CdkDragDrop<any[]>, newStatus: string) {
     let movedTask = event.item.data;
     movedTask.status = newStatus;
@@ -281,13 +308,13 @@ export class TaskService {
   }
 
   /**
- * Updates the status of a task by sending a PUT request to the server.
- * This function sends a PUT request to the server to update the status of a task.
- * If the request is successful, it reloads the tasks list to reflect the changes.
- * If an error occurs during the request, it catches the error.
- * @param taskId The ID of the task to be updated.
- * @param newStatus The new status of the task.
- */
+   * Updates the status of a task by sending a PUT request to the server.
+   * This function sends a PUT request to the server to update the status of a task.
+   * If the request is successful, it reloads the tasks list to reflect the changes.
+   * If an error occurs during the request, it catches the error.
+   * @param taskId The ID of the task to be updated.
+   * @param newStatus The new status of the task.
+   */
   updateTaskStatus(taskId: number, newStatus: string) {
     const url = environment.baseUrl + '/api/updateTaskStatus/';
     const body = { id: taskId, status: newStatus };
@@ -301,11 +328,11 @@ export class TaskService {
   }
 
   /**
- * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
- * This function finds the task with ID 25 from the list of tasks.
- * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
- * Finally, it triggers the update of the task on the server.
- */
+   * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
+   * This function finds the task with ID 25 from the list of tasks.
+   * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
+   * Finally, it triggers the update of the task on the server.
+   */
   updateTaskDeadline25(): void {
     this.taskToUpdate = this.tasks.find((task) => task.id === 25);
     const currentDate = new Date();
@@ -315,29 +342,27 @@ export class TaskService {
   }
 
   /**
- * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
- * This function finds the task with ID 25 from the list of tasks.
- * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
- * Finally, it triggers the update of the task on the server.
- */
+   * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
+   * This function finds the task with ID 25 from the list of tasks.
+   * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
+   * Finally, it triggers the update of the task on the server.
+   */
   updatedTask25(): void {
     const url = environment.baseUrl + '/api/updateTaskDeadline/';
     const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
     const body = { id: this.taskToUpdate.id, date: isoDate };
 
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      // .then((response) => {})
-      // .catch((error) => {});
+    this.http.put<any>(url, body).toPromise();
+    // .then((response) => {})
+    // .catch((error) => {});
   }
 
   /**
- * Updates the deadline of a specific task (ID: 26) and triggers the update on the server.
- * This function finds the task with ID 26 from the list of tasks.
- * It then calculates a new deadline date (6 days from the current date) and updates the task's deadline.
- * Finally, it triggers the update of the task on the server.
- */
+   * Updates the deadline of a specific task (ID: 26) and triggers the update on the server.
+   * This function finds the task with ID 26 from the list of tasks.
+   * It then calculates a new deadline date (6 days from the current date) and updates the task's deadline.
+   * Finally, it triggers the update of the task on the server.
+   */
   updateTaskDeadline26(): void {
     this.taskToUpdate = this.tasks.find((task) => task.id === 26);
     const currentDate = new Date();
@@ -347,31 +372,29 @@ export class TaskService {
   }
 
   /**
- * Updates the deadline of a specific task (ID: 26) on the server.
- * This function sends a PUT request to the server to update the deadline of the task with ID 26.
- * It constructs the request body containing the task ID and the new deadline date.
- * The new deadline date is converted to ISO string format for sending in the request.
- * The PUT request is sent to the server to update the task's deadline.
- * Note: This function is currently not handling the response or error from the server.
- */
+   * Updates the deadline of a specific task (ID: 26) on the server.
+   * This function sends a PUT request to the server to update the deadline of the task with ID 26.
+   * It constructs the request body containing the task ID and the new deadline date.
+   * The new deadline date is converted to ISO string format for sending in the request.
+   * The PUT request is sent to the server to update the task's deadline.
+   * Note: This function is currently not handling the response or error from the server.
+   */
   updatedTask26(): void {
     const url = environment.baseUrl + '/api/updateTaskDeadline/';
     const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
     const body = { id: this.taskToUpdate.id, date: isoDate };
 
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      // .then((response) => {})
-      // .catch((error) => {});
+    this.http.put<any>(url, body).toPromise();
+    // .then((response) => {})
+    // .catch((error) => {});
   }
 
   /**
- * Updates the deadline of a specific task (ID: 27) and triggers the update on the server.
- * This function finds the task with ID 27 from the list of tasks.
- * It then calculates a new deadline date (12 days from the current date) and updates the task's deadline.
- * Finally, it triggers the update of the task on the server.
- */
+   * Updates the deadline of a specific task (ID: 27) and triggers the update on the server.
+   * This function finds the task with ID 27 from the list of tasks.
+   * It then calculates a new deadline date (12 days from the current date) and updates the task's deadline.
+   * Finally, it triggers the update of the task on the server.
+   */
   updateTaskDeadline27(): void {
     this.taskToUpdate = this.tasks.find((task) => task.id === 27);
     const currentDate = new Date();
@@ -381,37 +404,35 @@ export class TaskService {
   }
 
   /**
- * Updates the deadline of a specific task (ID: 27) on the server.
- * This function sends a PUT request to the server to update the deadline of the task with ID 27.
- * It constructs the request body containing the task ID and the new deadline date.
- * The new deadline date is converted to ISO string format for sending in the request.
- * The PUT request is sent to the server to update the task's deadline.
- * Note: This function is currently not handling the response or error from the server.
- */
+   * Updates the deadline of a specific task (ID: 27) on the server.
+   * This function sends a PUT request to the server to update the deadline of the task with ID 27.
+   * It constructs the request body containing the task ID and the new deadline date.
+   * The new deadline date is converted to ISO string format for sending in the request.
+   * The PUT request is sent to the server to update the task's deadline.
+   * Note: This function is currently not handling the response or error from the server.
+   */
   updatedTask27(): void {
     const url = environment.baseUrl + '/api/updateTaskDeadline/';
     const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
     const body = { id: this.taskToUpdate.id, date: isoDate };
 
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      // .then((response) => {})
-      // .catch((error) => {});
+    this.http.put<any>(url, body).toPromise();
+    // .then((response) => {})
+    // .catch((error) => {});
   }
 
   /**
- * Opens the add task page by setting the flag to indicate that the add task board should be open.
- * This function sets the `openAddTaskBoard` flag to `true`, which triggers the display of the add task board.
- */
+   * Opens the add task page by setting the flag to indicate that the add task board should be open.
+   * This function sets the `openAddTaskBoard` flag to `true`, which triggers the display of the add task board.
+   */
   openAddTaskPage() {
     this.openAddTaskBoard = true;
   }
 
   /**
- * Closes the add task page by setting the flag to indicate that the add task board should be closed.
- * This function sets the `openAddTaskBoard` flag to `false`, which hides the add task board.
- */
+   * Closes the add task page by setting the flag to indicate that the add task board should be closed.
+   * This function sets the `openAddTaskBoard` flag to `false`, which hides the add task board.
+   */
   closeAddTaskPage() {
     this.openAddTaskBoard = false;
   }

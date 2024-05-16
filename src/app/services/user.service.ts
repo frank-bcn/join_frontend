@@ -305,7 +305,7 @@ export class UserService {
           this.loadUserListEexternals();
         })
         .catch((error) => {
-          console.error(error);
+          this.error(error);
         });
     }
   }
@@ -325,19 +325,43 @@ export class UserService {
     }
   }
 
-
-
-  validateUserFields(user: any): boolean {
+  /**
+   * Validates the required fields for editing a user.
+   * Checks if the 'username', 'email', and 'phone' fields are not empty.
+   * @param user The user object containing the fields to be validated.
+   * @returns {boolean} Returns true if all required fields are present, otherwise false.
+   */
+  validateEditUserFields(user: any): boolean {
     if (!user.username || !user.email || !user.phone) {
       return false;
     }
     return true;
   }
-  
+
+  /**
+   * Asynchronously edits the selected user's contact information.
+   * Validates the user fields before making an HTTP POST request to update the user's information.
+   * If successful, it hides the edit contact form and reloads the external user list.
+   */
   async editUserContact() {
-    // if (!this.validateUserFields(this.selectedUser)) {
-    //   return;
-    // }
+    if (!this.validateEditUserFields(this.selectedUser)) {
+      return;
+    }
+    const { url, body } = this.updateContactRequestData();
+    try {
+      await this.http.post(url, body).toPromise();
+      this.editContact = false;
+      this.loadUserListEexternals();
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  /**
+   * Constructs the URL and request body for updating a user's contact information.
+   * @returns  The URL and request body.
+   */
+  updateContactRequestData() {
     const url = environment.baseUrl + '/api/updateContact/';
     const body = {
       username: this.selectedUser.username,
@@ -345,40 +369,8 @@ export class UserService {
       phone: this.selectedUser.phone,
       id: this.selectedUser.id,
     };
-    try {
-      await this.http.post(url, body).toPromise();
-      console.log('Contact updated successfully');
-    } catch (error) {
-      console.error('Error updating contact:', error);
-    }
+    return { url, body };
   }
-    // async editUserContact() {
-  //   if (
-  //     !this.selectedUser.username ||
-  //     !this.selectedUser.email ||
-  //     !this.selectedUser.phone
-  //   ) {
-  //     console.log('All fields are required');
-  //     return;
-  //   }
-
-  //   const url = environment.baseUrl + '/api/updateContact/';
-  //   const body = {
-  //     username: this.selectedUser.username,
-  //     email: this.selectedUser.email,
-  //     phone: this.selectedUser.phone,
-  //     id: this.selectedUser.id,
-  //   };
-  //   console.log('Body:', body);
-  //   try {
-  //     await this.http.post(url, body).toPromise();
-  //     this.editContact = false;
-  //     this.loadUserListEexternals();
-  //     console.log('Contact updated');
-  //   } catch (error) {}
-  // }
-
-
 
   // muss noch erstellt werden, funktioniert nicht
   logout(): Observable<any> {

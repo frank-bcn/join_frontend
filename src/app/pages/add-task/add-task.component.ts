@@ -71,9 +71,12 @@ export class AddTaskComponent {
    * If the dropdown is currently visible, it hides it; otherwise, it shows it.
    */
   openAssignedTo() {
+    if (!this.assignedDropdown) {
+      this.ts.updateCheckedStatus(); // Aktualisieren des Status vor dem Öffnen des Dropdown-Menüs
+    }
     this.assignedDropdown = !this.assignedDropdown;
-    this.ts.updateCheckedStatus();
   }
+  
 
   /**
    * Toggles the visibility of the subtasks dropdown.

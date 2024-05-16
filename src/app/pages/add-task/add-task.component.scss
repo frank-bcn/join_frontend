@@ -1,9 +1,12 @@
 .AddTaskContainer {
     display: flex;
     flex-direction: column;
-    margin: 0 8% 0 8%;
+    margin: 0 0 0 8%;
     height: 100%;
-    width: calc(100% - 16%);
+    width: 84%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 8% 0 0;
 
     /*****************************************/
     /**************  left side  **************/

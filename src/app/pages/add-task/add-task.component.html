@@ -183,8 +183,10 @@
                 >{{ user.username }} {{ user.last_name }}</span
               >
               <input
+                [checked]="user.checked"
                 [ngModel]="user.checked"
                 (ngModelChange)="ts.checkUser(user)"
+                [ngModelOptions]="{ standalone: true }"
                 class="userCheckbox"
                 type="checkbox"
                 name="checkedUser"
