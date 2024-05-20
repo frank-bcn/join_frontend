@@ -171,13 +171,4 @@ export class AppComponent {
     this.us.isUserColorOpen = false;
     this.us.isDropdownOpen = false;
   }
-
-  /**
-   * Sets the selected color.
-   * It sets the 'selectedColor' property in the UserService to the specified color.
-   * @param color The color to be selected.
-   */
-  selectColor(color: string) {
-    this.us.selectedColor = color;
-  }
 }

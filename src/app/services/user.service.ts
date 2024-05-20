@@ -45,6 +45,8 @@ export class UserService {
   phone: string = '';
   id: string = '';
   mobileScreen: boolean = false;
+  editUser: boolean = false;
+  newColors: boolean = false;
 
   constructor(
     public http: HttpClient,
@@ -370,6 +372,58 @@ export class UserService {
       id: this.selectedUser.id,
     };
     return { url, body };
+  }
+
+  /**
+   * Sets the selected color.
+   * It sets the 'selectedColor' property in the UserService to the specified color.
+   * @param color The color to be selected.
+   */
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
+
+  /**
+   * Sets the selected color.
+   * It sets the 'selectedColor' property in the UserService to the specified color.
+   * @param color The color to be selected.
+   */
+  selectEditColor(color: string) {
+    this.selectedColor = color;
+    this.userData.usercolor = this.selectedColor;
+  }
+
+  async saveEditAccount() {
+    const url = environment.baseUrl + '/api/userUpdate/';
+    const body = {
+      firstName: this.userData.firstName,
+      lastName: this.userData.lastName,
+      email: this.userData.email,
+      usercolor: this.userData.usercolor,
+      id: this.userData.id,
+    };
+    try {
+      await this.http.put(url, body).toPromise();
+      this.updateUserData(body);
+      this.editUser = false;
+      this.newColors = false;
+      this.isDropdownOpen = false;
+    } catch (error) {}
+  }
+
+  updateUserData(body: any) {
+    this.userData.firstName = body.firstName;
+    this.userData.lastName = body.lastName;
+    this.userData.email = body.email;
+    this.userData.usercolor = body.usercolor;
+    this.userData.id = body.id;
+
+    localStorage.setItem('userData', JSON.stringify(this.userData));
+  }
+
+  edit() {
+    this.editUser = true;
+    console.log(this.editUser);
   }
 
   // muss noch erstellt werden, funktioniert nicht

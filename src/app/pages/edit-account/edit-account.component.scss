@@ -1,0 +1,172 @@
+.slideContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 80%;
+        border-radius: 30px;
+        background-color: #ffffff;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            gap: 0;
+            width: 100%;
+
+            .title {
+                display: flex;
+                justify-content: center;
+                font-size: clamp(30px, 6vw, 42px);
+                align-items: center;
+                text-decoration: underline;
+                text-decoration-thickness: 2px;
+                text-decoration-color: rgb(67, 178, 247);
+                font-weight: 700;
+                width: 90%;
+                height: 100%;
+            }
+
+            .close {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 10%;
+                height: 100%;
+
+                .closeIcon {
+                    display: flex;
+                    height: 50px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .frameContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+
+            .userEditFrame {
+                display: flex;
+                font-size: clamp(16px, 2vw, 39px);
+                height: 70px;
+                width: 70px;
+                border: 6px solid lightgray;
+                cursor: pointer;
+            }
+        }
+
+        .userInfoContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 10% 10% 0 10%;
+            width: calc(100% - 20%);
+            height: 44%;
+
+            input {
+                display: flex;
+                border: 1px solid #d1d1d1;
+                border-radius: 10px;
+                font-size: 20px;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .btnContainer {
+                display: flex;
+                justify-content: end;
+                width: 100%;
+
+                .btnBlue {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-decoration: none;
+                    height: 51px;
+                    width: fit-content;
+                    border: none;
+                    min-width: 70px;
+                    border-radius: 8px;
+                    background: #2a3647;
+                    gap: 10px;
+                    color: #ffffff;
+                    font-weight: 700;
+                    cursor: pointer;
+                    transition: all 125ms ease-in-out;
+                    font-size: clamp(16px, 3vw, 22px);
+
+                    &:hover {
+                        background-color: rgb(67, 178, 247);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.newColors {
+    display: flex;
+    position: absolute;
+    top: 37%;
+    left: 25%;
+    flex-direction: column;
+    width: 50%;
+    height: 34%;
+    background-color: #ffffff;
+    z-index: 2;
+
+    .closeColor {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        width: 100%;
+
+        .closeIcon {
+            display: flex;
+            height: 30px;
+            cursor: pointer;
+        }
+    }
+
+    .newColorsContainer {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .colorSquare {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 12px;
+        cursor: pointer;
+    }
+}
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 700px) {
+    .container {
+        width: 90% !important;
+    }
+}

@@ -49,8 +49,7 @@ html {
         align-items: center;
         justify-content: space-between;
         height: 20%;
-        margin-left: 4%;
-        margin-right: 4%;
+        margin: 0 4% 0 4%;
 
         .animationContainer {
             display: flex;
@@ -91,8 +90,7 @@ html {
         background-color: white;
         height: 600px;
         border-radius: 2.5%;
-        margin-left: 20%;
-        margin-right: 20%;
+        margin: 0 20% 0 20%;
 
         .backContainer {
             display: flex;
@@ -104,7 +102,7 @@ html {
                 color: #0dc8f4;
                 cursor: pointer;
                 font-size: 54px;
-                margin-left: 3%;
+                margin: 0 0 0 3%;
             }
         }
 
@@ -114,12 +112,11 @@ html {
             align-items: center;
             width: 100%;
             height: 100vh;
-            margin-bottom: 20px;
+            margin: 0 0 20px 0;
 
             h1 {
                 display: flex;
-                margin-top: 54px;
-                margin-bottom: 54px;
+                margin: 54px 0 54px 0;
                 font-size: clamp(36px, 6vw, 44px);
                 border-bottom: 2px solid rgb(67, 178, 247);
                 padding-bottom: 5px;
@@ -130,7 +127,7 @@ html {
                 display: flex;
                 position: relative;
                 flex-direction: column;
-                margin-bottom: 54px;
+                margin: 0 0 54px 0;
             }
 
             .btnContainer {
@@ -214,7 +211,7 @@ header {
         font-size: clamp(30px, 6vw, 42px);
         border-right: 2px solid rgb(67, 178, 247);
         padding: 0 30px 0 0;
-        width:fit-content;
+        width: fit-content;
     }
 
     h2 {
@@ -222,7 +219,7 @@ header {
         width: 250px;
     }
 
-    .slogan{
+    .slogan {
         display: flex;
         flex-wrap: nowrap;
         color: #2a3647;
@@ -238,7 +235,7 @@ header {
         display: flex;
         flex-direction: column;
         font-size: clamp(12px, 3vw, 24px);
-        margin-left: 50px;
+        margin: 0 0 0 50px;
 
         .blue-text {
             display: flex;
@@ -405,7 +402,3 @@ header {
     color: red;
     font-size: clamp(12px, 1vw, 27px);
 }
-
-/*************************************************************/
-/************************   query's   ************************/
-/*************************************************************/

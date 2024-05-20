@@ -1,0 +1,60 @@
+<div *ngIf="us.editUser" class="slideContainer" [@slideInOut]>
+  <div class="container">
+    <header>
+      <span class="title">Account Info</span>
+      <span class="close"
+        ><img src="/assets/img/close.svg" class="closeIcon" (click)="close()"
+      /></span>
+    </header>
+    <div class="frameContainer">
+      <div
+        class="userFrame userEditFrame"
+        (click)="openEditColors()"
+        [style.background-color]="us.userData?.usercolor"
+      >
+        {{ us.userData?.username }}
+      </div>
+    </div>
+    <form class="userInfoContainer">
+      <input
+        type="text"
+        [(ngModel)]="us.userData.firstName"
+        name="firstName"
+        required
+        #firstName="ngModel"
+      />
+      <input
+        type="text"
+        [(ngModel)]="us.userData.lastName"
+        name="lastName"
+        required
+        #lastName="ngModel"
+      />
+      <input
+        type="email"
+        [(ngModel)]="us.userData.email"
+        name="email"
+        required
+        #email="ngModel"
+      />
+      <div class="btnContainer">
+        <button (click)="us.saveEditAccount()" class="btnBlue">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- new colors container -->
+<div *ngIf="us.newColors" class="newColors">
+  <span class="closeColor">
+    <img src="/assets/img/close.svg" class="closeIcon" (click)="closeColors()"
+  /></span>
+  <div class="newColorsContainer">
+    <div
+      *ngFor="let color of us.userColors; let i = index"
+      class="colorSquare"
+      [style.background-color]="color"
+      (click)="us.selectEditColor(color)"
+    ></div>
+  </div>
+</div>

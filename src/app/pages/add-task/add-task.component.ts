@@ -24,7 +24,6 @@ export class AddTaskComponent {
    */
   ngOnInit() {
     this.us.loadUsersFromServer();
-    console.log(this.us.selectedUsers)
   }
 
   /**
@@ -77,7 +76,6 @@ export class AddTaskComponent {
     this.assignedDropdown = !this.assignedDropdown;
   }
   
-
   /**
    * Toggles the visibility of the subtasks dropdown.
    * If the dropdown is currently closed and there is a new subtask entered,

@@ -70,7 +70,6 @@ export class TaskService {
       user.checked = this.us.selectedUsers.some(
         (selectedUser) => selectedUser.user_id === user.user_id
       );
-      console.log(`User ${user.username} - checked: ${user.checked}`);
     });
   }
   

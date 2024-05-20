@@ -20,6 +20,7 @@ import { NewContactComponent } from './pages/contacts/new-contact/new-contact.co
 import { SelectedUserComponent } from './pages/contacts/selected-user/selected-user.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskComponent } from './pages/task/task.component';
+import { EditAccountComponent } from './pages/edit-account/edit-account.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { TaskComponent } from './pages/task/task.component';
     NewContactComponent,
     SelectedUserComponent,
     TaskComponent,
+    EditAccountComponent,
   ],
   imports: [
     BrowserModule,

@@ -86,6 +86,7 @@
             <span class="dropdownMenuUser" (click)="loadLegalNotice()"
               >Legal notice</span
             >
+            <span class="dropdownMenuUser" (click)="us.edit()">Account</span>
           </ul>
         </div>
         <div
@@ -107,7 +108,7 @@
                 *ngFor="let color of us.userColors; let i = index"
                 class="colorSquare"
                 [style.background-color]="color"
-                (click)="selectColor(color)"
+                (click)="us.selectColor(color)"
               ></div>
               <div class="saveBtnContainer">
                 <button
@@ -128,4 +129,6 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+  <!-- account info  -->
+  <app-edit-account></app-edit-account>
 </div>
