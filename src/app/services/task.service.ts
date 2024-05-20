@@ -72,7 +72,6 @@ export class TaskService {
       );
     });
   }
-  
 
   /**
    * Determines the priority level based on the boolean flags isUrgent, isMedium, and isLow.
@@ -434,5 +433,22 @@ export class TaskService {
    */
   closeAddTaskPage() {
     this.openAddTaskBoard = false;
+  }
+
+  /**
+   * Drops (moves) the task to the specified new status.
+   * @param taskId The ID of the task to be moved.
+   * @param newStatus The new status to which the task will be moved.
+   */
+  dropPhone(taskId: string, newStatus: string) {
+    const url = environment.baseUrl + '/api/updateTaskStatus/';
+    const body = { id: taskId, status: newStatus };
+    this.http
+      .put<any>(url, body)
+      .toPromise()
+      .then((response) => {
+      })
+      .catch((error) => {
+      });
   }
 }

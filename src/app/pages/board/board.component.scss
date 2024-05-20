@@ -75,7 +75,6 @@
             padding: 0 24px 0 0;
             justify-content: flex-start;
 
-
             .taskFieldHeader {
                 display: flex;
                 font-size: clamp(10px, 1vw, 12px);
@@ -165,12 +164,66 @@ header {
     }
 }
 
-.edit {
+.moveEditWrapper {
     display: flex;
+    align-items: center;
     width: 100%;
-    justify-content: flex-end;
-    margin: 3% 3% 0 0;
+    height: 10%;
+    padding: 3% 0 3% 0;
+
+    .moveTo {
+        display: flex;
+        align-items: center;
+        width: calc(100% - 50px);
+
+        .moveIcon {
+            height: 40px;
+            margin: 0 12px 0 0;
+            cursor: pointer;
+
+        &:hover {
+            content: url("/assets/img/dndLightBlue.svg");
+        }      
+    }
+
+    .moveOptions {
+        display: flex;
+        width: 100%;
+
+        .btnMove {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            height: 40px;
+            width: fit-content;
+            border: none;
+            min-width: 70px;
+            border-radius: 8px;
+            background: #2a3647;
+            gap: 10px;
+            color: #ffffff;
+            font-weight: 700;
+            margin: 0 12px 0 0 ;
+            cursor: pointer;
+            transition: all 125ms ease-in-out;
+            font-size: clamp(9px, 1vw, 12px);
+    
+            &:hover {
+                background-color: rgb(67, 178, 247);
+            }
+        }
+    }
 }
+    
+    .edit {
+        display: flex;
+        width: 50px;
+        justify-content: flex-end;
+        cursor: pointer;
+    }
+}
+
 
 /**************************************************/
 /***************   open addtask   *****************/
@@ -201,5 +254,15 @@ header {
 
     .openTaskContainer {
         width: 80% !important;
+    }
+
+    .openContainer {
+        width: 80% !important;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    .searchWrapper {
+        height: 70% !important;
     }
 }

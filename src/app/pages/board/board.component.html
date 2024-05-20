@@ -158,9 +158,27 @@
         </span>
       </div>
     </div>
-    <span class="edit">
-      <img (click)="openEditTask()" src="/assets/img/edit.png" class="" />
-    </span>
+    <div class="moveEditWrapper">
+      <span class="moveTo">
+        <img
+          (click)="moveTo(openTaskData?.id)"
+          src="/assets/img/dndBlue.svg"
+          class="moveIcon"
+        />
+        <div *ngIf="showMoveOptions" class="moveOptions">
+          <button
+            *ngFor="let option of possibleStatusChanges(taskStatus)"
+            class="btnBlue btnMove"
+            (click)="moveToOption(option)"
+          >
+            {{ option }}
+          </button>
+        </div>
+      </span>
+      <span class="edit">
+        <img (click)="openEditTask()" src="/assets/img/edit.png" class="" />
+      </span>
+    </div>
   </div>
 </div>
 

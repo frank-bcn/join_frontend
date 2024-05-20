@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -9,6 +10,8 @@ import { UserService } from '../../services/user.service';
 })
 export class BoardComponent {
   openTaskData: any;
+  showMoveOptions: boolean = false;
+  taskStatus: string = '';
 
   constructor(
     public ts: TaskService,
@@ -48,7 +51,6 @@ export class BoardComponent {
   openTasks(task: any) {
     this.openTaskData = task;
     this.ts.openTask = true;
-    console.log('Task geöffnet:', task);
   }
 
   /**
@@ -57,7 +59,7 @@ export class BoardComponent {
    */
   closeOpenTasks() {
     this.ts.openTask = false;
-    console.log(this.ts.openTask);
+    this.showMoveOptions = false;
   }
 
   /**
@@ -105,5 +107,59 @@ export class BoardComponent {
     }
   }
 
-  openEditTask() {}
+  /**
+   * Sets up the move options for the specified task.
+   * @param taskId The ID of the task to move.
+   */
+  moveTo(taskId: string) {
+    console.log('Task ID:', taskId);
+    this.taskStatus = this.loadTaskStatus(taskId);
+    this.showMoveOptions = true;
+    console.log('Task Status:', this.taskStatus);
+  }
+
+  /**
+   * Retrieves the status of the task with the specified ID.
+   * @param taskId The ID of the task to retrieve the status for.
+   * @returns The status of the task, or 'unknown' if the task is not found.
+   */
+  loadTaskStatus(taskId: string): string {
+    const task = this.ts.tasks.find((task) => task.id === taskId);
+    return task ? task.status : 'unknown';
+  }
+
+  /**
+   * Determines the possible status changes based on the current status of a task.
+   * @param status The current status of the task.
+   * @returns An array of possible status changes.
+   */
+  possibleStatusChanges(status: string): string[] {
+    switch (status) {
+      case 'todo':
+        return ['inProgress'];
+      case 'inProgress':
+        return ['todo', 'awaiting'];
+      case 'awaiting':
+        return ['inProgress', 'done'];
+      default:
+        return [];
+    }
+  }
+
+  /**
+   * Moves the task to the specified option (status) and updates the task list.
+   * @param option The option (status) to which the task will be moved.
+   */
+  async moveToOption(option: string) {
+    const taskId = this.openTaskData.id;
+    this.ts.dropPhone(taskId, option);
+    this.ts.openTask = false;
+    this.showMoveOptions = false;
+    await this.ts.loadTasks();
+  }
+
+  // implementieren
+  openEditTask() {
+    
+  }
 }

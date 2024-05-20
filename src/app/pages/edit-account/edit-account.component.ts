@@ -18,20 +18,27 @@ import { trigger, transition, animate, style } from '@angular/animations';
     ]),
   ],
 })
-
 export class EditAccountComponent {
+  constructor(public us: UserService) {}
 
-  constructor(public us: UserService){}
-
+  /**
+   * Closes the user edit form and any open dropdown menus.
+   */
   close() {
-    this.us.editUser= false;
-    this.us.isDropdownOpen=false;
+    this.us.editUser = false;
+    this.us.isDropdownOpen = false;
   }
 
+  /**
+   * Closes the color selection interface.
+   */
   closeColors() {
     this.us.newColors = false;
   }
 
+  /**
+   * Opens the color selection interface and logs the current user data.
+   */
   openEditColors() {
     this.us.newColors = true;
     console.log(this.us.userData);

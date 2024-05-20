@@ -393,6 +393,9 @@ export class UserService {
     this.userData.usercolor = this.selectedColor;
   }
 
+  /**
+ * Updates the user's account information on the server and updates the local state.
+ */
   async saveEditAccount() {
     const url = environment.baseUrl + '/api/userUpdate/';
     const body = {
@@ -411,6 +414,11 @@ export class UserService {
     } catch (error) {}
   }
 
+   /**
+   * Updates the local user data and persists it in local storage.
+   * 
+   * @param body - The updated user data.
+   */
   updateUserData(body: any) {
     this.userData.firstName = body.firstName;
     this.userData.lastName = body.lastName;
@@ -421,10 +429,15 @@ export class UserService {
     localStorage.setItem('userData', JSON.stringify(this.userData));
   }
 
+  /**
+ * Enables editing mode for the user's account details.
+ */
   edit() {
     this.editUser = true;
-    console.log(this.editUser);
   }
+
+
+
 
   // muss noch erstellt werden, funktioniert nicht
   logout(): Observable<any> {
