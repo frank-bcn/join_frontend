@@ -4,7 +4,6 @@ import { UserService } from '../../services/user.service';
 import { HoverService } from '../../services/hover.service';
 import { GreetingService } from '../../services/greeting.service';
 import { TaskService } from '../../services/task.service';
-import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-summary',
@@ -18,7 +17,6 @@ export class SummaryComponent implements OnInit {
     public hs: HoverService,
     public gt: GreetingService,
     public ts: TaskService,
-    public api: ApiService,
   ) {}
 
   /**
@@ -30,7 +28,7 @@ export class SummaryComponent implements OnInit {
     if (storedToken) {
       this.us.authToken = storedToken;
     }
-    this.api.loadTasks();
+    this.ts.loadTasks();
   }
   
 

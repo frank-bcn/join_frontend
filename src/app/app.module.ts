@@ -22,6 +22,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskComponent } from './pages/task/task.component';
 import { EditAccountComponent } from './pages/edit-account/edit-account.component';
 import { OpenEditTaskComponent } from './pages/open-edit-task/open-edit-task.component';
+import { OpenTaskComponent } from './pages/open-task/open-task.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { OpenEditTaskComponent } from './pages/open-edit-task/open-edit-task.com
     TaskComponent,
     EditAccountComponent,
     OpenEditTaskComponent,
+    OpenTaskComponent,
   ],
   imports: [
     BrowserModule,
