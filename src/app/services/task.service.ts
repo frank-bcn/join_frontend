@@ -32,19 +32,24 @@ export class TaskService {
     name: '',
     color: '',
   };
+  openTaskData: any;
   isUrgent: boolean = false;
   isMedium: boolean = false;
   isLow: boolean = false;
   tasks: any[] = [];
-  taskToUpdate: any;
   openTask: boolean = false;
   openAddTaskBoard: boolean = false;
+  taskStatus: string = '';
+  editTask: boolean = false;
+  assignedEditDropdown: boolean = false;
+  taskPriority: string = '';
+  showMoveOptions: boolean = false;
 
   constructor(
     public us: UserService,
     public router: Router,
     public hs: HoverService,
-    private http: HttpClient
+    public http: HttpClient
   ) {}
 
   /**
@@ -326,97 +331,21 @@ export class TaskService {
   }
 
   /**
-   * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
-   * This function finds the task with ID 25 from the list of tasks.
-   * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
-   * Finally, it triggers the update of the task on the server.
+   * Drops (moves) the task to the specified new status.
+   * @param taskId The ID of the task to be moved.
+   * @param newStatus The new status to which the task will be moved.
    */
-  updateTaskDeadline25(): void {
-    this.taskToUpdate = this.tasks.find((task) => task.id === 25);
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 2);
-    this.taskToUpdate.date = currentDate;
-    this.updatedTask25();
-  }
-
-  /**
-   * Updates the deadline of a specific task (ID: 25) and triggers the update on the server.
-   * This function finds the task with ID 25 from the list of tasks.
-   * It then calculates a new deadline date (2 days from the current date) and updates the task's deadline.
-   * Finally, it triggers the update of the task on the server.
-   */
-  updatedTask25(): void {
-    const url = environment.baseUrl + '/api/updateTaskDeadline/';
-    const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
-    const body = { id: this.taskToUpdate.id, date: isoDate };
-
-    this.http.put<any>(url, body).toPromise();
-    // .then((response) => {})
-    // .catch((error) => {});
-  }
-
-  /**
-   * Updates the deadline of a specific task (ID: 26) and triggers the update on the server.
-   * This function finds the task with ID 26 from the list of tasks.
-   * It then calculates a new deadline date (6 days from the current date) and updates the task's deadline.
-   * Finally, it triggers the update of the task on the server.
-   */
-  updateTaskDeadline26(): void {
-    this.taskToUpdate = this.tasks.find((task) => task.id === 26);
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 6);
-    this.taskToUpdate.date = currentDate;
-    this.updatedTask26();
-  }
-
-  /**
-   * Updates the deadline of a specific task (ID: 26) on the server.
-   * This function sends a PUT request to the server to update the deadline of the task with ID 26.
-   * It constructs the request body containing the task ID and the new deadline date.
-   * The new deadline date is converted to ISO string format for sending in the request.
-   * The PUT request is sent to the server to update the task's deadline.
-   * Note: This function is currently not handling the response or error from the server.
-   */
-  updatedTask26(): void {
-    const url = environment.baseUrl + '/api/updateTaskDeadline/';
-    const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
-    const body = { id: this.taskToUpdate.id, date: isoDate };
-
-    this.http.put<any>(url, body).toPromise();
-    // .then((response) => {})
-    // .catch((error) => {});
-  }
-
-  /**
-   * Updates the deadline of a specific task (ID: 27) and triggers the update on the server.
-   * This function finds the task with ID 27 from the list of tasks.
-   * It then calculates a new deadline date (12 days from the current date) and updates the task's deadline.
-   * Finally, it triggers the update of the task on the server.
-   */
-  updateTaskDeadline27(): void {
-    this.taskToUpdate = this.tasks.find((task) => task.id === 27);
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 12);
-    this.taskToUpdate.date = currentDate;
-    this.updatedTask26();
-  }
-
-  /**
-   * Updates the deadline of a specific task (ID: 27) on the server.
-   * This function sends a PUT request to the server to update the deadline of the task with ID 27.
-   * It constructs the request body containing the task ID and the new deadline date.
-   * The new deadline date is converted to ISO string format for sending in the request.
-   * The PUT request is sent to the server to update the task's deadline.
-   * Note: This function is currently not handling the response or error from the server.
-   */
-  updatedTask27(): void {
-    const url = environment.baseUrl + '/api/updateTaskDeadline/';
-    const isoDate = this.taskToUpdate.date.toISOString().split('T')[0];
-    const body = { id: this.taskToUpdate.id, date: isoDate };
-
-    this.http.put<any>(url, body).toPromise();
-    // .then((response) => {})
-    // .catch((error) => {});
+  dropPhone(taskId: any, newStatus: string) {
+    const url = environment.baseUrl + '/api/updateTaskStatus/';
+    const body = { id: taskId, status: newStatus };
+    this.http
+      .put<any>(url, body)
+      .toPromise()
+      .then((response) => {
+        this.loadTasks();
+        this.loadBoard();
+      })
+      .catch((error) => {});
   }
 
   /**
@@ -436,19 +365,79 @@ export class TaskService {
   }
 
   /**
-   * Drops (moves) the task to the specified new status.
-   * @param taskId The ID of the task to be moved.
-   * @param newStatus The new status to which the task will be moved.
+   * Retrieves the color associated with a user based on their user ID.
+   * @param userId The ID of the user whose color is to be retrieved.
+   * @returns The color associated with the user, or 'transparent' if the user is not found.
    */
-  dropPhone(taskId: string, newStatus: string) {
-    const url = environment.baseUrl + '/api/updateTaskStatus/';
-    const body = { id: taskId, status: newStatus };
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      .then((response) => {
-      })
-      .catch((error) => {
-      });
+  loadUserColor(userId: string): string {
+    let user = this.us.users.find((user) => user.user_id === userId);
+    return user ? user.user_color : 'transparent';
+  }
+
+  /**
+   * Retrieves the username and initials of a user based on their user ID.
+   * @param userId The ID of the user whose username and initials are to be retrieved.
+   * @returns An object containing the user's initials and full name, or 'Unknown' if the user is not found.
+   */
+  loadUsernameTask(userId: string) {
+    let user = this.us.users.find((user) => user.user_id === userId);
+    if (user) {
+      return {
+        initials: this.us.employeesInitials(user.username, user.last_name),
+        fullName: `${user.username} ${user.last_name}`,
+      };
+    } else {
+      return { initials: 'Unknown', fullName: 'Unknown' };
+    }
+  }
+
+  /**
+   * Opens the edit task form, hiding the task details and move options.
+   * Sets the editTask flag to true.
+   * Checks the status of the open task.
+   */
+  openEditTask() {
+    this.openTask = false;
+    this.showMoveOptions = false;
+    this.editTask = true;
+    this.checkTaskStatus();
+    console.log(this.openTaskData);
+  }
+
+  /**
+   * Checks the status of the open task for editing.
+   * Loads the task status and updates the priority flags accordingly.
+   */
+  checkTaskStatus(): void {
+    const taskStatus = this.loadTaskEditStatus();
+    this.isUrgent = false;
+    this.isMedium = false;
+    this.isLow = false;
+
+    if (taskStatus === 'Urgent') {
+      this.isUrgent = true;
+    } else if (taskStatus === 'Medium') {
+      this.isMedium = true;
+    } else if (taskStatus === 'Low') {
+      this.isLow = true;
+    }
+  }
+
+  /**
+   * Loads the priority of the open task for editing.
+   * Returns the priority of the open task.
+   */
+  loadTaskEditStatus(): string {
+    return this.openTaskData.priority;
+  }
+
+  /**
+   * Changes the priority of the open task and updates the UI accordingly.
+   * @param priority - The new priority for the task.
+   */
+  changePriority(priority: string): void {
+    this.openTaskData.priority = priority;
+    this.taskPriority = priority;
+    this.checkTaskStatus();
   }
 }

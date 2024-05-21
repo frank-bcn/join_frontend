@@ -115,8 +115,8 @@
     <header>
       <span
         class="categoryName"
-        [style.background-color]="openTaskData.category.color"
-        >{{ openTaskData?.category.name }}</span
+        [style.background-color]="ts.openTaskData.category.color"
+        >{{ ts.openTaskData?.category.name }}</span
       >
       <span class="closeOpenTask">
         <img
@@ -125,72 +125,62 @@
           class="close"
       /></span>
     </header>
-    <span class="title">{{ openTaskData?.title }}</span>
-    <span class="openTaskInfo">{{ openTaskData?.description }}</span>
+    <span class="title">{{ ts.openTaskData?.title }}</span>
+    <span class="openTaskInfo">{{ ts.openTaskData?.description }}</span>
     <span class="openTaskInfo"
-      ><b>Due Date:</b>&nbsp;&nbsp;{{ openTaskData?.date }}</span
+      ><b>Due Date:</b>&nbsp;&nbsp;{{ ts.openTaskData?.date }}</span
     >
     <span class="openTaskInfo">
       <b>Priority:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      {{ openTaskData?.priority }}&nbsp;&nbsp;
+      {{ ts.openTaskData?.priority }}&nbsp;&nbsp;
       <span class="prio">
-        <img [src]="prioImages(openTaskData?.priority)" class="prioImg" />
+        <img [src]="prioImages(ts.openTaskData?.priority)" class="prioImg" />
       </span>
     </span>
 
     <span class="openTaskInfo"
-      ><b>Subtasks:</b>&nbsp;&nbsp;{{ openTaskData?.subtasks }}</span
+      ><b>Subtasks:</b>&nbsp;&nbsp;{{ ts.openTaskData?.subtasks }}</span
     >
     <span class="openTaskInfo"><b>Assigned To:</b>&nbsp;&nbsp;</span>
     <div class="assignedTo">
       <div
         class="assignedToWrapper"
-        *ngFor="let userId of openTaskData.assignedTo"
+        *ngFor="let userId of ts.openTaskData.assignedTo"
       >
         <span
           class="userFrame userFrameOpenTask"
-          [style.background-color]="loadUserColor(userId)"
+          [style.background-color]="ts.loadUserColor(userId)"
         >
-          {{ loadUsernameTask(userId).initials }}
+          {{ ts.loadUsernameTask(userId).initials }}
         </span>
         <span class="nameWrapper">
-          {{ loadUsernameTask(userId).fullName }}
+          {{ ts.loadUsernameTask(userId).fullName }}
         </span>
       </div>
     </div>
     <div class="moveEditWrapper">
       <span class="moveTo">
         <img
-          (click)="moveTo(openTaskData?.id)"
+          (click)="moveTo(ts.openTaskData?.id)"
           src="/assets/img/dndBlue.svg"
           class="moveIcon"
         />
-        <div *ngIf="showMoveOptions" class="moveOptions">
+        <div *ngIf="ts.showMoveOptions" class="moveOptions">
           <button
-            *ngFor="let option of possibleStatusChanges(taskStatus)"
+            *ngFor="let option of possibleStatusChanges(ts.taskStatus)"
             class="btnBlue btnMove"
             (click)="moveToOption(option)"
           >
-            {{ option }}
+            move to: {{ option }}
           </button>
         </div>
       </span>
       <span class="edit">
-        <img (click)="openEditTask()" src="/assets/img/edit.png" class="" />
+        <img (click)="ts.openEditTask()" src="/assets/img/edit.png" class="" />
       </span>
     </div>
   </div>
 </div>
 
 <!-- open add task page -->
-<div class="shadowPage" *ngIf="ts.openAddTaskBoard">
-  <div class="openContainer containerTask">
-    <span class="closeOpenAddTask">
-      <img
-        (click)="ts.closeAddTaskPage()"
-        src="/assets/img/close.svg"
-        class="close"
-    /></span>
-    <app-add-task></app-add-task>
-  </div>
-</div>
+<app-open-edit-task></app-open-edit-task>

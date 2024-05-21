@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
 
+
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',

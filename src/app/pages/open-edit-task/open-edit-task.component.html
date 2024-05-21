@@ -1,0 +1,149 @@
+<div class="shadowPage" *ngIf="ts.openAddTaskBoard">
+  <div class="openContainer containerTask">
+    <span class="closeOpenAddTask">
+      <img
+        (click)="ts.closeAddTaskPage()"
+        src="/assets/img/close.svg"
+        class="close"
+    /></span>
+    <app-add-task></app-add-task>
+  </div>
+</div>
+<!-- open edit task -->
+<div class="shadowPage" *ngIf="ts.editTask">
+  <div class="openContainer">
+    <header>
+      <span
+        class="categoryName"
+        [style.background-color]="ts.openTaskData.category.color"
+        >{{ ts.openTaskData?.category.name }}</span
+      >
+      <span class="closeOpenTask">
+        <img
+          (click)="closeEditTasks()"
+          src="/assets/img/close.svg"
+          class="close"
+      /></span>
+    </header>
+    <span class="infoEdittask">Tilte:</span>
+    <input type="text" [(ngModel)]="ts.openTaskData.title" />
+    <span class="infoEdittask">Description:</span>
+    <textarea
+      class="textarea"
+      name="text"
+      [(ngModel)]="ts.openTaskData.description"
+    ></textarea>
+    <span class="infoEdittask">Due Date:</span>
+    <input type="date" [(ngModel)]="ts.openTaskData.date" />
+    <span class="infoEdittask">Priority:</span>
+    <div class="prioContainer">
+      <div
+        class="prioBtn"
+        [ngClass]="{ prioUrgent: ts.isUrgent }"
+        (click)="ts.changePriority('Urgent')"
+      >
+        Urgent
+        <img
+          draggable="false"
+          [src]="
+            !ts.isUrgent
+              ? '/assets/img/prioUrgent.svg'
+              : '/assets/img/prioUrgent-white.svg'
+          "
+        />
+      </div>
+      <div
+        class="prioBtn"
+        [ngClass]="{ prioMedium: ts.isMedium }"
+        (click)="ts.changePriority('Medium')"
+      >
+        Medium
+        <img
+          draggable="false"
+          [src]="
+            !ts.isMedium
+              ? '/assets/img/prioMedium.svg'
+              : '/assets/img/prioMedium-white.svg'
+          "
+        />
+      </div>
+      <div
+        class="prioBtn"
+        [ngClass]="{ prioLow: ts.isLow }"
+        (click)="ts.changePriority('Low')"
+      >
+        Low
+        <img
+          draggable="false"
+          [src]="
+            !ts.isLow
+              ? '/assets/img/prioLow.svg'
+              : '/assets/img/prioLow-white.svg'
+          "
+        />
+      </div>
+    </div>
+
+    <span class="infoEdittask">Assigned To:</span>
+    <div class="containerAssignedTo">
+      <input
+        class="taskInput"
+        placeholder="choose Contact"
+        type="text"
+        [readonly]="true"
+        [ngStyle]="{
+          'border-radius': ts.assignedEditDropdown ? '10px 0 0 0' : ''
+        }"
+      />
+      <img
+        draggable="false"
+        (click)="openAssignedToEdit()"
+        class="assignedDropdown"
+        src="/assets/img/arrowDown.png"
+        [ngStyle]="{
+          'border-radius': ts.assignedEditDropdown ? '0 10px 0 0' : ''
+        }"
+      />
+    </div>
+    <!-- DROPDOWN -->
+    <div class="dropdown" *ngIf="ts.assignedEditDropdown">
+      <div class="dropdownContainer">
+        <div class="taskDropdownContainer" *ngFor="let user of us.users">
+          <span
+            class="userFrame taskFrame"
+            [style.background-color]="user.user_color"
+          >
+            {{ us.employeesInitials(user.username, user.last_name) }}
+          </span>
+          <span class="nameWrapper"
+            >{{ user.username }} {{ user.last_name }}</span
+          >
+          <input
+            [checked]="user.checked"
+            [ngModel]="user.checked"
+            (ngModelChange)="ts.checkUser(user)"
+            [ngModelOptions]="{ standalone: true }"
+            class="userCheckbox"
+            type="checkbox"
+            name="checkedUser"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="usercheckEditContainer">
+      <div class="assignedToEdit">
+        <div
+          class="assignedToEditWrapper"
+          *ngFor="let userId of ts.openTaskData.assignedTo"
+        >
+          <span
+            class="userFrame userFrameOpenEditTask"
+            [style.background-color]="ts.loadUserColor(userId)"
+          >
+            {{ ts.loadUsernameTask(userId).initials }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

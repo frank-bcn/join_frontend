@@ -21,6 +21,7 @@ import { SelectedUserComponent } from './pages/contacts/selected-user/selected-u
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskComponent } from './pages/task/task.component';
 import { EditAccountComponent } from './pages/edit-account/edit-account.component';
+import { OpenEditTaskComponent } from './pages/open-edit-task/open-edit-task.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { EditAccountComponent } from './pages/edit-account/edit-account.componen
     SelectedUserComponent,
     TaskComponent,
     EditAccountComponent,
+    OpenEditTaskComponent,
   ],
   imports: [
     BrowserModule,

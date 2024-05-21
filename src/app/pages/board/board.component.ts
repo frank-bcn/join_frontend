@@ -1,7 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -9,10 +8,6 @@ import { Observable, of } from 'rxjs';
   styleUrl: './board.component.scss',
 })
 export class BoardComponent {
-  openTaskData: any;
-  showMoveOptions: boolean = false;
-  taskStatus: string = '';
-
   constructor(
     public ts: TaskService,
     public us: UserService,
@@ -49,7 +44,7 @@ export class BoardComponent {
    * @param task The task to be opened.
    */
   openTasks(task: any) {
-    this.openTaskData = task;
+    this.ts.openTaskData = task;
     this.ts.openTask = true;
   }
 
@@ -59,7 +54,7 @@ export class BoardComponent {
    */
   closeOpenTasks() {
     this.ts.openTask = false;
-    this.showMoveOptions = false;
+    this.ts.showMoveOptions = false;
   }
 
   /**
@@ -81,41 +76,12 @@ export class BoardComponent {
   }
 
   /**
-   * Retrieves the color associated with a user based on their user ID.
-   * @param userId The ID of the user whose color is to be retrieved.
-   * @returns The color associated with the user, or 'transparent' if the user is not found.
-   */
-  loadUserColor(userId: string): string {
-    let user = this.us.users.find((user) => user.user_id === userId);
-    return user ? user.user_color : 'transparent';
-  }
-
-  /**
-   * Retrieves the username and initials of a user based on their user ID.
-   * @param userId The ID of the user whose username and initials are to be retrieved.
-   * @returns An object containing the user's initials and full name, or 'Unknown' if the user is not found.
-   */
-  loadUsernameTask(userId: string) {
-    let user = this.us.users.find((user) => user.user_id === userId);
-    if (user) {
-      return {
-        initials: this.us.employeesInitials(user.username, user.last_name),
-        fullName: `${user.username} ${user.last_name}`,
-      };
-    } else {
-      return { initials: 'Unknown', fullName: 'Unknown' };
-    }
-  }
-
-  /**
    * Sets up the move options for the specified task.
    * @param taskId The ID of the task to move.
    */
   moveTo(taskId: string) {
-    console.log('Task ID:', taskId);
-    this.taskStatus = this.loadTaskStatus(taskId);
-    this.showMoveOptions = true;
-    console.log('Task Status:', this.taskStatus);
+    this.ts.taskStatus = this.loadTaskStatus(taskId);
+    this.ts.showMoveOptions = true;
   }
 
   /**
@@ -150,16 +116,13 @@ export class BoardComponent {
    * Moves the task to the specified option (status) and updates the task list.
    * @param option The option (status) to which the task will be moved.
    */
-  async moveToOption(option: string) {
-    const taskId = this.openTaskData.id;
+  moveToOption(option: string) {
+    const taskId = this.ts.openTaskData.id;
     this.ts.dropPhone(taskId, option);
     this.ts.openTask = false;
-    this.showMoveOptions = false;
-    await this.ts.loadTasks();
+    this.ts.showMoveOptions = false;
   }
 
-  // implementieren
-  openEditTask() {
-    
-  }
+  // es fehlt noch das wenn ein task im handy modus verschoben wurde, das sich dasfeld angezeigt wird
+  // es fehlt das ändern vom task
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { TaskService } from '../../services/task.service';
+import { UpdateTaskService } from '../../services/update-task.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,9 @@ export class LoginComponent {
     public as: AuthService,
     public router: Router,
     public us: UserService,
-    public ts: TaskService
+    public ts: TaskService,
+    public uts: UpdateTaskService,
+
   ) {}
 
   /**
@@ -66,9 +69,9 @@ export class LoginComponent {
       this.login_successful = true;
       this.loginSuccessMessage = resp.success_message;
       this.navigateAfterLogin();
-      this.ts.updateTaskDeadline25();
-      this.ts.updateTaskDeadline26();
-      this.ts.updateTaskDeadline27();
+      this.uts.updateTaskDeadline25();
+      this.uts.updateTaskDeadline26();
+      this.uts.updateTaskDeadline27();
     }
   }
 

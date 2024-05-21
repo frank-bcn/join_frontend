@@ -31,7 +31,7 @@
                     height: 70%;
                     width: 82%;
                     border: none;
-                    border-right: 1px solid lightgrey;
+                    // border-right: 1px solid lightgrey;
                     margin: 0 12px 0 0;
                 }
             }
@@ -127,6 +127,7 @@ header {
     .close {
         display: flex;
         height: 50px;
+        cursor: pointer;
     }
 }
 
@@ -181,41 +182,41 @@ header {
             margin: 0 12px 0 0;
             cursor: pointer;
 
-        &:hover {
-            content: url("/assets/img/dndLightBlue.svg");
-        }      
-    }
-
-    .moveOptions {
-        display: flex;
-        width: 100%;
-
-        .btnMove {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            height: 40px;
-            width: fit-content;
-            border: none;
-            min-width: 70px;
-            border-radius: 8px;
-            background: #2a3647;
-            gap: 10px;
-            color: #ffffff;
-            font-weight: 700;
-            margin: 0 12px 0 0 ;
-            cursor: pointer;
-            transition: all 125ms ease-in-out;
-            font-size: clamp(9px, 1vw, 12px);
-    
             &:hover {
-                background-color: rgb(67, 178, 247);
+                content: url("/assets/img/dndLightBlue.svg");
+            }
+        }
+
+        .moveOptions {
+            display: flex;
+            width: 100%;
+
+            .btnMove {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                height: 40px;
+                width: fit-content;
+                border: none;
+                min-width: 70px;
+                border-radius: 8px;
+                background: #2a3647;
+                gap: 10px;
+                color: #ffffff;
+                font-weight: 700;
+                margin: 0 12px 0 0;
+                cursor: pointer;
+                transition: all 125ms ease-in-out;
+                font-size: clamp(9px, 1vw, 12px);
+
+                &:hover {
+                    background-color: rgb(67, 178, 247);
+                }
             }
         }
     }
-}
-    
+
     .edit {
         display: flex;
         width: 50px;
@@ -223,7 +224,6 @@ header {
         cursor: pointer;
     }
 }
-
 
 /**************************************************/
 /***************   open addtask   *****************/
