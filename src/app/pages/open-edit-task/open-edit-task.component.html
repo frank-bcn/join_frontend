@@ -23,18 +23,49 @@
           (click)="closeEditTasks()"
           src="/assets/img/close.svg"
           class="close"
-      /></span>
+        />
+      </span>
     </header>
-    <span class="infoEdittask">Tilte:</span>
-    <input type="text" [(ngModel)]="ts.openTaskData.title" />
+    <span class="infoEdittask">Title:</span>
+    <input
+      type="text"
+      [(ngModel)]="ts.openTaskData.title"
+      #title="ngModel"
+      required
+    />
+    <div
+      *ngIf="title.invalid && (title.dirty || title.touched)"
+      class="errorMessage"
+    >
+      Title is required.
+    </div>
     <span class="infoEdittask">Description:</span>
     <textarea
       class="textarea"
       name="text"
       [(ngModel)]="ts.openTaskData.description"
+      #description="ngModel"
+      required
     ></textarea>
+    <div
+      *ngIf="description.invalid && (description.dirty || description.touched)"
+      class="errorMessage"
+    >
+      Description is required.
+    </div>
     <span class="infoEdittask">Due Date:</span>
-    <input type="date" [(ngModel)]="ts.openTaskData.date" />
+    <input
+      type="date"
+      [(ngModel)]="ts.openTaskData.date"
+      #date="ngModel"
+      required
+    />
+    <div
+      *ngIf="date.invalid && (date.dirty || date.touched)"
+      class="errorMessage"
+    >
+      Due Date is required.
+    </div>
     <span class="infoEdittask">Priority:</span>
     <div class="prioContainer">
       <div
@@ -106,22 +137,22 @@
       />
     </div>
     <!-- DROPDOWN -->
-    <div class="dropdown" *ngIf="ts.assignedEditDropdown">
+    <div class="dropdownEditAssignedTo" *ngIf="ts.assignedEditDropdown">
       <div class="dropdownContainer">
         <div class="taskDropdownContainer" *ngFor="let user of us.users">
           <span
-            class="userFrame taskFrame"
+            class="taskEditFrame"
             [style.background-color]="user.user_color"
           >
             {{ us.employeesInitials(user.username, user.last_name) }}
           </span>
-          <span class="nameWrapper"
-            >{{ user.username }} {{ user.last_name }}</span
-          >
+          <span class="nameWrapper">
+            {{ user.username }} {{ user.last_name }}
+          </span>
           <input
             [checked]="user.checked"
             [ngModel]="user.checked"
-            (ngModelChange)="ts.checkUser(user)"
+            (ngModelChange)="checkUser(user, $event)"
             [ngModelOptions]="{ standalone: true }"
             class="userCheckbox"
             type="checkbox"
@@ -143,6 +174,28 @@
             {{ ts.loadUsernameTask(userId).initials }}
           </span>
         </div>
+      </div>
+
+      <button
+        class="btnBlue btnEdit"
+        (click)="ts.changetask()"
+        [disabled]="
+          title.invalid ||
+          description.invalid ||
+          date.invalid ||
+          ts.openTaskData.assignedTo.length === 0
+        "
+      >
+        ok
+        <img src="/assets/img/btncheck.png" />
+      </button>
+    </div>
+    <div
+      class="usercheckContainer"
+      *ngIf="ts.openTaskData.assignedTo.length === 0"
+    >
+      <div class="errorMessage">
+        <span>No user selected</span>
       </div>
     </div>
   </div>

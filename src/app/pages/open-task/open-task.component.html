@@ -1,76 +1,77 @@
 <div class="shadowPage" *ngIf="ts.openTask">
-    <div class="openContainer">
-      <header>
-        <span
-          class="categoryName"
-          [style.background-color]="ts.openTaskData.category.color"
-          >{{ ts.openTaskData?.category.name }}</span
-        >
-        <span class="closeOpenTask">
-          <img
+  <div class="openContainer">
+    <header>
+      <span
+        class="categoryName"
+        [style.background-color]="ts.openTaskData.category.color"
+        >{{ ts.openTaskData?.category.name }}</span
+      >
+      <span class="closeOpenTask">
+        <!-- <img
           src="/assets/img/notes.png"
           (click)="notes()"
           class="notes"
-        />
-          <img
-            (click)="closeOpenTasks()"
-            src="/assets/img/close.svg"
-            class="close"
-        /></span>
-      </header>
-      <span class="title">{{ ts.openTaskData?.title }}</span>
-      <span class="openTaskInfo">{{ ts.openTaskData?.description }}</span>
-      <span class="openTaskInfo"
-        ><b>Due Date:</b>&nbsp;&nbsp;{{ ts.openTaskData?.date }}</span
-      >
-      <span class="openTaskInfo">
-        <b>Priority:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {{ ts.openTaskData?.priority }}&nbsp;&nbsp;
-        <span class="prio">
-          <img [src]="prioImages(ts.openTaskData?.priority)" class="prioImg" />
-        </span>
+        /> -->
+        <img
+          (click)="closeOpenTasks()"
+          src="/assets/img/close.svg"
+          class="close"
+      /></span>
+    </header>
+    <span class="title">{{ ts.openTaskData?.title }}</span>
+    <span class="openTaskInfo">{{ ts.openTaskData?.description }}</span>
+    <span class="title"
+      ><b>Due Date:</b>&nbsp;&nbsp;<span class="openTaskInfo">{{
+        ts.openTaskData?.date
+      }}</span></span
+    >
+    <span class="title">
+      <b>Priority:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {{ ts.openTaskData?.priority }}&nbsp;&nbsp;
+      <span class="prio">
+        <img [src]="prioImages(ts.openTaskData?.priority)" class="prioImg" />
       </span>
-  
-      <span class="openTaskInfo"
-        ><b>Subtasks:</b>&nbsp;&nbsp;{{ ts.openTaskData?.subtasks }}</span
+    </span>
+
+    <span class="title"><b>Subtasks:</b>&nbsp;&nbsp;</span>
+    <span class="openTaskInfo">{{ ts.openTaskData?.subtasks }}</span>
+    <span class="title"><b>Assigned To:</b>&nbsp;&nbsp;</span>
+    <div class="assignedTo">
+      <div
+        class="assignedToWrapper"
+        *ngFor="let userId of ts.openTaskData.assignedTo"
       >
-      <span class="openTaskInfo"><b>Assigned To:</b>&nbsp;&nbsp;</span>
-      <div class="assignedTo">
-        <div
-          class="assignedToWrapper"
-          *ngFor="let userId of ts.openTaskData.assignedTo"
+        <span
+          class="userFrame userFrameOpenTask"
+          [style.background-color]="ts.loadUserColor(userId)"
         >
-          <span
-            class="userFrame userFrameOpenTask"
-            [style.background-color]="ts.loadUserColor(userId)"
-          >
-            {{ ts.loadUsernameTask(userId).initials }}
-          </span>
-          <span class="nameWrapper">
-            {{ ts.loadUsernameTask(userId).fullName }}
-          </span>
-        </div>
-      </div>
-      <div class="moveEditWrapper">
-        <span class="moveTo">
-          <img
-            (click)="moveTo(ts.openTaskData?.id)"
-            src="/assets/img/dndBlue.svg"
-            class="moveIcon"
-          />
-          <div *ngIf="ts.showMoveOptions" class="moveOptions">
-            <button
-              *ngFor="let option of possibleStatusChanges(ts.taskStatus)"
-              class="btnBlue btnMove"
-              (click)="moveToOption(option)"
-            >
-              move to: {{ option }}
-            </button>
-          </div>
+          {{ ts.loadUsernameTask(userId).initials }}
         </span>
-        <span class="edit">
-          <img (click)="ts.openEditTask()" src="/assets/img/edit.png" class="" />
+        <span class="nameWrapper">
+          {{ ts.loadUsernameTask(userId).fullName }}
         </span>
       </div>
     </div>
+    <div class="moveEditWrapper">
+      <span class="moveTo">
+        <img
+          (click)="moveTo(ts.openTaskData?.id)"
+          src="/assets/img/dndBlue.svg"
+          class="moveIcon"
+        />
+        <div *ngIf="ts.showMoveOptions" class="moveOptions">
+          <button
+            *ngFor="let option of possibleStatusChanges(ts.taskStatus)"
+            class="btnBlue btnMove"
+            (click)="moveToOption(option)"
+          >
+            move to: {{ option }}
+          </button>
+        </div>
+      </span>
+      <span class="edit">
+        <img (click)="ts.openEditTask()" src="/assets/img/edit.png" class="" />
+      </span>
+    </div>
   </div>
+</div>

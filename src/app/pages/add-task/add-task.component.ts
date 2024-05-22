@@ -71,7 +71,7 @@ export class AddTaskComponent {
    */
   openAssignedTo() {
     if (!this.assignedDropdown) {
-      this.ts.updateCheckedStatus(); // Aktualisieren des Status vor dem Öffnen des Dropdown-Menüs
+      this.ts.updateCheckedStatus();
     }
     this.assignedDropdown = !this.assignedDropdown;
   }

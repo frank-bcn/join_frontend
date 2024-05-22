@@ -280,7 +280,7 @@ export class TaskService {
    * If an error occurs during the request, it logs the error.
    * @param taskId The ID of the task to be deleted.
    */
-  deleteTodo(taskId: number) {
+  deleteTask(taskId: number) {
     if (confirm('Are you sure you want to delete this task?')) {
       const url = environment.baseUrl + '/api/task/';
       this.http
@@ -439,5 +439,25 @@ export class TaskService {
     this.openTaskData.priority = priority;
     this.taskPriority = priority;
     this.checkTaskStatus();
+  }
+
+  /**
+   * Sends a PUT request to update an existing task with the edited details.
+   * Closes the edit task view and assigned user edit dropdown after the update.
+   */
+  async changetask() {
+    const url = environment.baseUrl + '/api/task/';
+    const body = {
+      id: this.openTaskData.id,
+      title: this.openTaskData.title,
+      description: this.openTaskData.description,
+      date: this.openTaskData.date,
+      priority: this.openTaskData.priority,
+      assignedTo: this.openTaskData.assignedTo,
+      category: this.openTaskData.category,
+    };
+    this.http.put<any>(url, body).toPromise();
+    this.assignedEditDropdown = false;
+    this.editTask = false;
   }
 }

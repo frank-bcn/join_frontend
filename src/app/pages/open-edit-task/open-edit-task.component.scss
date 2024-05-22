@@ -95,6 +95,45 @@ textarea {
     color: white;
 }
 
+.dropdownEditAssignedTo {
+    display: flex;
+    width: calc(100% - 2px);
+    height: 12%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 1px solid #d1d1d1;
+    border-radius: 0 0 6px 6px;
+
+    .dropdownContainer {
+        display: flex;
+        flex-direction: column;
+        margin: 0 10% 3px 10%;
+
+        .taskDropdownContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3px 0 0 0;
+
+            .taskEditFrame {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 3px solid lightgray;
+                border-radius: 50%;
+                padding: 13px;
+                width: 6px;
+                height: 6px;
+                font-weight: 700;
+                margin: 0 20px 0 0;
+                color: #2a3647;
+                background-color: transparent;
+            }
+        }
+    }
+}
 
 .containerAssignedTo {
     display: flex;
@@ -123,7 +162,9 @@ textarea {
 
 .usercheckEditContainer {
     display: flex;
-    width: 100%;
+    width: calc(100% - 1%);
+    padding: 6px;
+    align-items: center;
 
     .assignedToEdit {
         display: flex;
@@ -139,5 +180,23 @@ textarea {
         margin: 0px -8px 0 0;
         width: 8px;
         height: 8px;
+    }
+
+    .btnEdit {
+        padding: 17px;
+    }
+}
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 700px) {
+    .openTaskContainer {
+        width: 80% !important;
+    }
+
+    .openContainer {
+        width: 80% !important;
     }
 }

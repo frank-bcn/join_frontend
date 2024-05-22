@@ -20,11 +20,11 @@ header {
     .closeOpenTask {
         display: flex;
 
-        .notes {
-            display: flex;
-            margin: 0 12px 0 0;
-            cursor: pointer;
-        }
+        // .notes {
+        //     display: flex;
+        //     margin: 0 12px 0 0;
+        //     cursor: pointer;
+        // }
     }
 
     header {
@@ -156,7 +156,7 @@ header {
 
 .title {
     display: flex;
-    font-size: clamp(16px, 1.5vw, 32px);
+    font-size: clamp(16px, 2vw, 32px);
     font-weight: bolder;
     height: 10%;
     align-items: center;
@@ -164,8 +164,8 @@ header {
 
 .openTaskInfo {
     display: flex;
-    font-size: clamp(12px, 1vw, 24px);
-    margin: 0 0 4% 0;
+    font-size: clamp(12px, 1.2vw, 24px);
+    align-items: center;
     height: 10%;
 }
 
@@ -245,5 +245,19 @@ header {
         width: 50px;
         justify-content: flex-end;
         cursor: pointer;
+    }
+}
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 700px) {
+    .openTaskContainer {
+        width: 80% !important;
+    }
+
+    .openContainer {
+        width: 80% !important;
     }
 }
