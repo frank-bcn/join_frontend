@@ -1,0 +1,14 @@
+<div class="shadowPage" *ngIf="ts.comment">
+  <div class="openContainer">
+    <header>
+      <span
+        class="categoryName"
+        >Comment</span
+      >
+    </header>
+    <textarea name="" placeholder="Please write a comment"></textarea>
+    <div class="btnContainer">
+      <button (click)="cs.createComment()" class="btnBlue">create comment</button>
+    </div>
+  </div>
+</div>

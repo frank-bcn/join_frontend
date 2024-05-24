@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { TaskService } from '../../../services/task.service';
+import { EexternalsService } from '../../../services/eexternals.service';
+import { UserTaskService } from '../../../services/user-task.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -20,8 +22,12 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class SelectedUserComponent {
-
-  constructor(public us: UserService, public ts: TaskService) {}
+  constructor(
+    public us: UserService,
+    public ts: TaskService,
+    public es: EexternalsService,
+    public ut: UserTaskService
+  ) {}
 
   /**
    * ngOnInit is an Angular lifecycle hook that is called after the component is initialized.

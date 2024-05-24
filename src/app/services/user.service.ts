@@ -12,7 +12,6 @@ export class UserService {
   authToken: string = '';
   userData: any = {};
   users: any[] = [];
-  userListEexternals: any[] = [];
   selectedUsers: any[] = [];
   userColors: string[] = [
     '#FFD700',
@@ -91,27 +90,6 @@ export class UserService {
   }
 
   /**
-   * Saves the user to the user list on the server.
-   * This function constructs the URL and request body for saving the user,
-   * sends a request to the server to save the user data,
-   * and handles the response or error accordingly.
-   * Finally, it resets the 'newContact' flag and updates the user's initials.
-   */
-  async saveUserToUserList() {
-    let url = environment.baseUrl + '/api/eexternalsUser/';
-    let randomColor = this.randomColor();
-    let body = this.userBody(randomColor);
-    try {
-      let response = await this.saveUser(url, body);
-      this.saveUserResponse(response);
-    } catch (error) {
-      this.error(error);
-    }
-    this.newContact = false;
-    this.externalsInitials(this.username);
-  }
-
-  /**
    * Constructs the request body for saving user data to the server.
    * This function returns an object containing the user's username, email, phone number, and a randomly generated color.
    * @param randomColor The randomly generated color for the user.
@@ -137,17 +115,6 @@ export class UserService {
   }
 
   /**
-   * Handles the response after successfully saving user data to the server.
-   * This function adds the response data to the 'userListEexternals' array
-   * and reloads the user list from the server to reflect the changes.
-   * @param response The response object returned after saving user data.
-   */
-  saveUserResponse(response: any): void {
-    this.userListEexternals.push(response);
-    this.loadUserListEexternals();
-  }
-
-  /**
    * Logs an error message to the console.
    * This function is used to handle errors that occur during asynchronous operations.
    * It logs the provided error object to the console for debugging purposes.
@@ -166,22 +133,6 @@ export class UserService {
   randomColor(): string {
     let randomIndex = Math.floor(Math.random() * this.userColors.length);
     return this.userColors[randomIndex];
-  }
-
-  /**
-   * Loads the user list of externals from the server.
-   * This function sends a GET request to the server to retrieve the user list of externals,
-   * updates the 'userListEexternals' array with the retrieved data,
-   * and logs the response for debugging purposes.
-   */
-  async loadUserListEexternals() {
-    let url = environment.baseUrl + '/api/eexternalsUser/';
-    try {
-      let response = await this.http.get<any[]>(url).toPromise();
-      this.userListEexternals = response as any[];
-    } catch (error) {
-      console.error('Error loading user list:', error);
-    }
   }
 
   /**
@@ -290,29 +241,6 @@ export class UserService {
   }
 
   /**
-   * Deletes the selected contact from the server.
-   * This function prompts the user for confirmation before initiating the deletion process.
-   * If the user confirms the deletion, it sends a DELETE request to the server to delete the contact with the specified ID.
-   * After successful deletion, it resets the selected user to null and reloads the user list of externals.
-   * If any errors occur during the deletion process, they are logged to the console.
-   */
-  deleteContact(): void {
-    if (confirm('Are you sure you want to delete this contact?')) {
-      const url = environment.baseUrl + '/api/eexternalsUser/';
-      this.http
-        .delete<any>(url, { body: { id: this.selectedUser.id } })
-        .toPromise()
-        .then(() => {
-          this.selectedUser = null;
-          this.loadUserListEexternals();
-        })
-        .catch((error) => {
-          this.error(error);
-        });
-    }
-  }
-
-  /**
    * Changes the z-index property of HTML elements with specific IDs to control their stacking order.
    * This function takes a z-index value as input and applies it to the content and userList elements.
    * @param zIndex The z-index value to be applied to the elements.
@@ -338,25 +266,6 @@ export class UserService {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Asynchronously edits the selected user's contact information.
-   * Validates the user fields before making an HTTP POST request to update the user's information.
-   * If successful, it hides the edit contact form and reloads the external user list.
-   */
-  async editUserContact() {
-    if (!this.validateEditUserFields(this.selectedUser)) {
-      return;
-    }
-    const { url, body } = this.updateContactRequestData();
-    try {
-      await this.http.post(url, body).toPromise();
-      this.editContact = false;
-      this.loadUserListEexternals();
-    } catch (error) {
-      this.error(error);
-    }
   }
 
   /**
@@ -394,8 +303,8 @@ export class UserService {
   }
 
   /**
- * Updates the user's account information on the server and updates the local state.
- */
+   * Updates the user's account information on the server and updates the local state.
+   */
   async saveEditAccount() {
     const url = environment.baseUrl + '/api/userUpdate/';
     const body = {
@@ -414,9 +323,9 @@ export class UserService {
     } catch (error) {}
   }
 
-   /**
+  /**
    * Updates the local user data and persists it in local storage.
-   * 
+   *
    * @param body - The updated user data.
    */
   updateUserData(body: any) {
@@ -430,15 +339,15 @@ export class UserService {
   }
 
   /**
- * Enables editing mode for the user's account details.
- */
+   * Enables editing mode for the user's account details.
+   */
   edit() {
     this.editUser = true;
   }
 
 
 
-
+  
   // muss noch erstellt werden, funktioniert nicht
   logout(): Observable<any> {
     console.log('click');

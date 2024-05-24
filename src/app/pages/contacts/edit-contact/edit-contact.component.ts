@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
+import { EexternalsService } from '../../../services/eexternals.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -19,7 +20,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class EditContactComponent {
-  constructor(public us: UserService) {}
+  constructor(public us: UserService, public es: EexternalsService) {}
 
   /**
    * Closes the slider edit container by setting the 'editContact' flag to false.

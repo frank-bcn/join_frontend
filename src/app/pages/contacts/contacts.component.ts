@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { EexternalsService } from '../../services/eexternals.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -19,7 +20,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class ContactsComponent {
-  constructor(public us: UserService) {}
+  constructor(public us: UserService, public es: EexternalsService) {}
 
   /**
    * ngOnInit is an Angular lifecycle hook that is called after the component is initialized.
@@ -27,7 +28,7 @@ export class ContactsComponent {
    */
   ngOnInit() {
     this.us.loadUsersFromServer();
-    this.us.loadUserListEexternals();
+    this.es.loadUserListEexternals();
   }
 
   /**

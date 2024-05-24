@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
+import { UserTaskService } from '../../services/user-task.service';
 
 @Component({
   selector: 'app-add-task',
@@ -16,16 +17,23 @@ export class AddTaskComponent {
   assignedDropdown: boolean = false;
   subtasksDropdown: boolean = false;
 
-  constructor(public ts: TaskService, public us: UserService) {}
+  constructor(
+    public ts: TaskService,
+    public us: UserService,
+    public ut: UserTaskService
+  ) {}
 
   /**
    * ngOnInit is an Angular lifecycle hook that is called after the component is initialized.
    * In this function, users are loaded from the server.
    */
   ngOnInit() {
+    this.us.selectedUser;
     this.us.loadUsersFromServer();
     this.ts.clearInputFields();
     this.ts.clearArray();
+    this.ut.checkUser(this.us.selectedUser);
+    this.ut.updateCheckedStatus();
   }
 
   /**
@@ -66,7 +74,6 @@ export class AddTaskComponent {
     this.ts.selectedCategory.color = this.color;
     console.log(this.ts.selectedCategory);
     this.newCategoryDropdown = false;
-
   }
 
   /**
@@ -75,12 +82,12 @@ export class AddTaskComponent {
    */
   openAssignedTo() {
     if (!this.assignedDropdown) {
-      this.ts.updateCheckedStatus();
+      this.ut.updateCheckedStatus();
     }
     this.categoryDropdown = false;
     this.assignedDropdown = !this.assignedDropdown;
   }
-  
+
   /**
    * Toggles the visibility of the subtasks dropdown.
    * If the dropdown is currently closed and there is a new subtask entered,

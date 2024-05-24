@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user.service';
+import { EexternalsService } from '../../../services/eexternals.service';
 import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
@@ -19,7 +20,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   ],
 })
 export class NewContactComponent {
-  constructor(public us: UserService) {}
+  constructor(public us: UserService, public es: EexternalsService) {}
 
   /**
    * Closes the new contact container by setting the 'newContact' flag to false.
@@ -46,7 +47,7 @@ export class NewContactComponent {
    * Submits the form by saving the user to the user list and resetting the form.
    */
   onSubmit(): void {
-    this.us.saveUserToUserList();
+    this.es.saveUserToUserList();
     this.resetForm();
   }
 

@@ -4,7 +4,6 @@ import { HoverService } from './hover.service';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +45,7 @@ export class TaskService {
   taskPriority: string = '';
   showMoveOptions: boolean = false;
   searchTerm: string = '';
+  comment: boolean = false;
 
   constructor(
     public us: UserService,
@@ -53,32 +53,6 @@ export class TaskService {
     public hs: HoverService,
     public http: HttpClient
   ) {}
-
-  /**
-   * Navigates to the "addTask" route and performs additional actions related to adding a task.
-   * This function navigates to the "addTask" route using the Angular router.
-   * It also sets the active link in the navigation bar to "addTask".
-   * Additionally, it checks if a user is selected and updates the checked status.
-   */
-  AddUserTask() {
-    this.router.navigateByUrl('/addTask');
-    this.hs.activeLink = 'addTask';
-    this.checkUser(this.us.selectedUser);
-    this.updateCheckedStatus();
-  }
-
-  /**
-   * Updates the 'checked' status of users based on whether they are selected.
-   * This function iterates over each user in the user list and checks if they are selected.
-   * It sets the 'checked' property of each user to true if they are selected, and false otherwise.
-   */
-  updateCheckedStatus() {
-    this.us.users.forEach((user) => {
-      user.checked = this.us.selectedUsers.some(
-        (selectedUser) => selectedUser.user_id === user.user_id
-      );
-    });
-  }
 
   /**
    * Determines the priority level based on the boolean flags isUrgent, isMedium, and isLow.
@@ -95,24 +69,6 @@ export class TaskService {
       return 'Low';
     } else {
       return '';
-    }
-  }
-
-  /**
-   * Checks or unchecks a user in the list of selected users.
-   * This function checks if the specified user is already in the list of selected users.
-   * If the user is found in the list, it removes the user from the list (unchecks).
-   * If the user is not found in the list, it adds the user to the list (checks).
-   * @param user The user object to be checked or unchecked.
-   */
-  checkUser(user: any) {
-    const userIndex = this.us.selectedUsers.findIndex(
-      (selectedUser) => selectedUser.user_id === user.user_id
-    );
-    if (userIndex !== -1) {
-      this.us.selectedUsers.splice(userIndex, 1);
-    } else {
-      this.us.selectedUsers.push(user);
     }
   }
 
@@ -151,15 +107,16 @@ export class TaskService {
     const url = environment.baseUrl + '/api/task/';
     const body = this.createTaskBody();
     try {
-      await this.http.post(url, body).toPromise().then(() => {
-        this.loadBoard();
-        this.loadTasks();
-        this.clearInputFields();
-        this.clearArray();
-        this.openAddTaskBoard = false;
-        
-      });
-      
+      await this.http
+        .post(url, body)
+        .toPromise()
+        .then(() => {
+          this.load();
+          this.loadBoard();
+          this.clearInputFields();
+          this.clearArray();
+          this.openAddTaskBoard = false;
+        });
     } catch (error) {}
   }
 
@@ -301,59 +258,6 @@ export class TaskService {
   }
 
   /**
-   * Handles the drop event when a task is moved to a new status column.
-   * This function is triggered when a task is dropped into a new status column in the task board.
-   * It updates the status of the moved task locally and sends a request to the server to update the status.
-   * @param event The drop event containing information about the dropped task.
-   * @param newStatus The new status column to which the task is moved.
-   */
-  drop(event: CdkDragDrop<any[]>, newStatus: string) {
-    let movedTask = event.item.data;
-    movedTask.status = newStatus;
-    let taskId = movedTask.id;
-    this.updateTaskStatus(taskId, newStatus);
-  }
-
-  /**
-   * Updates the status of a task by sending a PUT request to the server.
-   * This function sends a PUT request to the server to update the status of a task.
-   * If the request is successful, it reloads the tasks list to reflect the changes.
-   * If an error occurs during the request, it catches the error.
-   * @param taskId The ID of the task to be updated.
-   * @param newStatus The new status of the task.
-   */
-  updateTaskStatus(taskId: number, newStatus: string) {
-    const url = environment.baseUrl + '/api/updateTaskStatus/';
-    const body = { id: taskId, status: newStatus };
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      .then((response) => {
-        this.loadTasks();
-      })
-      .catch((error) => {});
-  }
-
-  /**
-   * Drops (moves) the task to the specified new status.
-   * @param taskId The ID of the task to be moved.
-   * @param newStatus The new status to which the task will be moved.
-   */
-  dropPhone(taskId: any, newStatus: string) {
-    const url = environment.baseUrl + '/api/updateTaskStatus/';
-    const body = { id: taskId, status: newStatus };
-    this.http
-      .put<any>(url, body)
-      .toPromise()
-      .then((response) => {
-        this.loadTasks().then(() => {
-          this.loadBoard();
-        });
-      })
-      .catch((error) => {});
-  }
-
-  /**
    * Opens the add task page by setting the flag to indicate that the add task board should be open.
    * This function sets the `openAddTaskBoard` flag to `true`, which triggers the display of the add task board.
    */
@@ -479,5 +383,14 @@ export class TaskService {
         task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
+  }
+
+  /**
+   * Loads the tasks and updates the filtered tasks list.
+   */
+  load() {
+    this.loadTasks().then(() => {
+      this.filteredTasks = this.tasks;
+    });
   }
 }

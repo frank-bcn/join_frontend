@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
+import { DragDropService } from '../../services/drag-drop.service';
 
 @Component({
   selector: 'app-board',
@@ -12,6 +13,7 @@ export class BoardComponent {
   constructor(
     public ts: TaskService,
     public us: UserService,
+    public dd: DragDropService,
     public elementRef: ElementRef
   ) {
   }

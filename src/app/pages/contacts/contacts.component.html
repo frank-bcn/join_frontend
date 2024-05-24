@@ -31,7 +31,7 @@
       class="externalsContainer"
       *ngIf="us.switchBtnText === 'go to the employees'"
     >
-      <ng-container *ngFor="let group of us.sortUser(us.userListEexternals)">
+      <ng-container *ngFor="let group of us.sortUser(es.userListEexternals)">
         <div class="sortHeader">{{ group.initial }}</div>
         <span
           *ngFor="let user of group.users"

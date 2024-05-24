@@ -28,7 +28,7 @@
         cdkDropList
         #todoList="cdkDropList"
         [cdkDropListConnectedTo]="[doneList, inProgressList, doTodayList]"
-        (cdkDropListDropped)="ts.drop($event, 'todo')"
+        (cdkDropListDropped)="dd.drop($event, 'todo')"
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Todo</h1>
@@ -49,7 +49,7 @@
         cdkDropList
         #inProgressList="cdkDropList"
         [cdkDropListConnectedTo]="[doneList, todoList, doTodayList]"
-        (cdkDropListDropped)="ts.drop($event, 'inProgress')"
+        (cdkDropListDropped)="dd.drop($event, 'inProgress')"
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">In progress</h1>
@@ -70,7 +70,7 @@
         cdkDropList
         #doTodayList="cdkDropList"
         [cdkDropListConnectedTo]="[doneList, inProgressList, todoList]"
-        (cdkDropListDropped)="ts.drop($event, 'awaiting')"
+        (cdkDropListDropped)="dd.drop($event, 'awaiting')"
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Awaiting Feedback</h1>
@@ -91,7 +91,7 @@
         cdkDropList
         #doneList="cdkDropList"
         [cdkDropListConnectedTo]="[todoList, inProgressList, doTodayList]"
-        (cdkDropListDropped)="ts.drop($event, 'done')"
+        (cdkDropListDropped)="dd.drop($event, 'done')"
       >
         <span class="taskFieldHeader">
           <h1 class="headerText">Done</h1>
@@ -118,3 +118,6 @@
 
 <!-- open add task board -->
 <app-open-add-task-board></app-open-add-task-board>
+
+<!-- open comment page -->
+<!-- <app-comment></app-comment> -->

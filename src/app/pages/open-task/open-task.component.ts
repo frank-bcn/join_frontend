@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../../services/task.service';
+import { DragDropService } from '../../services/drag-drop.service';
 
 @Component({
   selector: 'app-open-task',
@@ -7,7 +8,7 @@ import { TaskService } from '../../services/task.service';
   styleUrl: './open-task.component.scss',
 })
 export class OpenTaskComponent {
-  constructor(public ts: TaskService) {}
+  constructor(public ts: TaskService, public dd: DragDropService) {}
 
   notes() {}
 
@@ -82,7 +83,7 @@ export class OpenTaskComponent {
    */
   moveToOption(option: string) {
     const taskId = this.ts.openTaskData.id;
-    this.ts.dropPhone(taskId, option);
+    this.dd.dropPhone(taskId, option);
     this.ts.openTask = false;
     this.ts.showMoveOptions = false;
   }
