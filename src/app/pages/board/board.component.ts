@@ -8,7 +8,6 @@ import { UserService } from '../../services/user.service';
   styleUrl: './board.component.scss',
 })
 export class BoardComponent {
-  searchTerm: string = '';
 
   constructor(
     public ts: TaskService,
@@ -52,18 +51,4 @@ export class BoardComponent {
     this.ts.openTask = true;
   }
 
-  /**
-   * Filters the tasks based on the search term.
-   * If the search term is empty, all tasks are shown.
-   * Otherwise, only tasks with titles that include the search term are shown.
-   */
-  filterTasks(): void {
-    if (this.searchTerm === '') {
-      this.ts.filteredTasks = this.ts.tasks;
-    } else {
-      this.ts.filteredTasks = this.ts.tasks.filter((task) =>
-        task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-  }
 }

@@ -1,0 +1,11 @@
+<div class="shadowPage" *ngIf="ts.openAddTaskBoard">
+    <div class="openContainer containerTask">
+      <span class="closeOpenAddTask">
+        <img
+          (click)="ts.closeAddTaskPage()"
+          src="/assets/img/close.svg"
+          class="close"
+      /></span>
+      <app-add-task></app-add-task>
+    </div>
+  </div>

@@ -3,7 +3,7 @@
     <h2>Board</h2>
     <div class="wrapper">
       <span class="searchWrapper">
-        <input type="text" placeholder="Find Task" [(ngModel)]="searchTerm" (input)="filterTasks()" />
+        <input type="text" placeholder="Find Task" [(ngModel)]="ts.searchTerm" (input)="ts.filterTasks()" />
         <img src="/assets/img/search.svg" />
       </span>
       <button (click)="ts.openAddTaskPage()" class="btnBlue addTask">
@@ -115,3 +115,6 @@
 
 <!-- open edit task page -->
 <app-open-edit-task></app-open-edit-task>
+
+<!-- open add task board -->
+<app-open-add-task-board></app-open-add-task-board>

@@ -65,7 +65,7 @@
             placeholder="choose Category"
             type="text"
             [(ngModel)]="inputValue"
-            #inputValueInput="ngModel"
+            #categoryInput="ngModel"
             [ngStyle]="{
               'border-radius':
                 categoryDropdown || newCategoryDropdown ? '10px 0 0 0' : '',
@@ -138,10 +138,10 @@
         </div>
         <div
           *ngIf="
-            (taskForm.submitted ||
-              !ts.selectedCategory.name ||
+            (taskForm.submitted || categoryInput.touched) &&
+             ( !ts.selectedCategory.name ||
               !ts.selectedCategory.color) &&
-            (taskForm.dirty || taskForm.submitted)
+            (taskForm.dirty || taskForm.submitted) 
           "
           class="errorMessage"
         >

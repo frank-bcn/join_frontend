@@ -45,6 +45,7 @@ export class TaskService {
   assignedEditDropdown: boolean = false;
   taskPriority: string = '';
   showMoveOptions: boolean = false;
+  searchTerm: string = '';
 
   constructor(
     public us: UserService,
@@ -150,12 +151,15 @@ export class TaskService {
     const url = environment.baseUrl + '/api/task/';
     const body = this.createTaskBody();
     try {
-      await this.http.post(url, body).toPromise();
-      this.clearInputFields();
-      this.clearArray();
-      this.openAddTaskBoard = false;
-      this.loadBoard();
-      this.loadTasks();
+      await this.http.post(url, body).toPromise().then(() => {
+        this.loadBoard();
+        this.loadTasks();
+        this.clearInputFields();
+        this.clearArray();
+        this.openAddTaskBoard = false;
+        
+      });
+      
     } catch (error) {}
   }
 
@@ -225,16 +229,22 @@ export class TaskService {
   }
 
   /**
-   * Clears the arrays and boolean flags related to task creation.
-   * This function resets the arrays and boolean flags used during task creation to their initial state.
-   * It empties the array of selected users, subtasks, and resets the priority level flags to false.
+   * Clears the selected users, subtasks, selected category, and priority flags.
+   * Resets the urgency, medium, and low priority flags to their default state.
    */
   clearArray() {
     this.us.selectedUsers = [];
     this.subtasks = [];
+    this.selectedCategory = {
+      name: '',
+      color: '',
+    };
     this.isUrgent = false;
+    this.clickUrgent = true;
     this.isMedium = false;
+    this.clickMedium = true;
     this.isLow = false;
+    this.clickLow = true;
   }
 
   /**
@@ -279,8 +289,10 @@ export class TaskService {
         .delete<any>(url, { body: { id: taskId } })
         .toPromise()
         .then((response) => {
-          this.loadTasks();
-          this.openTask = false;
+          this.loadTasks().then(() => {
+            this.filterTasks();
+            this.openTask = false;
+          });
         })
         .catch((error) => {
           console.error('Error deleting task:', error);
@@ -327,7 +339,7 @@ export class TaskService {
    * @param taskId The ID of the task to be moved.
    * @param newStatus The new status to which the task will be moved.
    */
- dropPhone(taskId: any, newStatus: string) {
+  dropPhone(taskId: any, newStatus: string) {
     const url = environment.baseUrl + '/api/updateTaskStatus/';
     const body = { id: taskId, status: newStatus };
     this.http
@@ -452,5 +464,20 @@ export class TaskService {
     this.http.put<any>(url, body).toPromise();
     this.assignedEditDropdown = false;
     this.editTask = false;
+  }
+
+  /**
+   * Filters the tasks based on the search term.
+   * If the search term is empty, all tasks are shown.
+   * Otherwise, only tasks with titles that include the search term are shown.
+   */
+  filterTasks(): void {
+    if (this.searchTerm === '') {
+      this.filteredTasks = this.tasks;
+    } else {
+      this.filteredTasks = this.tasks.filter((task) =>
+        task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
   }
 }

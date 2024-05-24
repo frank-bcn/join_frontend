@@ -23,6 +23,7 @@ import { TaskComponent } from './pages/task/task.component';
 import { EditAccountComponent } from './pages/edit-account/edit-account.component';
 import { OpenEditTaskComponent } from './pages/open-edit-task/open-edit-task.component';
 import { OpenTaskComponent } from './pages/open-task/open-task.component';
+import { OpenAddTaskBoardComponent } from './pages/open-add-task-board/open-add-task-board.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { OpenTaskComponent } from './pages/open-task/open-task.component';
     EditAccountComponent,
     OpenEditTaskComponent,
     OpenTaskComponent,
+    OpenAddTaskBoardComponent,
   ],
   imports: [
     BrowserModule,

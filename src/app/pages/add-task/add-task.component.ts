@@ -24,6 +24,8 @@ export class AddTaskComponent {
    */
   ngOnInit() {
     this.us.loadUsersFromServer();
+    this.ts.clearInputFields();
+    this.ts.clearArray();
   }
 
   /**
