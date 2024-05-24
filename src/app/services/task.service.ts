@@ -37,6 +37,7 @@ export class TaskService {
   isMedium: boolean = false;
   isLow: boolean = false;
   tasks: any[] = [];
+  filteredTasks: any[] = [];
   openTask: boolean = false;
   openAddTaskBoard: boolean = false;
   taskStatus: string = '';
@@ -215,22 +216,12 @@ export class TaskService {
   }
 
   /**
-   * Clears the input fields related to task creation.
+   * Clears the input fields for task title, description, and date.
    */
   clearInputFields() {
-    (
-      document.querySelector(
-        'input[placeholder="enter a Title"]'
-      ) as HTMLInputElement
-    ).value = '';
-    (
-      document.querySelector(
-        'textarea[placeholder="enter a description"]'
-      ) as HTMLTextAreaElement
-    ).value = '';
-    (
-      document.querySelector('input[name="dateField"]') as HTMLInputElement
-    ).value = '';
+    this.taskTitle = '';
+    this.taskDescription = '';
+    this.dateInputValue = '';
   }
 
   /**
@@ -254,6 +245,7 @@ export class TaskService {
   loadBoard() {
     this.router.navigateByUrl('/board');
     this.hs.activeLink = 'board';
+    this.filteredTasks = this.tasks;
   }
 
   /**
@@ -335,15 +327,16 @@ export class TaskService {
    * @param taskId The ID of the task to be moved.
    * @param newStatus The new status to which the task will be moved.
    */
-  dropPhone(taskId: any, newStatus: string) {
+ dropPhone(taskId: any, newStatus: string) {
     const url = environment.baseUrl + '/api/updateTaskStatus/';
     const body = { id: taskId, status: newStatus };
     this.http
       .put<any>(url, body)
       .toPromise()
       .then((response) => {
-        this.loadTasks();
-        this.loadBoard();
+        this.loadTasks().then(() => {
+          this.loadBoard();
+        });
       })
       .catch((error) => {});
   }

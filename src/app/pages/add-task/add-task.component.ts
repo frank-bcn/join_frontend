@@ -31,6 +31,7 @@ export class AddTaskComponent {
    * Sets the 'isCategoryDropdownOpen' property to true, indicating that the dropdown should be displayed.
    */
   openCategory() {
+    this.assignedDropdown = false;
     this.categoryDropdown = !this.categoryDropdown;
   }
 
@@ -63,6 +64,7 @@ export class AddTaskComponent {
     this.ts.selectedCategory.color = this.color;
     console.log(this.ts.selectedCategory);
     this.newCategoryDropdown = false;
+
   }
 
   /**
@@ -73,6 +75,7 @@ export class AddTaskComponent {
     if (!this.assignedDropdown) {
       this.ts.updateCheckedStatus();
     }
+    this.categoryDropdown = false;
     this.assignedDropdown = !this.assignedDropdown;
   }
   

@@ -3,8 +3,8 @@
     <h2>Board</h2>
     <div class="wrapper">
       <span class="searchWrapper">
-        <input type="search" placeholder="Find Task" />
-        <img src="/assets/img/search.svg" class="" />
+        <input type="text" placeholder="Find Task" [(ngModel)]="searchTerm" (input)="filterTasks()" />
+        <img src="/assets/img/search.svg" />
       </span>
       <button (click)="ts.openAddTaskPage()" class="btnBlue addTask">
         Add Task +
@@ -34,7 +34,7 @@
           <h1 class="headerText">Todo</h1>
         </span>
         <div class="taskFieldWrapper">
-          <ng-container *ngFor="let task of ts.tasks">
+          <ng-container *ngFor="let task of ts.filteredTasks">
             <app-task
               (click)="openTasks(task)"
               *ngIf="task.status === 'todo'"
@@ -55,7 +55,7 @@
           <h1 class="headerText">In progress</h1>
         </span>
         <div class="taskFieldWrapper">
-          <ng-container *ngFor="let task of ts.tasks">
+          <ng-container *ngFor="let task of ts.filteredTasks">
             <app-task
               (click)="openTasks(task)"
               *ngIf="task.status == 'inProgress'"
@@ -76,7 +76,7 @@
           <h1 class="headerText">Awaiting Feedback</h1>
         </span>
         <div class="taskFieldWrapper">
-          <ng-container *ngFor="let task of ts.tasks">
+          <ng-container *ngFor="let task of ts.filteredTasks">
             <app-task
               (click)="openTasks(task)"
               *ngIf="task.status == 'awaiting'"
@@ -97,7 +97,7 @@
           <h1 class="headerText">Done</h1>
         </span>
         <div class="taskFieldWrapper">
-          <ng-container *ngFor="let task of ts.tasks">
+          <ng-container *ngFor="let task of ts.filteredTasks">
             <app-task
               (click)="openTasks(task)"
               *ngIf="task.status == 'done'"
@@ -109,6 +109,7 @@
     </div>
   </div>
 </div>
+
 <!-- open task page-->
 <app-open-task></app-open-task>
 

@@ -12,8 +12,12 @@
     /**************  left side  **************/
     /*****************************************/
 
+    .headerOpenTask {
+        height: 10%;
+    }
+
     label {
-        margin: 30px 0 10px 0;
+        margin: 12px 0 12px 0;
         font-size: 18px;
         font-weight: 700;
         width: 70%;
@@ -248,19 +252,20 @@
         display: flex;
         flex-direction: column;
         padding: 0 0 0 5%;
+        width: 50%;
 
         .prioContainer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 345px;
+            width: 100%;
         }
 
         .prioBtn {
             display: flex;
             border: 1px solid rgb(226, 226, 226);
             border-radius: 10px;
-            padding: 13px;
+            padding: 13px 6px 13px 6px;
             background-color: white;
             display: flex;
             align-items: center;
@@ -308,12 +313,11 @@
 /************************   query's   ************************/
 /*************************************************************/
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 1000px) {
     .AddTaskContainer {
         height: 100%;
         width: 100%;
         margin: 0 0% 0 0%;
-        overflow-y: scroll;
 
         header {
             justify-content: center;
@@ -339,6 +343,7 @@
 
         .taskSettingsContainer {
             padding: 0 !important;
+            width: 100% !important;
 
             .prioContainer {
                 width: 100% !important;

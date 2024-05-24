@@ -340,6 +340,8 @@ header {
     .containerTask {
         height: 75%;
         width: 70%;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 }
 

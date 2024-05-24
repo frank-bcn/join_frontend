@@ -8,19 +8,23 @@ import { UserService } from '../../services/user.service';
   styleUrl: './board.component.scss',
 })
 export class BoardComponent {
+  searchTerm: string = '';
+
   constructor(
     public ts: TaskService,
     public us: UserService,
     public elementRef: ElementRef
-  ) {}
+  ) {
+  }
 
   /**
-   * ngOnInit is an Angular lifecycle hook that is called after the component is initialized.
-   * In this function, tasks are loaded asynchronously and users are loaded from the server.
+   * Initializes the component by loading tasks and users from the server.
    */
   ngOnInit() {
-    this.ts.loadTasks().then(() => {});
-    this.us.loadUsersFromServer();
+    this.ts.loadTasks().then(() => {
+      this.ts.filteredTasks = this.ts.tasks;
+      this.us.loadUsersFromServer();
+    });
   }
 
   /**
@@ -48,18 +52,18 @@ export class BoardComponent {
     this.ts.openTask = true;
   }
 
- 
-
-
-  
-
-  
-
-
-
-
-  
-
-  // es fehlt noch das wenn ein task im handy modus verschoben wurde, das sich dasfeld angezeigt wird
-  // es fehlt das ändern vom task
+  /**
+   * Filters the tasks based on the search term.
+   * If the search term is empty, all tasks are shown.
+   * Otherwise, only tasks with titles that include the search term are shown.
+   */
+  filterTasks(): void {
+    if (this.searchTerm === '') {
+      this.ts.filteredTasks = this.ts.tasks;
+    } else {
+      this.ts.filteredTasks = this.ts.tasks.filter((task) =>
+        task.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  }
 }
