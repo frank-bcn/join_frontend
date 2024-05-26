@@ -1,14 +1,16 @@
-<div class="shadowPage" *ngIf="ts.comment">
-  <div class="openContainer">
-    <header>
-      <span
-        class="categoryName"
-        >Comment</span
-      >
-    </header>
-    <textarea name="" placeholder="Please write a comment"></textarea>
-    <div class="btnContainer">
-      <button (click)="cs.createComment()" class="btnBlue">create comment</button>
+<form #commentForm="ngForm" (ngSubmit)="cs.validateComment()" novalidate>
+  <div class="shadowPage" *ngIf="ts.comment">
+    <div class="openContainer">
+      <header>
+        <span class="categoryName" [style.background-color]="ts.openTaskData.category.color">Comment for: {{ts.openTaskData.title}}</span>
+      </header>
+      <textarea [(ngModel)]="cs.commentText" name="commentText" #commentText="ngModel" required placeholder="Please write a comment"></textarea>
+      <div *ngIf="(commentForm.submitted || commentForm.touched) && commentText.invalid" class="errorMessage">
+        Comment is required.
+      </div>
+      <div class="btnContainer">
+        <button type="submit" class="btnBlue">Create comment</button>
+      </div>
     </div>
   </div>
-</div>
+</form>

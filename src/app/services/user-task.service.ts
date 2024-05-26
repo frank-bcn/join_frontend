@@ -24,8 +24,8 @@ export class UserTaskService {
   AddUserTask() {
     this.router.navigateByUrl('/addTask');
     this.hs.activeLink = 'addTask';
-    this.checkUser(this.us.selectedUser);
-    this.updateCheckedStatus();
+    // this.checkUser(this.us.selectedUser);
+    // this.updateCheckedStatus();
   }
 
   /**
@@ -49,6 +49,7 @@ export class UserTaskService {
    * @param user The user object to be checked or unchecked.
    */
    checkUser(user: any) {
+    if (!user) return;
     const userIndex = this.us.selectedUsers.findIndex(
       (selectedUser) => selectedUser.user_id === user.user_id
     );
@@ -57,7 +58,5 @@ export class UserTaskService {
     } else {
       this.us.selectedUsers.push(user);
     }
-    console.log(this.us.selectedUsers);
   }
-  
 }

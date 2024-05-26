@@ -62,7 +62,6 @@ export class AddTaskComponent {
   selectedColor(color: string, index: number) {
     this.selectedColorIndex = index;
     this.color = color;
-    console.log(color);
   }
 
   /**
@@ -72,7 +71,6 @@ export class AddTaskComponent {
   saveCategory() {
     this.ts.selectedCategory.name = this.inputValue;
     this.ts.selectedCategory.color = this.color;
-    console.log(this.ts.selectedCategory);
     this.newCategoryDropdown = false;
   }
 

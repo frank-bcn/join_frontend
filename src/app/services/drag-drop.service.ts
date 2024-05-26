@@ -22,6 +22,7 @@ export class DragDropService {
     movedTask.status = newStatus;
     let taskId = movedTask.id;
     this.updateTaskStatus(taskId, newStatus);
+    this.ts.openTaskData = movedTask;
     this.ts.comment = true;
   }
 
@@ -57,9 +58,10 @@ export class DragDropService {
       .put<any>(url, body)
       .toPromise()
       .then((response) => {
-        this.ts.comment = true;
         this.ts.loadTasks().then(() => {
           this.ts.loadBoard();
+          this.ts.openTaskData = this.ts.tasks.find(task => task.id === taskId);
+          this.ts.comment = true;
         });
       })
       .catch((error) => {});

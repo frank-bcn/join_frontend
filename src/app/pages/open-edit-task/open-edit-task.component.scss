@@ -191,12 +191,13 @@ textarea {
 /************************   query's   ************************/
 /*************************************************************/
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1050px) {
     .openTaskContainer {
         width: 80% !important;
     }
 
     .openContainer {
         width: 80% !important;
+        height: 72.5% !important;
     }
 }

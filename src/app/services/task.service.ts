@@ -310,7 +310,6 @@ export class TaskService {
     this.showMoveOptions = false;
     this.editTask = true;
     this.checkTaskStatus();
-    console.log(this.openTaskData);
   }
 
   /**

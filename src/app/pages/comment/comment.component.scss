@@ -27,11 +27,24 @@ textarea {
     max-height: 50%;
     padding: 13px 21px;
     box-sizing: border-box;
-    margin: 10% 0 10% 0;
+    margin: 10% 0 0 0;
 }
 
 .btnContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10% 0 0 0;
+}
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 1050px) {
+
+    .openContainer {
+        width: 90% !important;
+        height: 72.5% !important;
+    }
 }

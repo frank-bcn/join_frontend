@@ -151,54 +151,6 @@ html {
             }
         }
     }
-
-    .btnBlue {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        height: 51px;
-        width: fit-content;
-        border: none;
-        min-width: 70px;
-        border-radius: 8px;
-        background: #2a3647;
-        gap: 10px;
-        color: #ffffff;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 125ms ease-in-out;
-        font-size: clamp(16px, 3vw, 22px);
-
-        &:hover {
-            background-color: rgb(67, 178, 247);
-        }
-    }
-
-    .addTask {
-        width: 150px;
-    }
-
-    .btnWhite {
-        display: flex;
-        color: #2a3647;
-        border: 1px solid black;
-        font-size: clamp(16px, 3vw, 22px);
-        height: 51px;
-        background: white;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 125ms;
-        padding: 15px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-
-        &:hover {
-            color: rgb(67, 178, 247);
-            border: 1px solid rgb(67, 178, 247);
-        }
-    }
 }
 
 header {
@@ -225,6 +177,54 @@ header {
         color: #2a3647;
         font-size: clamp(12px, 3vw, 24px);
         font-weight: 400;
+    }
+}
+
+.btnBlue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    height: 51px;
+    width: fit-content;
+    border: none;
+    min-width: 70px;
+    border-radius: 8px;
+    background: #2a3647;
+    gap: 10px;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 125ms ease-in-out;
+    font-size: clamp(16px, 3vw, 22px);
+
+    &:hover {
+        background-color: rgb(67, 178, 247);
+    }
+}
+
+.addTask {
+    width: 150px;
+}
+
+.btnWhite {
+    display: flex;
+    color: #2a3647;
+    border: 1px solid black;
+    font-size: clamp(16px, 3vw, 22px);
+    height: 51px;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 125ms;
+    padding: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        color: rgb(67, 178, 247);
+        border: 1px solid rgb(67, 178, 247);
     }
 }
 
@@ -338,7 +338,7 @@ header {
     }
 
     .containerTask {
-        height: 75%;
+        height: 82%;
         width: 70%;
         overflow-y: scroll;
         overflow-x: hidden;
