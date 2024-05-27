@@ -1,4 +1,4 @@
-<div class="shadowPage" *ngIf="ts.openTask">
+<div class="shadowPage" *ngIf="ts.openTask" [@slideInOut]>
   <div class="openContainer">
     <header>
       <span
@@ -7,11 +7,11 @@
         >{{ ts.openTaskData?.category.name }}</span
       >
       <span class="closeOpenTask">
-        <!-- <img
-          src="/assets/img/notes.png"
-          (click)="notes()"
-          class="notes"
-        /> -->
+        <img
+          src="/assets/img/comment.png"
+          (click)="cs.comment()"
+          class="comment"
+        /> 
         <img
           (click)="closeOpenTasks()"
           src="/assets/img/close.svg"

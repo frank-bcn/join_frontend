@@ -1,0 +1,53 @@
+<div class="shadowPage" *ngIf="cs.isComment" [@slideInOut]>
+  <div class="openContainer">
+    <header>
+      <span
+        class="categoryName"
+        [style.background-color]="ts.openTaskData.category.color"
+      >
+        {{ ts.openTaskData?.title }}
+      </span>
+      <span class="closeOpenTask">
+        <img
+          (click)="closeComment()"
+          src="/assets/img/close.svg"
+          class="close"
+        />
+      </span>
+    </header>
+    <div
+      class="commentDataContainer"
+      *ngIf="cs.comments && cs.comments.length > 0"
+    >
+      <div class="commentData" *ngIf="checkComments()">
+        <div *ngFor="let comment of cs.comments">
+          <div
+            class="commentsContainer"
+            *ngIf="comment.taskId === ts.openTaskData.id"
+          >
+            <div class="commentsWrapper">
+              <span
+                class="userFrame"
+                [style.background-color]="loadUserColor(comment.authorId)"
+              >
+                {{ loadUsername(comment.authorId) }}
+              </span>
+              <span class="commentText">{{ comment.text }}</span>
+              <span class="date"
+                >{{ comment.date | date : "dd.MM.yyyy" }} &nbsp;
+                {{ comment.date | date : "HH:mm" }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="questionsContainer">
+      <input type="text" placeholder="Ask your questions" [(ngModel)]="newQuestionText">
+      <button class="btnBlue" (click)="createQuestion()">Send</button>
+    </div>
+    <div *ngIf="!cs.comments || cs.comments.length === 0 || !checkComments()">
+      No comments for this task.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+header {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: space-between;
+    margin: 0 0 4% 0;
+
+    .categoryName {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: clamp(16px, 1vw, 26px);
+        width: 63%;
+        height: 100%;
+        border-radius: 16px;
+        text-shadow: 1px 1px 5px black;
+    }
+
+    .close {
+        display: flex;
+        height: 50px;
+        cursor: pointer;
+    }
+}
+
+.commentDataContainer {
+    display: flex;
+    width: 100%;
+    height: 90%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+
+    .commentData {
+        display: flex;
+        flex-direction: column;
+        margin: 0 10% 0 10%;
+        width: calc(100% - 10%);
+    }
+    .commentsContainer {
+        display: flex;
+
+        .commentsWrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 12px 0 0 0;
+
+            .commentText {
+                width: calc(100% - 200px);
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .date {
+                display: flex;
+                align-items: center;
+                width: 140px;
+                height: 100%;
+            }
+        }
+    }
+}
+
+.questionsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 10%;
+
+    input {
+        width: 80%;
+        outline: 0;
+        border: 1px solid #d1d1d1;
+        border-radius: 10px;
+        padding: 13px 21px;
+        background-color: white;
+    }
+}
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 1050px) {
+    .openTaskContainer {
+        width: 80% !important;
+    }
+
+    .openContainer {
+        width: 80% !important;
+        height: 72.5% !important;
+    }
+}

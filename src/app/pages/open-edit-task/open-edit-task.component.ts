@@ -1,11 +1,23 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { UserService } from '../../services/user.service';
+import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-open-edit-task',
   templateUrl: './open-edit-task.component.html',
   styleUrl: './open-edit-task.component.scss',
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translate(100%)' }),
+        animate('0.5s ease-in-out', style({ transform: 'translate(0)' })),
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({ transform: 'translate(+100%)' })),
+      ]),
+    ]),
+  ],
 })
 export class OpenEditTaskComponent {
   constructor(public ts: TaskService, public us: UserService) {}

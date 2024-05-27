@@ -19,12 +19,14 @@ header {
 
     .closeOpenTask {
         display: flex;
+        align-items: center;
 
-        // .notes {
-        //     display: flex;
-        //     margin: 0 12px 0 0;
-        //     cursor: pointer;
-        // }
+        .comment {
+            display: flex;
+            margin: 0 12px 0 0;
+            height: 30px;
+            cursor: pointer;
+        }
     }
 
     header {

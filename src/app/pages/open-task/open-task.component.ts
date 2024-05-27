@@ -1,16 +1,31 @@
 import { Component } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { DragDropService } from '../../services/drag-drop.service';
+import { CommentService } from '../../services/comment.service';
+import { trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-open-task',
   templateUrl: './open-task.component.html',
   styleUrl: './open-task.component.scss',
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translate(100%)' }),
+        animate('0.5s ease-in-out', style({ transform: 'translate(0)' })),
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in-out', style({ transform: 'translate(+100%)' })),
+      ]),
+    ]),
+  ],
 })
 export class OpenTaskComponent {
-  constructor(public ts: TaskService, public dd: DragDropService) {}
-
-  notes() {}
+  constructor(
+    public ts: TaskService,
+    public dd: DragDropService,
+    public cs: CommentService
+  ) {}
 
   /**
    * Closes the currently open task by updating the status to indicate that no task is open.
@@ -20,7 +35,6 @@ export class OpenTaskComponent {
     this.ts.openTask = false;
     this.ts.showMoveOptions = false;
   }
-
 
   /**
    * Returns the URL of the image corresponding to the provided priority.
@@ -39,7 +53,7 @@ export class OpenTaskComponent {
         return '';
     }
   }
-  
+
   /**
    * Sets up the move options for the specified task.
    * @param taskId The ID of the task to move.

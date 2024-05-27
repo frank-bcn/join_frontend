@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
 export class CommentService {
   commentText: string = '';
   commentError: boolean = false;
+  isComment: boolean = false;
+  comments: any[] = [];
 
   constructor(
     public ts: TaskService,
@@ -18,6 +20,16 @@ export class CommentService {
     public dd: DragDropService,
     public http: HttpClient
   ) {}
+
+  async loadComments() {
+    const url = environment.baseUrl + '/api/comments/';
+    try {
+      const response = await this.http.get<any[]>(url).toPromise();
+      this.comments = response as any[];
+    } catch (error) {
+      console.error('Error loading Comments:', error);
+    }
+  }
 
   /**
    * Validates the comment before creating it.
@@ -42,6 +54,7 @@ export class CommentService {
     const body = this.commentBody();
     try {
       await this.http.post(url, body).toPromise();
+      this.commentText = '';
     } catch (error) {
       console.error(error);
     }
@@ -61,5 +74,41 @@ export class CommentService {
     };
     this.ts.comment = false;
     return comment;
+  }
+
+  /**
+   * Toggles the comment visibility by switching the boolean value of 'isComment'.
+   */
+  comment() {
+    this.isComment = !this.isComment;
+  }
+
+  /**
+   * Creates a new question by sending a POST request to the server.
+   * @param questionText The text of the question to be created.
+   */
+  async createQuestion(questionText: string) {
+    const url = environment.baseUrl + '/api/questions/';
+    const body = this.questionBody(questionText);
+    try {
+      await this.http.post(url, body).toPromise();
+      this.loadComments();
+    } catch (error) {
+      console.error('Error creating question:', error);
+    }
+  }
+
+  /**
+   * Constructs the request body for creating a new question.
+   * @param questionText The text of the question.
+   * @returns The request body object.
+   */
+  questionBody(questionText: string) {
+    return {
+      taskId: this.ts.openTaskData.id,
+      authorId: this.us.userData.id,
+      text: questionText,
+      date: new Date().toISOString(),
+    };
   }
 }

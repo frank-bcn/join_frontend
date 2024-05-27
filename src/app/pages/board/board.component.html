@@ -102,6 +102,7 @@
               (click)="openTasks(task)"
               *ngIf="task.status == 'done'"
               [task]="task"
+              [ngStyle]="taskDoneStyle(task)"
             ></app-task>
           </ng-container>
         </div>
