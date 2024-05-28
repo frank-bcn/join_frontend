@@ -65,6 +65,11 @@
                     content: url("/assets/img/deleteHover.png");
                 }
             }
+
+            .delete-wrapper {
+                pointer-events: auto !important;
+                cursor: pointer !important;
+            }
         }
     }
 

@@ -414,3 +414,13 @@ header {
     color: red;
     font-size: clamp(12px, 1vw, 27px);
 }
+
+.errorMessagelog {
+    position: absolute;
+    top: 90%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}

@@ -36,6 +36,7 @@ export class AppComponent {
    * It also restores user data, loads tasks, and sets the active link initially.
    */
   ngOnInit() {
+    this.us.userData;
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -171,4 +172,5 @@ export class AppComponent {
     this.us.isUserColorOpen = false;
     this.us.isDropdownOpen = false;
   }
+  
 }

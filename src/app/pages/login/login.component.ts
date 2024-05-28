@@ -52,12 +52,15 @@ export class LoginComponent {
         this.username,
         this.password
       );
+      this.us.loggedIn = true;
       this.us.selectedUser = null;
       this.loginResponse(resp);
     } catch (error: any) {
       this.loginError(error);
     }
   }
+  
+  
 
   /**
    * Handles the response after a login attempt.
@@ -72,6 +75,7 @@ export class LoginComponent {
       this.uts.updateTaskDeadline25();
       this.uts.updateTaskDeadline26();
       this.uts.updateTaskDeadline27();
+    } else {
     }
   }
 
@@ -114,10 +118,9 @@ export class LoginComponent {
    */
   loginError(error: any) {
     this.login_unsuccessful = true;
-    console.error(error);
-    this.loginErrorMessage = error.error ? error.error.error : 'Unknown error';
-  }
-
+        this.loginErrorMessage = 'Login failed! Please check your credentials and try again.';
+    }
+  
   /**
    * Navigation method to redirect to the signup page
    */
@@ -160,5 +163,7 @@ export class LoginComponent {
     this.showPasswordError = false;
   }
 
-  rememberMeClicked() {}
+  rememberMeClicked() {
+    this.rememberMe = !this.rememberMe;
+  }
 }

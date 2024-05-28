@@ -65,9 +65,6 @@ export class BoardComponent {
 
   taskDoneStyle(task: any): any {
     if (task.status === 'done') {
-      setTimeout(() => {
-        this.ts.deleteTask(task.id);
-      }, 5 * 60 * 1000);
       return { color: '#888', 'pointer-events': 'none', cursor: 'default' };
     } else {
       return {};

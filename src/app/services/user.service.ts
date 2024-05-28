@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HoverService } from './hover.service';
 
@@ -31,6 +30,7 @@ export class UserService {
     '#FAFAD2',
     '#E6E6FA',
   ];
+  loggedIn: boolean = false;
   switchBtnText: string = 'go to the externals';
   selectedUser: any = null;
   selectedColor: string = '';
@@ -345,13 +345,14 @@ export class UserService {
     this.editUser = true;
   }
 
-
-
-  
-  // muss noch erstellt werden, funktioniert nicht
-  logout(): Observable<any> {
-    console.log('click');
+  async logout() {
+    console.log('logout');
     const url = environment.baseUrl + '/logout/';
-    return this.http.post(url, {});
-  }
+    this.userData = null;
+    this.loggedIn = false;
+    this.isDropdownOpen = false;
+    await this.http.get(url).toPromise();
+    this.router.navigate(['/login']);
+}
+
 }

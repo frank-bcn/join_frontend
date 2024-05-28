@@ -3,10 +3,11 @@
     <div class="category" [style.background-color]="task.category.color">
       <span class="catName">{{ task.category.name }}</span>
     </div>
-    <div class="wrapper">
+    <div class="wrapper delete-wrapper">
       <img
         src="/assets/img/delete.png"
         (click)="ts.deleteTask(task.id)"
+        [ngStyle]="{ 'pointer-events': 'auto', cursor: 'pointer' }"
         class="delete"
       />
     </div>
