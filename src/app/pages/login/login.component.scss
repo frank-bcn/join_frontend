@@ -39,3 +39,32 @@
         }
     }
 }
+
+/*************************************************************/
+/************************   query's   ************************/
+/*************************************************************/
+
+@media screen and (max-width: 500px) {
+
+    .rememberAndForgotContainer {
+        flex-direction: column;
+    }
+
+
+}
+
+@media screen and (max-height: 680px) {
+    .authHeader {
+        height: 12% !important;
+    }
+
+    .authLogo {
+        display: flex;
+        margin: 3px 0 0 0;
+        height: 40px !important;
+    }
+
+    .authContainer {
+        height: calc(100% - 24%);
+    }
+}

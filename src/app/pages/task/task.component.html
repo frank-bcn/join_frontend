@@ -16,13 +16,16 @@
   <div class="wrapper">
     <div class="assignedToUsersWrapper">
       <ng-container *ngFor="let userId of task.assignedTo">
-        <span
-          class="userFrame userFrameTask"
-          [style.background-color]="loadUserColor(userId)"
-        >
-          {{ loadUsernameTask(userId) }}
-        </span>
+        <ng-container *ngIf="userValid(userId)">
+          <span
+            class="userFrame userFrameTask"
+            [style.background-color]="loadUserColor(userId)"
+          >
+            {{ loadUsernameTask(userId) }}
+          </span>
+        </ng-container>
       </ng-container>
+      
     </div>
     <span class="prio">
       <img [src]="prioImages(task.priority)" class="prioImg" />

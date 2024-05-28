@@ -17,6 +17,7 @@ export class SignupComponent {
   username: string = '';
   email: string = '';
   password: string = '';
+  confirmPassword: string = '';
   first_name: string = '';
   last_name: string = '';
   user_color: string = '';
@@ -28,15 +29,16 @@ export class SignupComponent {
 
   constructor(private router: Router, private as: AuthService) {}
 
-  /**
-   * Initiates the user signup process.
-   * This function sets the 'formSubmitted' flag to true, validates the form fields (username, email, password),
-   * creates user data from the form input, attempts to register the user with the provided data,
-   * and handles the registration response or error accordingly.
-   */
+
+  
   async Signup() {
     this.formSubmitted = true;
-    if (!this.username.trim() || !this.email.trim() || !this.password.trim()) {
+    if (
+      !this.username.trim() ||
+      !this.email.trim() ||
+      !this.password.trim() ||
+      this.password !== this.confirmPassword
+    ) {
       return;
     }
     try {

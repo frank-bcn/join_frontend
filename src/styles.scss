@@ -127,7 +127,7 @@ html {
                 display: flex;
                 position: relative;
                 flex-direction: column;
-                margin: 0 0 54px 0;
+                margin: 0 0 9px 0;
             }
 
             .btnContainer {
@@ -367,7 +367,7 @@ header {
 
 .errorMessageSign {
     position: absolute;
-    top: 25%;
+    top: 19%;
     left: 10%;
     width: 86%;
     margin: 0 0 22px 0;
@@ -377,7 +377,7 @@ header {
 
 .errorMessageEmail {
     position: absolute;
-    top: 59%;
+    top: 44%;
     left: 10%;
     width: 86%;
     margin: 0 0 22px 0;
@@ -387,7 +387,17 @@ header {
 
 .errorMessagePass {
     position: absolute;
-    top: 93%;
+    top: 69%;
+    left: 10%;
+    width: 86%;
+    margin: 0 0 22px 0;
+    color: red;
+    font-size: clamp(12px, 1vw, 27px);
+}
+
+.errorMessagePassConfirm {
+    position: absolute;
+    top: 94%;
     left: 10%;
     width: 86%;
     margin: 0 0 22px 0;

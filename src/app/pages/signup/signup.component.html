@@ -80,6 +80,26 @@
           >
             Password cannot contain HTML tags
           </div>
+
+          <input
+          type="password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          autocomplete="new-password"
+          #confirmPasswordInput="ngModel"
+          required
+        />
+        <div
+          *ngIf="(formSubmitted && confirmPasswordInput.errors?.['required']) || (confirmPasswordInput.touched && confirmPasswordInput.errors?.['required'])"
+          class="errorMessagePassConfirm"
+        >
+          Confirm Password is required
+        </div>
+        <div *ngIf="confirmPassword && confirmPassword !== password" class="errorMessagePassConfirm">
+          Passwords do not match
+        </div>
+
         </div>
         <div class="btnContainer">
           <button class="btnBlue">Sign up</button>
