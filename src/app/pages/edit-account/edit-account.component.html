@@ -12,8 +12,8 @@
         (click)="openEditColors()"
         [style.background-color]="us.userData?.usercolor"
       >
-        {{ us.userData?.username }}
-      </div>
+      {{ us.userInitials(us.userData?.firstName, us.userData?.lastName) }}
+      </div>  
     </div>
     <form class="userInfoContainer">
       <input

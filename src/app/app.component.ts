@@ -46,7 +46,6 @@ export class AppComponent {
       });
     this.setActiveLink();
     this.restoreUserData();
-    this.ts.loadTasks();
   }
 
   /**

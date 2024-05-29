@@ -222,9 +222,6 @@ export class TaskService {
    * If an error occurs during the request, it catches the error and logs it.
    */
   async loadTasks() {
-    if (!this.us.loggedIn) {
-      return;
-    }
     const url = environment.baseUrl + '/api/task/';
     try {
       const response = await this.http.get<any[]>(url).toPromise();

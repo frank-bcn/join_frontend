@@ -66,13 +66,30 @@ export class CommentPageComponent {
   }
 
   /**
-   * Retrieves the username associated with a user based on their authorId.
-   * @param authorId The ID of the author whose username is to be retrieved.
-   * @returns The username associated with the user, or 'Unknown' if the user is not found.
+   * Retrieves the username initials based on the user's ID.
+   * @param authorId The ID of the user.
+   * @returns The username initials if the user is found, otherwise 'Unknown'.
    */
   loadUsername(authorId: string): string {
     let user = this.us.users.find((user) => user.user_id === authorId);
-    return user ? `${user.username}` : 'Unknown';
+    if (user) {
+      return this.userInitials(user.first_name, user.last_name);
+    } else {
+      return 'Unknown';
+    }
+  }
+
+  /**
+   * Generates user initials based on the provided first name and last name.
+   * @param firstName The first name of the user.
+   * @param lastName The last name of the user.
+   * @returns The user initials if both first name and last name are provided, otherwise 'N/A'.
+   */
+  userInitials(firstName: string, lastName: string): string {
+    if (!firstName || !lastName) {
+      return 'N/A';
+    }
+    return firstName.charAt(0) + lastName.charAt(0);
   }
 
   /**

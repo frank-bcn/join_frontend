@@ -22,9 +22,6 @@ export class CommentService {
   ) {}
 
   async loadComments() {
-    if (!this.us.loggedIn) {
-      return;
-    }
     const url = environment.baseUrl + '/api/comments/';
     try {
       const response = await this.http.get<any[]>(url).toPromise();
@@ -84,6 +81,7 @@ export class CommentService {
    */
   comment() {
     this.isComment = !this.isComment;
+    this.ts.openTask = !this.ts.openTask;
   }
 
   /**

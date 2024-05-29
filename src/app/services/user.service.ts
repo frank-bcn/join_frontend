@@ -136,6 +136,19 @@ export class UserService {
   }
 
   /**
+   * Generates the initials of a user based on their first name and last name.
+   * @param firstName The first name of the user.
+   * @param lastName The last name of the user.
+   * @returns The initials of the user.
+   */
+  userInitials(firstName: string, lastName: string): string {
+    if (!firstName || !lastName) {
+      return 'N/A';
+    }
+    return firstName.charAt(0) + lastName.charAt(0);
+  }
+
+  /**
    * Generates initials from the provided username.
    * This function splits the username into words, extracts the first letter of each word,
    * converts the letters to uppercase, and concatenates them to form the initials.
@@ -212,7 +225,7 @@ export class UserService {
   successResponse(response: any): void {
     console.log('Response:', response);
     this.isUserColorOpen = false;
-    this.userData.user_color = this.selectedColor;
+    this.userData.usercolor = this.selectedColor;
   }
 
   /**
@@ -353,6 +366,5 @@ export class UserService {
     this.isDropdownOpen = false;
     await this.http.get(url).toPromise();
     this.router.navigate(['/login']);
-}
-
+  }
 }

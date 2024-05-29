@@ -77,7 +77,7 @@
             (click)="toggleDropdown()"
             [style.background-color]="us.userData?.usercolor"
           >
-            {{ us.userData?.username }}
+          {{ us.userInitials(us.userData?.firstName, us.userData?.lastName) }}
           </div>
         </div>
         <div *ngIf="us.isDropdownOpen" class="dropdownMenu">
@@ -137,8 +137,6 @@
   <app-open-add-task-board></app-open-add-task-board>
   <!-- open comment page -->
   <app-comment></app-comment>
-  <!-- open comments -->
-  <app-comment-page></app-comment-page>
   <!-- account info  -->
   <app-edit-account></app-edit-account>
 </div>

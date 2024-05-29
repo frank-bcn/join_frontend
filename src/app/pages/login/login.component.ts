@@ -32,8 +32,7 @@ export class LoginComponent {
     public router: Router,
     public us: UserService,
     public ts: TaskService,
-    public uts: UpdateTaskService,
-
+    public uts: UpdateTaskService
   ) {}
 
   /**
@@ -59,8 +58,6 @@ export class LoginComponent {
       this.loginError(error);
     }
   }
-  
-  
 
   /**
    * Handles the response after a login attempt.
@@ -106,8 +103,7 @@ export class LoginComponent {
    */
   navigateAfterLogin() {
     setTimeout(() => {
-      this.us.isUserColorOpen =
-        true; 
+      this.us.isUserColorOpen = true;
       this.router.navigateByUrl('/summary');
     }, 3000);
   }
@@ -118,9 +114,10 @@ export class LoginComponent {
    */
   loginError(error: any) {
     this.login_unsuccessful = true;
-        this.loginErrorMessage = 'Login failed! Please check your credentials and try again.';
-    }
-  
+    this.loginErrorMessage =
+      'Login failed! Please check your credentials and try again.';
+  }
+
   /**
    * Navigation method to redirect to the signup page
    */
@@ -131,7 +128,6 @@ export class LoginComponent {
   /**
    * Navigation method to redirect to the forgot page
    */
-
   forgotPassword() {
     this.router.navigateByUrl('/forgot');
   }
@@ -163,7 +159,20 @@ export class LoginComponent {
     this.showPasswordError = false;
   }
 
+  /**
+   * Toggles the "Remember Me" functionality.
+   * If "Remember Me" is enabled, it sets a cookie with an expiry date 30 days from the current date.
+   * If "Remember Me" is disabled, it removes the "rememberMe" cookie.
+   */
   rememberMeClicked() {
     this.rememberMe = !this.rememberMe;
+    if (this.rememberMe) {
+      const expiryDate = new Date();
+      expiryDate.setDate(expiryDate.getDate() + 30);
+      document.cookie = `rememberMe=true; expires=${expiryDate.toUTCString()}; path=/`;
+    } else {
+      document.cookie =
+        'rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    }
   }
 }

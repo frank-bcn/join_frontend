@@ -50,7 +50,6 @@ export class BoardComponent {
    */
   openTasks(task: any) {
     this.ts.openTaskData = task;
-    console.log(this.ts.openTaskData);
     this.ts.openTask = true;
     this.cs.loadComments();
   }

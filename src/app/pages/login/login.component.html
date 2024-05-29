@@ -63,7 +63,7 @@
         <div class="loginOptions">
           <div class="rememberAndForgotContainer">
             <div class="rememberMe">
-              <input class="inputCheckbox" type="checkbox" />
+              <input (click)="rememberMeClicked()" class="inputCheckbox" type="checkbox" />
               <span class="rememberCheckbox">Remember me</span>
             </div>
             <a (click)="forgotPassword()" class="forgotPasswordLink"

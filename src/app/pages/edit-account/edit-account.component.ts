@@ -27,6 +27,7 @@ export class EditAccountComponent {
   close() {
     this.us.editUser = false;
     this.us.isDropdownOpen = false;
+    this.us.newColors = false;
   }
 
   /**
@@ -41,6 +42,5 @@ export class EditAccountComponent {
    */
   openEditColors() {
     this.us.newColors = true;
-    console.log(this.us.userData);
   }
 }
