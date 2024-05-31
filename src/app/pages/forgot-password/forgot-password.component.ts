@@ -16,12 +16,14 @@ export class ForgotPasswordComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   async forgotPassword() {
-      const url = environment.baseUrl + '/api/reset-password/';
-      const body = {
-        email: this.email,
-      };
+    const url = environment.baseUrl + '/api/reset-password/';
+    const body = { email: this.email };
+    try {
       const response = await this.http.post<any>(url, body).toPromise();
       this.notificationMessage = response.message;
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   /**

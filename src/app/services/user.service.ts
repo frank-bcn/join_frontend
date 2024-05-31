@@ -223,7 +223,6 @@ export class UserService {
    * @param response The response object received after updating the user's color.
    */
   successResponse(response: any): void {
-    console.log('Response:', response);
     this.isUserColorOpen = false;
     this.userData.usercolor = this.selectedColor;
   }
@@ -358,13 +357,32 @@ export class UserService {
     this.editUser = true;
   }
 
+  /**
+   * Performs logout by sending a request to the logout endpoint.
+   * Resets user data, login status, and closes the dropdown.
+   * Deletes the "rememberMe" cookie.
+   * Navigates to the login page after successful logout.
+   */
   async logout() {
-    console.log('logout');
     const url = environment.baseUrl + '/logout/';
     this.userData = null;
     this.loggedIn = false;
     this.isDropdownOpen = false;
+    this.deleteCookie();
+
     await this.http.get(url).toPromise();
     this.router.navigate(['/login']);
+  }
+
+  /**
+   * Deletes the "rememberMe", "username", and "password" cookies.
+   */
+  deleteCookie() {
+    document.cookie =
+      'rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie =
+      'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie =
+      'password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 }

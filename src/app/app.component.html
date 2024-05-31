@@ -89,10 +89,7 @@
             <span class="dropdownMenuUser" (click)="us.edit()">Account</span>
           </ul>
         </div>
-        <div
-          *ngIf="us.isUserColorOpen && !us.userData.usercolor"
-          class="userColorsContainer"
-        >
+        <div *ngIf="us.isUserColorOpen && us.userData && !us.userData.usercolor" class="userColorsContainer">
           <div class="userColors">
             <div class="userColorImage">
               <div

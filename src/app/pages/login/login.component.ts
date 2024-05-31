@@ -35,11 +35,45 @@ export class LoginComponent {
     public uts: UpdateTaskService
   ) {}
 
+  ngOnInit() {
+    this.checkRememberMe();
+  }
+
   /**
-   * Performs the login process.
-   * It sets the 'formSubmitted' flag to true, validates the username and password fields,
-   * attempts to log in with the provided credentials using the authentication service,
-   * and handles the login response or error accordingly.
+   * Checks if the "remember me" cookie is set, and automatically logs in the user if it is.
+   * Retrieves the username and password from cookies and calls the login method with them.
+   */
+  async checkRememberMe() {
+    const rememberMeCookie = this.getCookie('rememberMe');
+    if (rememberMeCookie === 'true') {
+      this.username = this.getCookie('username') || '';
+      this.password = this.getCookie('password') || '';
+      if (this.username && this.password) {
+        await this.login(this.username, this.password);
+      }
+    }
+  }
+
+  /**
+   * Retrieves the value of a cookie by its name.
+   * @param name The name of the cookie to retrieve.
+   * @returns The value of the cookie, or null if the cookie is not found.
+   */
+  getCookie(name: string): string | null {
+    const cookies = document.cookie.split('; ');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].split('=');
+      if (cookie[0] === name) {
+        return cookie[1];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Logs in with the provided username and password.
+   * @param username The username for the login attempt.
+   * @param password The password for the login attempt.
    */
   async login(username: string, password: string) {
     this.formSubmitted = true;
@@ -47,15 +81,49 @@ export class LoginComponent {
       return;
     }
     try {
-      const resp: any = await this.as.loginWithEmailAndPassword(
-        this.username,
-        this.password
-      );
-      this.us.loggedIn = true;
-      this.us.selectedUser = null;
-      this.loginResponse(resp);
+      const resp: any = await this.attemptLogin(username, password);
+      this.rememberMeCookies();
+      this.successfulLogin(resp);
     } catch (error: any) {
       this.loginError(error);
+    }
+  }
+
+  /**
+   * Attempts to log in with the provided username and password.
+   * @param username The username for the login attempt.
+   * @param password The password for the login attempt.
+   * @returns A promise that resolves with the login response.
+   */
+  async attemptLogin(username: string, password: string) {
+    return await this.as.loginWithEmailAndPassword(username, password);
+  }
+
+  /**
+   * Handles the successful login response.
+   * @param resp The response from the login request.
+   */
+  successfulLogin(resp: any) {
+    this.us.loggedIn = true;
+    this.us.selectedUser = null;
+    this.loginResponse(resp);
+  }
+
+  /**
+   * Sets the "rememberMe", "username", and "password" cookies if the "rememberMe" option is checked.
+   */
+  rememberMeCookies() {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 7);
+
+    if (this.rememberMe) {
+      document.cookie = `rememberMe=true; expires=${expiryDate.toUTCString()}; path=/`;
+      document.cookie = `username=${
+        this.username
+      }; expires=${expiryDate.toUTCString()}; path=/`;
+      document.cookie = `password=${
+        this.password
+      }; expires=${expiryDate.toUTCString()}; path=/`;
     }
   }
 
@@ -160,19 +228,9 @@ export class LoginComponent {
   }
 
   /**
-   * Toggles the "Remember Me" functionality.
-   * If "Remember Me" is enabled, it sets a cookie with an expiry date 30 days from the current date.
-   * If "Remember Me" is disabled, it removes the "rememberMe" cookie.
+   * Toggles the "remember me" option.
    */
-  rememberMeClicked() {
+  rememberMeClicked(): void {
     this.rememberMe = !this.rememberMe;
-    if (this.rememberMe) {
-      const expiryDate = new Date();
-      expiryDate.setDate(expiryDate.getDate() + 30);
-      document.cookie = `rememberMe=true; expires=${expiryDate.toUTCString()}; path=/`;
-    } else {
-      document.cookie =
-        'rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    }
   }
 }
