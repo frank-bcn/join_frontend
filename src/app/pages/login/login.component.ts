@@ -40,24 +40,70 @@ export class LoginComponent {
   }
 
   /**
-   * Checks if the "remember me" cookie is set, and automatically logs in the user if it is.
-   * Retrieves the username and password from cookies and calls the login method with them.
+   * Checks if "remember me" option is enabled and logs in with stored credentials if available.
+   *
+   * This function checks if the "remember me" option is enabled by checking the value of the
+   * 'rememberMe' cookie. If the option is enabled, it retrieves the encoded username and password
+   * from cookies and decodes them to log in with stored credentials.
+   *
+   * If both the encoded username and password are available and successfully decoded, it proceeds
+   * to log in using the decoded credentials.
    */
   async checkRememberMe() {
     const rememberMeCookie = this.getCookie('rememberMe');
     if (rememberMeCookie === 'true') {
-      this.username = this.getCookie('username') || '';
-      this.password = this.getCookie('password') || '';
-      if (this.username && this.password) {
-        await this.login(this.username, this.password);
+      const { encodedUsername, encodedPassword } = this.encodedCredentials();
+      if (encodedUsername && encodedPassword) {
+        const { username, password } = await this.decodeSetCredentials(
+          encodedUsername,
+          encodedPassword
+        );
+        await this.login(username, password);
       }
     }
   }
 
   /**
-   * Retrieves the value of a cookie by its name.
-   * @param name The name of the cookie to retrieve.
-   * @returns The value of the cookie, or null if the cookie is not found.
+   * Retrieves and returns the encoded username and password from cookies.
+   *
+   * This function retrieves the encoded username and password from cookies using the
+   * getCookie function and returns an object containing both values.
+   *
+   * @returns An object containing the encoded username and password retrieved from cookies.
+   */
+  encodedCredentials() {
+    const encodedUsername = this.getCookie('username');
+    const encodedPassword = this.getCookie('password');
+    return { encodedUsername, encodedPassword };
+  }
+
+  /**
+   * Asynchronously decodes and sets the username and password credentials.
+   *
+   * This function takes Base64 encoded username and password strings, decodes them asynchronously,
+   * sets the decoded values to the corresponding properties of the object, and returns an object
+   * containing the decoded username and password.
+   *
+   * @param encodedUsername - The Base64 encoded username to be decoded and set.
+   * @param encodedPassword - The Base64 encoded password to be decoded and set.
+   * @returns An object containing the decoded username and password.
+   */
+  async decodeSetCredentials(encodedUsername: string, encodedPassword: string) {
+    const username = this.base64Decode(encodedUsername);
+    const password = this.base64Decode(encodedPassword);
+    this.username = username;
+    this.password = password;
+    return { username, password };
+  }
+
+  /**
+   * Retrieves the value of a specified cookie.
+   *
+   * This function searches through the document's cookies to find a cookie with the given name.
+   * If the cookie is found, its value is returned. If the cookie is not found, null is returned.
+   *
+   * @param name - The name of the cookie to be retrieved.
+   * @returns The value of the cookie if found, otherwise null.
    */
   getCookie(name: string): string | null {
     const cookies = document.cookie.split('; ');
@@ -110,21 +156,42 @@ export class LoginComponent {
   }
 
   /**
-   * Sets the "rememberMe", "username", and "password" cookies if the "rememberMe" option is checked.
+   * Handles the setting of "remember me" cookies.
+   *
+   * This function checks if the "remember me" option is enabled. If it is, it encodes the username
+   * and password in Base64 format and sets cookies to store these encoded values along with the
+   * "remember me" flag. The cookies are set to expire in 7 days.
    */
   rememberMeCookies() {
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + 7);
 
     if (this.rememberMe) {
-      document.cookie = `rememberMe=true; expires=${expiryDate.toUTCString()}; path=/`;
-      document.cookie = `username=${
-        this.username
-      }; expires=${expiryDate.toUTCString()}; path=/`;
-      document.cookie = `password=${
-        this.password
-      }; expires=${expiryDate.toUTCString()}; path=/`;
+      const encodedUsername: string = this.base64Encode(this.username);
+      const encodedPassword: string = this.base64Encode(this.password);
+      console.log(encodedUsername, encodedPassword);
+      this.setRememberMeCookies(encodedUsername, encodedPassword, expiryDate);
     }
+  }
+
+  /**
+   * Sets cookies for "remember me" functionality.
+   *
+   * This function sets cookies for remembering the user's login credentials (username and password)
+   * along with a "remember me" flag. Each cookie is set with an expiration date and path.
+   *
+   * @param encodedUsername - The Base64 encoded username to be stored in a cookie.
+   * @param encodedPassword - The Base64 encoded password to be stored in a cookie.
+   * @param expiryDate - The expiration date for the cookies.
+   */
+  setRememberMeCookies(
+    encodedUsername: string,
+    encodedPassword: string,
+    expiryDate: Date
+  ) {
+    document.cookie = `rememberMe=true; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `username=${encodedUsername}; expires=${expiryDate.toUTCString()}; path=/`;
+    document.cookie = `password=${encodedPassword}; expires=${expiryDate.toUTCString()}; path=/`;
   }
 
   /**
@@ -232,5 +299,32 @@ export class LoginComponent {
    */
   rememberMeClicked(): void {
     this.rememberMe = !this.rememberMe;
+  }
+
+  /**
+   * Encodes a given string in Base64.
+   *
+   * This function takes an input string and converts it into a Base64 encoded string.
+   * Base64 encoding is commonly used to represent binary data in a textual form,
+   * especially in data transmission protocols such as email or URLs.
+   *
+   * @param data - The input string to be encoded in Base64.
+   * @returns The Base64 encoded string.
+   */
+  base64Encode(data: string): string {
+    return btoa(data);
+  }
+
+  /**
+   * Decodes a given Base64 encoded string.
+   *
+   * This function takes a Base64 encoded input string and converts it back into its original string form.
+   * Base64 decoding is commonly used to interpret data that was previously encoded in Base64 format.
+   *
+   * @param data - The Base64 encoded string to be decoded.
+   * @returns The decoded original string.
+   */
+  base64Decode(data: string): string {
+    return atob(data);
   }
 }

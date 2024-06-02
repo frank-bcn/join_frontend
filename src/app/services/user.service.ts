@@ -368,7 +368,7 @@ export class UserService {
     this.userData = null;
     this.loggedIn = false;
     this.isDropdownOpen = false;
-    this.deleteCookie();
+    // this.deleteCookie();
 
     await this.http.get(url).toPromise();
     this.router.navigate(['/login']);
@@ -377,12 +377,12 @@ export class UserService {
   /**
    * Deletes the "rememberMe", "username", and "password" cookies.
    */
-  deleteCookie() {
-    document.cookie =
-      'rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie =
-      'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie =
-      'password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  }
+  // deleteCookie() {
+  //   document.cookie =
+  //     'rememberMe=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  //   document.cookie =
+  //     'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  //   document.cookie =
+  //     'password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  // }
 }
